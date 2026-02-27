@@ -1,0 +1,13 @@
+# Bun configuration for my-portfolio
+
+[install]
+# Use the bun.lock file for deterministic installs
+frozenLockfile = false
+
+[install.cache]
+# Enable cache for faster installs
+disable = false
+
+[run]
+# Bun as the runtime for all scripts
+bun = true
