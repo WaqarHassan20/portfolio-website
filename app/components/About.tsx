@@ -3,11 +3,12 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowUpRight, Download } from "lucide-react";
+import Image from "next/image";
 
 const STATS = [
-  { value: "5+",  label: "Years Experience" },
-  { value: "30+", label: "Projects Delivered" },
-  { value: "15+", label: "Technologies" },
+  { value: "3+",  label: "Years Experience" },
+  { value: "15+", label: "Projects Delivered" },
+  { value: "50+", label: "Technologies" },
   { value: "3",   label: "Core Domains" },
 ];
 
@@ -46,14 +47,15 @@ export default function About() {
                   className="absolute inset-0 about-profile-radial"
                 />
 
-                {/* Initials placeholder — swap for <Image> when photo is ready */}
-                <div className="absolute inset-0 flex items-center justify-center select-none pointer-events-none">
-                  <span
-                    className="font-black font-mono text-white/[0.04] about-initials"
-                  >
-                    WH
-                  </span>
-                </div>
+                {/* GitHub profile picture */}
+                <Image
+                  src="/avatar.jpg"
+                  alt="Waqar UL Hassan"
+                  fill
+                  className="object-cover object-top"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
 
                 {/* Bottom name overlay */}
                 <div
@@ -123,8 +125,7 @@ export default function About() {
               </p>
               <p className="text-white/50 text-sm leading-[1.9] font-mono">
                 Outside of code, I am beginner level player at <strong className="text-white/75 font-medium">chess.com</strong>,
-                and a weekend player of <strong className="text-white/75 font-medium">snooker</strong> along with a habit of  
-                <strong className="text-white/70 font-medium"> reading a book</strong>.
+                and a weekend average player of <strong className="text-white/75 font-medium">snooker</strong>.
               </p>
               <p className="text-white/40 text-sm leading-[1.85] font-mono">
                 Currently open to <strong className="text-white/70 font-medium">freelance</strong>,{" "}
@@ -168,7 +169,7 @@ export default function About() {
           </div>
         </div>
       </section>
-      <div className="w-full h-px bg-white/8" />
+      <div className="w-full my-24 h-px bg-white/8" />
     </>
   );
 }

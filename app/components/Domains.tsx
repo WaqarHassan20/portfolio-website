@@ -24,27 +24,27 @@ const LIT: Record<HitZone, Array<"frontend" | "backend" | "devops">> = {
   all:      ["frontend", "backend", "devops"],
 };
 
-// ── per-circle: title, sub, skills (comma-separated, 2 text lines) ────
+// ── per-circle: title, sub, skills (dot-separated, 2 skill rows) ────
 const CIRCLES = [
   {
     key: "frontend" as const,
     title: "Frontend",
     sub: "UI / UX",
-    skillLines: ["React, Next.js, TypeScript", "Tailwind CSS, Framer Motion"],
-    lx: 148, ly: 210,
+    skillRows: [["React", "Next.js", "TypeScript"], ["Tailwind CSS", "Framer Motion"]],
+    lx: 200, ly: 210,
   },
   {
     key: "backend" as const,
     title: "Backend",
     sub: "API / DB",
-    skillLines: ["Node.js, Express, PostgreSQL", "MongoDB, Redis, GraphQL"],
-    lx: 752, ly: 210,
+    skillRows: [["Node.js", "Express", "PostgreSQL"], ["MongoDB", "Redis", "GraphQL"]],
+    lx: 700, ly: 210,
   },
   {
     key: "devops" as const,
     title: "DevOps",
     sub: "CI / CD",
-    skillLines: ["Docker, Kubernetes, GitHub Actions", "AWS, Terraform, Linux"],
+    skillRows: [["Docker", "Kubernetes", "GitHub Actions"], ["AWS", "Terraform", "Linux"]],
     lx: 450, ly: 598,
   },
 ];
@@ -59,9 +59,11 @@ const IXLABELS: Array<{ x: number; y: number; lines: string[]; center?: boolean 
 
 // ── invisible hit circles for hover detection ─────────────────────────
 const HITS: Array<{ id: HitZone; cx: number; cy: number; r: number }> = [
-  { id: "frontend", cx: 148, cy: 220, r: 68 },
-  { id: "backend",  cx: 752, cy: 220, r: 68 },
-  { id: "devops",   cx: 450, cy: 605, r: 68 },
+  // full circles — match actual circle geometry so the whole circle is hoverable
+  { id: "frontend", cx: 310, cy: 260, r: 240 },
+  { id: "backend",  cx: 590, cy: 260, r: 240 },
+  { id: "devops",   cx: 450, cy: 502, r: 240 },
+  // intersection zones drawn AFTER so they sit on top and override main circle hits
   { id: "fs-be",    cx: 450, cy: 148, r: 28 },
   { id: "fs-do",    cx: 340, cy: 418, r: 28 },
   { id: "be-do",    cx: 560, cy: 418, r: 28 },
@@ -73,8 +75,13 @@ export default function Domains() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [active, setActive] = useState<HitZone | null>(null);
 
-  const isLit = (key: "frontend" | "backend" | "devops") =>
-    active !== null && LIT[active].includes(key);
+  const isSingleHover = active === "frontend" || active === "backend" || active === "devops";
+
+  const getVariant = (key: "frontend" | "backend" | "devops"): "glow" | "dim" | "lit" | "default" => {
+    if (!active) return "default";
+    if (isSingleHover) return active === key ? "glow" : "dim";
+    return LIT[active].includes(key) ? "lit" : "default";
+  };
 
   return (
     <>
@@ -88,12 +95,14 @@ export default function Domains() {
             transition={{ duration: 0.6 }}
             className="text-center py-6 shrink-0"
           >
-            <p className="text-[10px] font-mono tracking-[0.65em] uppercase text-white/30 mb-3">
+            <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-3">
               Skills Intersection
             </p>
+
+
             <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
-              <span className="text-white font-bold about-heading-size">Main</span>
-              <span className="text-white/70 ml-4 about-heading-size">Domain</span>
+              <span className="text-white font-bold text-5xl">Main</span>
+              <span className="text-white/70 ml-6 text-5xl">Domains</span>
             </h2>
           </motion.div>
 
@@ -112,32 +121,57 @@ export default function Domains() {
               className="w-full h-full flex-1"
               style={{ minHeight: 0 }}
             >
-              {/* ── 3 main circles with hover glow ── */}
-              {(["frontend", "backend", "devops"] as const).map((key) => (
-                <circle
-                  key={key}
-                  cx={C[key].cx}
-                  cy={C[key].cy}
-                  r={R}
-                  fill={isLit(key) ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.03)"}
-                  stroke={isLit(key) ? "rgba(255,255,255,0.36)" : "rgba(255,255,255,0.10)"}
-                  strokeWidth="1"
-                  style={{ transition: "fill 0.25s ease, stroke 0.25s ease" }}
-                />
-              ))}
+              {/* ── 3 main circles with animated glow / dim ── */}
+              {(["frontend", "backend", "devops"] as const).map((key) => {
+                const v = getVariant(key);
+                return (
+                  <motion.circle
+                    key={key}
+                    cx={C[key].cx}
+                    cy={C[key].cy}
+                    r={R}
+                    strokeWidth="1"
+                    animate={{
+                      fill:
+                        v === "dim"  ? "rgba(255,255,255,0.005)" :
+                        v === "glow" ? "rgba(255,255,255,0.11)"  :
+                        v === "lit"  ? "rgba(255,255,255,0.07)"  :
+                                       "rgba(255,255,255,0.03)",
+                      stroke:
+                        v === "dim"  ? "rgba(255,255,255,0.04)" :
+                        v === "glow" ? "rgba(255,255,255,0.55)" :
+                        v === "lit"  ? "rgba(255,255,255,0.36)" :
+                                       "rgba(255,255,255,0.10)",
+                      opacity: v === "dim" ? 0.15 : 1,
+                      filter:
+                        v === "glow"
+                          ? "drop-shadow(0 0 18px rgba(255,255,255,0.45)) drop-shadow(0 0 40px rgba(255,255,255,0.2))"
+                          : "drop-shadow(0 0 0px rgba(255,255,255,0))",
+                    }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                  />
+                );
+              })}
 
-              {/* ── per-circle: title + sub + plain comma-separated skills ── */}
-              {CIRCLES.map(({ key, title, sub, skillLines, lx, ly }) => (
+              {/* ── per-circle: title + sub + skill rows with dot separators ── */}
+              {CIRCLES.map(({ key, title, sub, skillRows, lx, ly }) => (
                 <g key={key}>
-                  <text x={lx} y={ly} textAnchor="middle" fontSize="16" fontFamily="monospace" fontWeight="700" letterSpacing="3" fill="rgba(255,255,255,0.82)" style={{ textTransform: "uppercase" }}>
+                  <text x={lx} y={ly} textAnchor="middle" fontSize="22" fontFamily="monospace" fontWeight="700" letterSpacing="3" fill="rgba(255,255,255,0.82)" style={{ textTransform: "uppercase" }}>
                     {title}
                   </text>
                   <text x={lx} y={ly + 18} textAnchor="middle" fontSize="10" fontFamily="monospace" letterSpacing="2" fill="rgba(255,255,255,0.28)" style={{ textTransform: "uppercase" }}>
                     {sub}
                   </text>
-                  {skillLines.map((line, i) => (
-                    <text key={line} x={lx} y={ly + 38 + i * 17} textAnchor="middle" fontSize="10" fontFamily="monospace" letterSpacing="0.8" fill="rgba(255,255,255,0.38)">
-                      {line}
+                  {skillRows.map((row, i) => (
+                    <text key={i} x={lx} y={ly + 38 + i * 17} textAnchor="middle" fontSize="10" fontFamily="monospace" letterSpacing="0.8">
+                      {row.flatMap((skill, j) =>
+                        j === 0
+                          ? [<tspan key={skill} fill="rgba(255,255,255,0.38)">{skill}</tspan>]
+                          : [
+                              <tspan key={`d${j}`} fill="rgba(255,255,255,0.85)"> · </tspan>,
+                              <tspan key={skill} fill="rgba(255,255,255,0.38)">{skill}</tspan>,
+                            ]
+                      )}
                     </text>
                   ))}
                 </g>
@@ -180,7 +214,7 @@ export default function Domains() {
 
         </div>
       </section>
-      <div className="w-full h-px bg-white/8" />
+      <div className="my-32 w-full h-px bg-white/8" />
     </>
   );
 }

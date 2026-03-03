@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Saira, Roboto, Playfair_Display, Outfit } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/Footer";
+import SocialSidebar from "./components/SocialSidebar";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -52,6 +53,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${saira.variable} ${roboto.variable} ${playfairDisplay.variable} ${outfit.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
       >
+        <SocialSidebar />
         {children}
         <Footer />
       </body>

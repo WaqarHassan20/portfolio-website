@@ -490,7 +490,7 @@ export default function Hero() {
         </div>
       </motion.button>
     </section>
-    <div className="w-full h-px bg-white/8" />
+    <div className="w-full mt-24 h-px bg-white/8" />
     </>
   );
 }
