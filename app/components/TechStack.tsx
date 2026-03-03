@@ -196,6 +196,7 @@ export default function TechStack() {
   const gridH = rows.length * STEP - GAP + OFFSET; // extra for stagger
 
   return (
+    <>
     <section
       id="skills"
       ref={ref}
@@ -216,7 +217,7 @@ export default function TechStack() {
             onClick={() => document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" })}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 text-white/40 text-sm font-mono mb-6 cursor-pointer hover:border-white/25 hover:text-white/65 transition-all duration-300"
           >
-            <span className="w-2 h-2 rounded-full bg-white/40 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             Skills &amp; Tech Stack
           </button>
           <h2 className="text-4xl sm:text-6xl font-semibold text-white/70 mb-4">
@@ -346,5 +347,7 @@ export default function TechStack() {
 
       </div>
     </section>
+    <div className="w-full h-px bg-white/8" />
+    </>
   );
 }

@@ -1,11 +1,31 @@
 import type { Metadata } from "next";
-import { Saira } from "next/font/google";
+import { Saira, Roboto, Playfair_Display, Outfit } from "next/font/google";
 import "./globals.css";
+import Footer from "./components/Footer";
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+});
 
 const saira = Saira({
   variable: "--font-saira",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -30,9 +50,10 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body
         suppressHydrationWarning
-        className={`${saira.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
+        className={`${saira.variable} ${roboto.variable} ${playfairDisplay.variable} ${outfit.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
       >
         {children}
+        <Footer />
       </body>
     </html>
   );

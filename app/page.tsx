@@ -1,25 +1,25 @@
-import ParticleField from "./components/ParticleField";
-import AuroraBackground from "./components/AuroraBackground";
 import Hero from "./components/Hero";
+import About from "./components/About";
+import Domains from "./components/Domains";
 import TechStack from "./components/TechStack";
-import Footer from "./components/Footer";
+import Experience from "./components/Experience";
+import Services from "./components/Services";
+import Testimonials from "./components/Testimonials";
 
 export default function Home() {
   return (
-    <>
     <main className="relative min-h-screen bg-[#060606]">
-      {/* Layered backgrounds */}
-      <AuroraBackground />
-      <ParticleField />
-
       {/* Content */}
       <div className="relative z-10">
         <Hero />
+        <About />
+        <Domains />
         <TechStack />
-        <Footer />
+        <Experience />
+        <Services />
+        <Testimonials />
       </div>
     </main>
-    </>
   );
 }
 

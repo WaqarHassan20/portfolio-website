@@ -35,6 +35,7 @@ export default function Testimonials() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
+    <>
     <section id="testimonials" ref={ref} className="relative py-32 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
@@ -45,7 +46,7 @@ export default function Testimonials() {
           className="text-center mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 text-slate-400 text-sm font-mono mb-6">
-            <span className="w-2 h-2 rounded-full bg-slate-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             Testimonials
           </div>
           <h2 className="text-4xl sm:text-6xl font-black text-white mb-4">
@@ -123,5 +124,7 @@ export default function Testimonials() {
         </motion.p>
       </div>
     </section>
+    <div className="w-full h-px bg-white/8" />
+    </>
   );
 }

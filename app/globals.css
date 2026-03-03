@@ -12,6 +12,8 @@
   --color-background: var(--bg);
   --color-foreground: var(--fg);
   --font-sans: var(--font-saira), sans-serif;
+  --font-display: var(--font-playfair), "Playfair Display", serif;
+  --font-outfit: var(--font-outfit), "Outfit", sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -253,3 +255,20 @@ body {
   opacity: 0.18;
   animation: pulse-fade 2.2s ease-in-out infinite;
 }
+
+/* ABOUT SECTION */
+.about-heading-size    { font-size: clamp(2.2rem, 5vw, 4rem); }
+.about-profile-card    { width: 100%; min-height: 360px; max-height: 460px; }
+.about-profile-radial  { background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.045) 0%, transparent 68%); }
+.about-initials        { font-size: clamp(5rem, 14vw, 8rem); }
+.about-name-overlay    { background: linear-gradient(to top, rgba(6,6,6,0.82) 0%, transparent 100%); }
+.about-name-intro      { font-size: clamp(1.55rem, 2.8vw, 2.2rem); }
+
+/* DOMAINS SECTION */
+/* Container uses padding-bottom % trick so height scales with width */
+.domain-venn-container { padding-bottom: 90%; }
+/* Circles: 56% wide, aspect-ratio 1:1 → equal height; positioned at triangle vertices */
+.domain-circle-fs      { top: 2%;  left:  2%;  width: 56%; aspect-ratio: 1 / 1; }
+.domain-circle-do      { top: 2%;  right: 2%;  width: 56%; aspect-ratio: 1 / 1; }
+/* left: 22% = 50% - 28% (half of 56%) so center x = 50% */
+.domain-circle-ai      { top: 37%; left: 22%;  width: 56%; aspect-ratio: 1 / 1; }

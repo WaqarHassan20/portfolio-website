@@ -110,12 +110,6 @@ const PROJECTS = [
   },
 ];
 
-const STATUS_COLORS: Record<string, string> = {
-  Live: "rgba(255,255,255,0.55)",
-  Beta: "rgba(255,255,255,0.40)",
-  Stable: "rgba(255,255,255,0.45)",
-  "Open Source": "rgba(255,255,255,0.38)",
-};
 
 function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -190,7 +184,7 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
             </h3>
             <div className="flex items-center gap-2 mt-1">
               <span
-                className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse"
+                className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"
               />
               <span className="text-xs font-mono text-white/35">
                 {project.status}
@@ -281,6 +275,7 @@ export default function Projects() {
     : PROJECTS.filter((p) => p.category === activeFilter);
 
   return (
+    <>
     <section id="projects" ref={sectionRef} className="relative py-32 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
@@ -291,7 +286,7 @@ export default function Projects() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 text-white/40 text-sm font-mono mb-6">
-            <span className="w-2 h-2 rounded-full bg-white/40 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             Projects
           </div>
           <h2 className="text-4xl sm:text-6xl font-black text-white mb-4">
@@ -375,5 +370,7 @@ export default function Projects() {
         </motion.div>
       </div>
     </section>
+    <div className="w-full h-px bg-white/8" />
+    </>
   );
 }
