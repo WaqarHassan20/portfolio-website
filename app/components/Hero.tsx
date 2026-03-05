@@ -439,7 +439,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.3 }}
-            className="flex items-center justify-center gap-3"
+            className="flex items-center justify-center gap-2"
           >
             {SOCIALS.map((s, i) => (
               <motion.a
@@ -452,9 +452,8 @@ export default function Hero() {
                 transition={{ delay: 1.3 + i * 0.08 }}
                 whileHover={{}}
                 whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 rounded-xl glass border border-white/[0.07]
-                           flex items-center justify-center text-white/28
-                           hover:text-white/75 hover:border-white/15 transition-all cursor-pointer"
+                className="w-10 h-10 flex items-center justify-center text-white/55
+                           hover:text-white transition-colors duration-200 cursor-pointer"
                 aria-label={s.label}
               >
                 <s.icon className="w-4 h-4" />
