@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Saira, Roboto, Playfair_Display, Outfit, Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import Footer from "./components/Footer";
 import SocialSidebar from "./components/SocialSidebar";
 
 const outfit = Outfit({
@@ -61,7 +60,6 @@ export default function RootLayout({
       >
         <SocialSidebar />
         {children}
-        <Footer />
       </body>
     </html>
   );

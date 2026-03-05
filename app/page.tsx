@@ -3,8 +3,7 @@ import About from "./components/About";
 import Domains from "./components/Domains";
 import TechStack from "./components/TechStack";
 import Experience from "./components/Experience";
-import Services from "./components/Services";
-import Testimonials from "./components/Testimonials";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -16,8 +15,7 @@ export default function Home() {
         <Domains />
         <TechStack />
         <Experience />
-        <Services />
-        <Testimonials />
+        <Footer />
       </div>
     </main>
   );
