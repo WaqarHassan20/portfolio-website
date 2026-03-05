@@ -66,9 +66,9 @@ export default function SocialSidebar() {
           transition={{ duration: 0.4, delay: 1.3 + i * 0.1, ease: "easeOut" }}
           whileHover="glow"
           className="group relative flex items-center justify-center w-9 h-9 rounded-xl
-                     bg-white/[0.04] border border-white/[0.07]
-                     text-white/35 transition-colors duration-300
-                     hover:text-white/90 hover:bg-white/[0.08] hover:border-white/[0.18]"
+                     bg-white/4 border border-white/[0.07]
+                     text-white/50 transition-colors duration-300
+                     hover:text-white/90 hover:bg-white/8 hover:border-white/18"
           style={{ backdropFilter: "blur(8px)" }}
         >
           {/* glow ring */}
@@ -93,7 +93,7 @@ export default function SocialSidebar() {
         animate={{ scaleY: 1 }}
         transition={{ duration: 0.5, delay: 1.8, ease: "easeOut" }}
         style={{ transformOrigin: "top" }}
-        className="mt-3 w-px h-14 bg-gradient-to-b from-white/20 to-transparent"
+        className="mt-3 w-px h-14 bg-linear-to-b from-white/20 to-transparent"
       />
     </motion.div>
   );
