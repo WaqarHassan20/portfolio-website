@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Saira, Roboto, Playfair_Display, Outfit } from "next/font/google";
+import { Saira, Roboto, Playfair_Display, Outfit, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/Footer";
 import SocialSidebar from "./components/SocialSidebar";
@@ -29,6 +29,12 @@ const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
 });
 
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Waqar Hassan — Full-Stack Developer & Designer",
   description:
@@ -51,7 +57,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body
         suppressHydrationWarning
-        className={`${saira.variable} ${roboto.variable} ${playfairDisplay.variable} ${outfit.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
+        className={`${saira.variable} ${roboto.variable} ${robotoMono.variable} ${playfairDisplay.variable} ${outfit.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
       >
         <SocialSidebar />
         {children}

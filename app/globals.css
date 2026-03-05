@@ -12,6 +12,7 @@
   --color-background: var(--bg);
   --color-foreground: var(--fg);
   --font-sans: var(--font-saira), sans-serif;
+  --font-mono: var(--font-roboto-mono), "Roboto Mono", monospace;
   --font-display: var(--font-playfair), "Playfair Display", serif;
   --font-outfit: var(--font-outfit), "Outfit", sans-serif;
 }
