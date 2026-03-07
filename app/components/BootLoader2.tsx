@@ -177,7 +177,7 @@ export default function BootLoader2({ onDone }: { onDone: () => void }) {
 
           {/* VERTICAL DIVIDER */}
           <div
-            className="w-px flex-shrink-0 self-stretch mx-2"
+            className="w-px shrink-0 self-stretch mx-2"
             style={{
               background: "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent 100%)",
             }}

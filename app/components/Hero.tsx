@@ -227,9 +227,11 @@ export default function Hero() {
   };
 
   useEffect(() => {
-    const id = setTimeout(() => setMounted(true), 0);
-    const stored = localStorage.getItem("portfolio_loader") as "loader1" | "loader2" | null;
-    setLoaderType(stored ?? "loader1");
+    const id = setTimeout(() => {
+      const stored = localStorage.getItem("portfolio_loader") as "loader1" | "loader2" | null;
+      setLoaderType(stored ?? "loader1");
+      setMounted(true);
+    }, 0);
     return () => clearTimeout(id);
   }, []);
 
@@ -491,7 +493,7 @@ export default function Hero() {
             onClick={toggleLoader}
             className="cursor-pointer"
           >
-            <div className="relative flex rounded-full p-1 border border-white/20 bg-white/[0.03]">
+            <div className="relative flex rounded-full p-1 border border-white/20 bg-white/3">
               {/* Sliding active indicator */}
               <motion.div
                 className="absolute top-1 left-1 w-9 h-9 rounded-full bg-white/[0.14]"

@@ -111,7 +111,7 @@ export default function Domains() {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="glass border border-white/[0.13] rounded-3xl p-6 flex flex-col flex-1 min-h-0"
+            className="glass border border-white/13 rounded-3xl p-6 flex flex-col flex-1 min-h-0"
               style={{ boxShadow: "0 0 0 1px rgba(255,255,255,0.04), 0 8px 40px rgba(255,255,255,0.04), inset 0 0 60px rgba(255,255,255,0.015)" }}
           >
             <motion.svg

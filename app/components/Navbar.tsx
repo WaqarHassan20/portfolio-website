@@ -150,7 +150,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(!menuOpen)}
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={menuOpen}
-                className="md:hidden p-2 rounded-xl glass border border-white/[0.08] text-slate-300 hover:text-white transition-colors"
+                className="md:hidden p-2 rounded-xl glass border border-white/8 text-slate-300 hover:text-white transition-colors"
               >
                 {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -184,7 +184,7 @@ export default function Navbar() {
                   <span className="font-bold text-sm text-white/45 font-mono">Navigation</span>
                   <button
                     onClick={() => setMenuOpen(false)}
-                    className="w-8 h-8 rounded-lg glass border border-white/[0.08] flex items-center justify-center text-white/45 hover:text-white/80"
+                    className="w-8 h-8 rounded-lg glass border border-white/8 flex items-center justify-center text-white/45 hover:text-white/80"
                     aria-label="Close menu"
                   >
                     <X className="w-3.5 h-3.5" />

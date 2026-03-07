@@ -52,17 +52,17 @@ function Thumbnail({ Icon }: { Icon: React.ElementType }) {
     <div className="w-full h-full flex flex-col" style={{ background: "#070707" }}>
       {/* Browser chrome */}
       <div
-        className="flex shrink-0 items-center gap-[7px] px-3 py-[10px]"
+        className="flex shrink-0 items-center gap-1.75 px-3 py-2.5"
         style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
       >
         {[0, 1, 2].map((j) => (
           <div key={j} className="w-2 h-2 rounded-full" style={{ background: "rgba(255,255,255,0.09)" }} />
         ))}
         <div
-          className="flex-1 mx-2 h-[18px] rounded-full flex items-center px-3"
+          className="flex-1 mx-2 h-4.5 rounded-full flex items-center px-3"
           style={{ background: "rgba(255,255,255,0.04)" }}
         >
-          <div className="h-[4px] w-24 rounded-full" style={{ background: "rgba(255,255,255,0.07)" }} />
+          <div className="h-1 w-24 rounded-full" style={{ background: "rgba(255,255,255,0.07)" }} />
         </div>
         <ArrowUpRight size={11} className="text-white/[0.14] mr-0.5 shrink-0" />
       </div>
@@ -72,10 +72,10 @@ function Thumbnail({ Icon }: { Icon: React.ElementType }) {
         {/* Nav bar skeleton */}
         <div className="flex items-center gap-2">
           {[60, 46, 54].map((w, j) => (
-            <div key={j} className="h-[18px] rounded-md" style={{ width: w, background: "rgba(255,255,255,0.05)" }} />
+            <div key={j} className="h-4.5 rounded-md" style={{ width: w, background: "rgba(255,255,255,0.05)" }} />
           ))}
           <div className="flex-1" />
-          <div className="h-[18px] w-14 rounded-md" style={{ background: "rgba(255,255,255,0.06)" }} />
+          <div className="h-4.5 w-14 rounded-md" style={{ background: "rgba(255,255,255,0.06)" }} />
         </div>
 
         {/* Main hero block */}
@@ -98,8 +98,8 @@ function Thumbnail({ Icon }: { Icon: React.ElementType }) {
           />
           {/* Skeleton lines */}
           <div className="absolute bottom-3.5 left-3.5 right-3.5 flex flex-col gap-1.5">
-            <div className="h-[5px] w-3/4 rounded-full" style={{ background: "rgba(255,255,255,0.055)" }} />
-            <div className="h-[5px] w-1/2 rounded-full" style={{ background: "rgba(255,255,255,0.035)" }} />
+            <div className="h-1.25 w-3/4 rounded-full" style={{ background: "rgba(255,255,255,0.055)" }} />
+            <div className="h-1.25 w-1/2 rounded-full" style={{ background: "rgba(255,255,255,0.035)" }} />
           </div>
         </div>
 
@@ -153,7 +153,7 @@ export default function Projects() {
         <div className="sticky top-0 h-screen overflow-hidden bg-[#060606]">
 
           {/* Top label + counter */}
-          <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between pl-[84px] pr-8 sm:pr-12 pt-7 sm:pt-9">
+          <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between pl-21 pr-8 sm:pr-12 pt-7 sm:pt-9">
             <span className="font-jetbrains text-[9px] tracking-[0.42em] uppercase text-white/20">
               Selected Work
             </span>
@@ -170,7 +170,7 @@ export default function Projects() {
                 <div
                   key={p.id}
                   // pl-[84px] clears the SocialSidebar (fixed left-7=28px + w-9=36px + gap)
-                  className="w-screen h-full shrink-0 pl-[84px] pr-8 sm:pr-12 pt-[60px] pb-[52px]"
+                  className="w-screen h-full shrink-0 pl-21 pr-8 sm:pr-12 pt-15 pb-13"
                 >
                   {/* ── Card shell ── */}
                   <div
@@ -236,7 +236,7 @@ export default function Projects() {
                           {p.tech.map((t) => (
                             <span
                               key={t}
-                              className="px-2.5 py-[3px] rounded-full font-jetbrains text-[8px] tracking-[0.1em] uppercase text-white/32"
+                              className="px-2.5 py-0.75 rounded-full font-jetbrains text-[8px] tracking-widest uppercase text-white/32"
                               style={{
                                 background: "rgba(255,255,255,0.04)",
                                 border: "1px solid rgba(255,255,255,0.07)",
@@ -252,7 +252,7 @@ export default function Projects() {
                           href={p.live}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group self-start inline-flex items-center gap-1.5 px-4 py-[7px] rounded-full font-jetbrains text-[9.5px] tracking-[0.2em] uppercase text-white/60 hover:text-black hover:bg-white transition-all duration-300"
+                          className="group self-start inline-flex items-center gap-1.5 px-4 py-1.75 rounded-full font-jetbrains text-[9.5px] tracking-[0.2em] uppercase text-white/60 hover:text-black hover:bg-white transition-all duration-300"
                           style={{ border: "1px solid rgba(255,255,255,0.16)" }}
                         >
                           Visit Site
@@ -297,7 +297,7 @@ export default function Projects() {
           </motion.div>
 
           {/* Bottom: step dots + progress bar + scroll hint */}
-          <div className="absolute bottom-5 left-[84px] right-8 sm:right-12 z-20 flex items-center gap-4">
+          <div className="absolute bottom-5 left-21 right-8 sm:right-12 z-20 flex items-center gap-4">
             <div className="flex gap-1.5 items-center shrink-0">
               {PROJECTS.map((_, di) => (
                 <div
