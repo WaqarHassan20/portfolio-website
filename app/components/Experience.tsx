@@ -1,205 +1,368 @@
 "use client";
 import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useInView,
+  useMotionValueEvent,
+  type MotionValue,
+  type Variants,
+} from "framer-motion";
 
-type Milestone = {
+// ── Types ─────────────────────────────────────────────────────────
+interface TimelineEntry {
   year: string;
   role: string;
-  org: string;
-  desc: string;
-  dot: string;
-  accent: string;
-};
+  category: string;
+  description: string;
+  isPresent?: boolean;
+}
 
-const MILESTONES: Milestone[] = [
+// ── Data ──────────────────────────────────────────────────────────
+const ENTRIES: TimelineEntry[] = [
   {
-    year: "2021",
-    role: "Begin Learning",
-    org: "Microsoft Office",
-    desc: "Started my tech journey with Microsoft Office fundamentals — Word, Excel, PowerPoint. The seed that sparked a curiosity for building digital things.",
-    dot: "#F0F5F9",
-    accent: "#C9D6DF",
+    year: "NOW",
+    role: "Fundamentals of AI, ML",
+    category: "Always Exploring",
+    description:
+      "Exploring the foundations of Artificial Intelligence, Machine Learning, and Mobile Development. Building advanced applications and exploring the core features of emerging technologies and its future.",
+    isPresent: true,
   },
   {
-    year: "2022",
-    role: "Graphic Designer",
-    org: "Freelance Work",
-    desc: "Picked up Figma and Photoshop, taking on freelance design projects. Developed a strong visual eye and learned to craft user-first interfaces.",
-    dot: "#C9D6DF",
-    accent: "#C9D6DF",
-  },
-  {
-    year: "2023",
-    role: "Python Developer",
-    org: "Self-Taught & Projects",
-    desc: "Dived deep into Python — scripting, automation, data manipulation, and first AI experiments with LangChain and the LLM ecosystem.",
-    dot: "#C9D6DF",
-    accent: "#52616B",
+    year: "2025",
+    role: "AI Engineer & Mobile Dev",
+    category: "Dived into AI & Mobile",
+    description:
+      "Diving deep into AI engineering and mobile development. Building intelligent applications, experimenting with LLMs, and creating seamless mobile experiences.",
   },
   {
     year: "2024",
     role: "Full-Stack Developer",
-    org: "Freelance & Projects",
-    desc: "Built production-grade applications with Next.js, TypeScript, Node.js, PostgreSQL and cloud deployments on AWS and DigitalOcean. Completed Harkirat Singh's 0→100x cohort.",
-    dot: "#F0F5F9",
-    accent: "#C9D6DF",
+    category: "Web Development & Cloud",
+    description:
+      "Built production-grade applications with Next.js, TypeScript, Node.js, PostgreSQL and cloud deployments on AWS and DigitalOcean (Docker and Kubernetes ). Completed 0→100x development. Gained experience in Web development, cloud infrastructure, and DevOps practices.",
   },
   {
-    year: "2025",
-    role: "AI Engineer",
-    org: "Research & Projects",
-    desc: "Focused on LLM integration, RAG pipelines, agentic workflows, and AI-powered SaaS products — bridging solid engineering with cutting-edge AI tooling.",
-    dot: "#C9D6DF",
-    accent: "#52616B",
+    year: "2023",
+    role: "C & C++ Developer",
+    category: "Programming fundamentals",
+    description:
+      "Dived deep into C & C++ — systems programming, performance optimization, memory management, object-oriented programming and explored the low-level language.",
   },
   {
-    year: "NOW",
-    role: "Learning Something New",
-    org: "Self-Development",
-    desc: "Continuously expanding — mobile engineering with React Native/Expo, DevOps at scale with Kubernetes & Terraform, and pushing the limits of what I can build.",
-    dot: "#4ADE80",
-    accent: "#4ADE80",
+    year: "2022",
+    role: "MS Office and Web Basics",
+    category: "Early digital literacy",
+    description:
+      "Started with MS Office tools and basic web development. Created static pages and blogs, sparking an interest in technology. ",
   },
 ];
 
+// ── Animation variants ────────────────────────────────────────────
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.14, delayChildren: 0.2 } },
+};
+
+const rowVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
+};
+
+// ── Node dot sub-component ────────────────────────────────────────
+function NodeDot({
+  isPresent,
+  isActive,
+  size,
+}: {
+  isPresent?: boolean;
+  isActive: boolean;
+  size: "sm" | "md";
+}) {
+  const dotSz = size === "md" ? "h-3 w-3" : "h-2.5 w-2.5";
+  const dotCls = isActive
+    ? "border-[#F0F5F9] bg-[#F0F5F9]"
+    : "border-[#52616B] bg-[#060606] group-hover:border-[#C9D6DF] group-hover:bg-[#1E2022]";
+  const ringSz = size === "md" ? 32 : 26;
+
+  return (
+    <div className="relative flex items-center justify-center">
+      {isPresent && isActive && (
+        <motion.span
+          className="absolute rounded-full"
+          style={{
+            width: ringSz,
+            height: ringSz,
+            background: "rgba(240,245,249,0.10)",
+          }}
+          animate={{ scale: [1, 2.2, 1], opacity: [0.5, 0, 0.5] }}
+          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+          aria-hidden="true"
+        />
+      )}
+      <span
+        className={[
+          "relative z-10 block rounded-full border transition-all duration-300 group-hover:scale-125",
+          dotSz,
+          dotCls,
+        ].join(" ")}
+        style={isActive ? { boxShadow: "0 0 0 2px rgba(240,245,249,0.3)" } : undefined}
+        aria-hidden="true"
+      />
+    </div>
+  );
+}
+
+// ── Timeline row — per-entry beam activation + hover glow ────
+function TimelineRow({
+  entry,
+  beamProgress,
+  index,
+  total,
+}: {
+  entry: TimelineEntry;
+  beamProgress: MotionValue<number>;
+  index: number;
+  total: number;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
+  // Threshold = fractional position of this node along the beam track
+  // NodeDot sits below the year text, roughly 75% down each row
+  const threshold = (index + 0.75) / total;
+  useMotionValueEvent(beamProgress, "change", (v) => {
+    setIsActive(v >= threshold);
+  });
+
+  const yearGlows = isActive || isHovered;  // year: beam-activate OR hover
+  const textGlows = isHovered;              // role / category / description: hover only
+
+  return (
+    <motion.div
+      variants={rowVariants}
+      className="group relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* ── Desktop (md+): 3-col grid ──────────────────────────────────
+          [role+category right] | [year+node center] | [description left]
+      ─────────────────────────────────────────────────────────────────── */}
+      <div className="hidden md:grid md:grid-cols-[1fr_11rem_1fr] md:items-center md:gap-16 md:py-14">
+
+        {/* Col 1 — role + category, right-aligned */}
+        <div className="flex flex-col items-end gap-2 pt-1 text-right">
+          <span
+            className="font-semibold leading-snug tracking-tight transition-colors duration-500"
+            style={{
+              fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)",
+              color: isHovered ? "#F0F5F9" : "#B8C0CC",
+            }}
+          >
+            {entry.role}
+          </span>
+          <span
+            className="font-mono tracking-[0.22em] uppercase transition-colors duration-500"
+            style={{
+              fontSize: "clamp(0.6rem, 1vw, 0.7rem)",
+              color: textGlows ? "#C9D6DF" : "#6B7A85",
+            }}
+          >
+            {entry.category}
+          </span>
+        </div>
+
+        {/* Col 2 — large year + node, centered on beam */}
+        <div className="relative z-10 flex flex-col items-center gap-3">
+          <span
+            className="font-mono font-extrabold leading-none tracking-tight transition-all duration-500"
+            style={{
+              fontSize: "clamp(2.5rem, 5.2vw, 4.6rem)",
+              color: yearGlows ? "#F0F5F9" : "#6B7A85",
+            }}
+          >
+            {entry.year}
+          </span>
+          <NodeDot isPresent={entry.isPresent} isActive={yearGlows} size="md" />
+        </div>
+
+        {/* Col 3 — description, left-aligned */}
+        <div className="pt-1">
+          <p
+            className="font-light leading-relaxed transition-colors duration-500"
+            style={{
+              fontSize: "clamp(0.82rem, 1.55vw, 0.98rem)",
+              color: textGlows ? "#C9D6DF" : "#6B7A85",
+            }}
+          >
+            {entry.description}
+          </p>
+        </div>
+
+      </div>
+
+      {/* ── Mobile: 2-col (node | content stack) ─────────────────── */}
+      <div className="grid grid-cols-[2rem_1fr] items-start gap-4 py-9 md:hidden">
+
+        {/* Col 1 — node pinned over beam */}
+        <div className="flex justify-center pt-1.5">
+          <NodeDot isPresent={entry.isPresent} isActive={yearGlows} size="sm" />
+        </div>
+
+        {/* Col 2 — year → role → category → description */}
+        <div className="flex flex-col gap-1">
+          <span
+            className="font-mono font-extrabold leading-none tracking-tight transition-colors duration-500"
+            style={{
+              fontSize: "clamp(1.9rem, 8.5vw, 2.6rem)",
+              color: yearGlows ? "#F0F5F9" : "#6B7A85",
+            }}
+          >
+            {entry.year}
+          </span>
+          <span
+            className="mt-1 font-semibold leading-snug tracking-tight transition-colors duration-500"
+            style={{
+              fontSize: "clamp(1rem, 4.5vw, 1.25rem)",
+              color: isHovered ? "#F0F5F9" : "#B8C0CC",
+            }}
+          >
+            {entry.role}
+          </span>
+          <span
+            className="mb-2 font-mono tracking-[0.22em] uppercase transition-colors duration-500"
+            style={{
+              fontSize: "clamp(0.58rem, 2.5vw, 0.68rem)",
+              color: textGlows ? "#C9D6DF" : "#6B7A85",
+            }}
+          >
+            {entry.category}
+          </span>
+          <p
+            className="font-light leading-relaxed transition-colors duration-500"
+            style={{
+              fontSize: "clamp(0.78rem, 3.5vw, 0.92rem)",
+              color: textGlows ? "#C9D6DF" : "#6B7A85",
+            }}
+          >
+            {entry.description}
+          </p>
+        </div>
+
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Main component ────────────────────────────────────────────────
 export default function Experience() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [active, setActive] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  // Beam tracks the timeline container: 0% when top hits center, 100% when bottom hits center
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 50%", "end 50%"],
+  });
+  const beamScaleY = useSpring(scrollYProgress, {
+    stiffness: 55,
+    damping: 22,
+    restDelta: 0.001,
+  });
+  const beamHeight = useTransform(
+    beamScaleY,
+    (v) => `${Math.max(0, Math.min(1, v)) * 100}%`,
+  );
+
+  const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
 
   return (
     <>
-    <section id="experience" ref={ref} className="relative py-32 px-6 overflow-hidden">
-      <div className="max-w-2xl mx-auto relative z-10">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-24"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 text-white/40 text-sm font-mono mb-6">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            Career Timeline
-          </div>
-          <h2 className="text-4xl sm:text-5xl font-semibold text-white mb-4">
-            My Journey
-          </h2>
-          <p className="text-white/35 max-w-xl mx-auto">
-            From curiosity to craft — every milestone that shaped me as an engineer.
-          </p>
-        </motion.div>
+      <section
+        id="experience"
+        ref={sectionRef}
+        className="relative py-20 sm:py-32 overflow-hidden font-mono"
+        aria-label="Career and experience"
+      >
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical silver beam */}
+          {/* Section heading */}
           <motion.div
-            initial={{ scaleY: 0 }}
-            animate={inView ? { scaleY: 1 } : {}}
-            transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="absolute left-[19px] top-0 bottom-0 w-px origin-top"
-            style={{
-              background:
-                "linear-gradient(to bottom, transparent 0%, #C9D6DF 8%, #C9D6DF 92%, transparent 100%)",
-              opacity: 0.22,
-            }}
-          />
+            className="mb-16 sm:mb-24 text-center"
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: EASE }}
+          >
+            <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-4">
+              MY JOURNEY AS A DEVELOPER
+            </p>
+            <h2 className="font-mono font-light leading-[1.02] tracking-[0.02em]">
+              <span className="text-white font-bold about-heading-size">My Journey &</span>
+              <span className="text-white/65 font-normal ml-5 about-heading-size">Learning</span>
+            </h2>
+          </motion.div>
 
-          <div className="space-y-0">
-            {MILESTONES.map((m, i) => {
-              const isActive = active === i;
-              const isLast = i === MILESTONES.length - 1;
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -24 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.3 + i * 0.13 }}
-                  className={`relative flex gap-8 ${isLast ? "pb-0" : "pb-12"}`}
-                >
-                  {/* Node */}
-                  <div className="relative flex-shrink-0 mt-0.5">
-                    <motion.button
-                      onClick={() => setActive(isActive ? null : i)}
-                      whileHover={{ scale: 1.15 }}
-                      whileTap={{ scale: 0.92 }}
-                      className="relative w-10 h-10 rounded-full flex items-center justify-center focus:outline-none"
-                      aria-label={`${m.year} — ${m.role}`}
-                      aria-pressed={isActive}
-                    >
-                      {/* Outer ring */}
-                      <div
-                        className="absolute inset-0 rounded-full transition-all duration-300"
-                        style={{
-                          border: `1px solid ${isActive ? m.dot : "rgba(201,214,223,0.18)"}`,
-                          boxShadow: isActive
-                            ? `0 0 18px ${m.dot}50, inset 0 0 8px ${m.dot}18`
-                            : "none",
-                        }}
-                      />
-                      {/* Inner dot */}
-                      <div
-                        className="w-2.5 h-2.5 rounded-full transition-all duration-300"
-                        style={{
-                          background: isActive ? m.dot : "rgba(201,214,223,0.40)",
-                          boxShadow: isActive ? `0 0 10px ${m.dot}99` : "none",
-                        }}
-                      />
-                    </motion.button>
-                  </div>
+          {/* Timeline */}
+          <div ref={timelineRef} className="relative">
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0 pt-1.5">
-                    {/* Year pill */}
-                    <span
-                      className="inline-block text-[10px] font-mono tracking-[0.22em] px-2.5 py-0.5 rounded-full mb-2 border"
-                      style={{
-                        color: m.dot,
-                        borderColor: `${m.dot}28`,
-                        background: `${m.dot}07`,
-                      }}
-                    >
-                      {m.year}
-                    </span>
+            {/*
+              Beam: two-layer structure.
+              Outer div  → left positioning (left-4 mobile / left-1/2 desktop)
+              Base track → always-visible dim line
+              Active div → grows from top as you scroll (beamHeight)
+              Glow dot   → follows beam tip
+            */}
+            <div
+              className="pointer-events-none absolute inset-y-8 left-4 w-px md:left-1/2"
+              aria-hidden="true"
+            >
+              {/* Base track */}
+              <div className="absolute inset-0 w-px bg-white/[0.07]" />
 
-                    {/* Role */}
-                    <h3
-                      className="text-[17px] font-semibold leading-tight mb-0.5 transition-colors duration-300"
-                      style={{ color: isActive ? "#ffffff" : "rgba(255,255,255,0.68)" }}
-                    >
-                      {m.role}
-                    </h3>
-                    <p
-                      className="text-[11px] font-mono mb-2 tracking-wider"
-                      style={{ color: m.accent, opacity: 0.70 }}
-                    >
-                      {m.org}
-                    </p>
+              {/* Active progress beam */}
+              <motion.div
+                className="absolute top-0 w-px"
+                style={{
+                  height: beamHeight,
+                  background:
+                    "linear-gradient(to bottom, #F0F5F9 0%, rgba(240,245,249,0.75) 80%, rgba(240,245,249,0.35) 100%)",
+                }}
+              />
 
-                    {/* Expandable description */}
-                    <motion.div
-                      initial={false}
-                      animate={{ height: isActive ? "auto" : 0, opacity: isActive ? 1 : 0 }}
-                      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <p className="text-white/36 text-sm leading-relaxed pb-1">
-                        {m.desc}
-                      </p>
-                    </motion.div>
+              {/* Beam head glow dot */}
+              <motion.span
+                className="absolute left-1/2 block h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F0F5F9]"
+                style={{
+                  top: beamHeight,
+                  boxShadow: "0 0 14px 4px rgba(240,245,249,0.55)",
+                }}
+              />
+            </div>
 
-                    {!isActive && (
-                      <p className="text-white/18 text-[11px] font-mono">tap to expand</p>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
+            {/* Entry rows */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
+              {ENTRIES.map((entry, index) => (
+                <TimelineRow
+                  key={entry.year}
+                  entry={entry}
+                  beamProgress={beamScaleY}
+                  index={index}
+                  total={ENTRIES.length}
+                />
+              ))}
+            </motion.div>
+
           </div>
         </div>
-      </div>
-    </section>
-    <div className="w-full h-px bg-white/8" />
+      </section>
+      <div className="w-full h-px bg-white/8" />
     </>
   );
 }

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Saira, Roboto, Playfair_Display, Outfit, Roboto_Mono } from "next/font/google";
+import { Saira, Roboto, Playfair_Display, Outfit, Roboto_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SocialSidebar from "./components/SocialSidebar";
+import BootLoaderGate from "./components/BootLoaderGate";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -24,6 +25,12 @@ const saira = Saira({
 
 const roboto = Roboto({
   variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["300", "400", "500", "700"],
 });
@@ -56,10 +63,12 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body
         suppressHydrationWarning
-        className={`${saira.variable} ${roboto.variable} ${robotoMono.variable} ${playfairDisplay.variable} ${outfit.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
+        className={`${saira.variable} ${roboto.variable} ${robotoMono.variable} ${playfairDisplay.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
       >
         <SocialSidebar />
-        {children}
+        <BootLoaderGate>
+          {children}
+        </BootLoaderGate>
       </body>
     </html>
   );

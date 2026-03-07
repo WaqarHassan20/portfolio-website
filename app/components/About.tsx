@@ -26,11 +26,11 @@ export default function About() {
             <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-4">More about me</p>
             <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
               <span className="text-white font-bold about-heading-size">About</span>
-              <span className="text-white/70 ml-5 about-heading-size">Me</span>
+              <span className="text-white/65 font-normal ml-5 about-heading-size">Me</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-5 items-start flex-1 my-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 sm:gap-5 items-start flex-1 my-10">
 
             {/* ── LEFT COLUMN ── */}
             <div className="flex flex-col gap-4">
@@ -49,7 +49,7 @@ export default function About() {
 
                 {/* GitHub profile picture */}
                 <Image
-                  src="/avatar.jpg"
+                  src="/picture.jpeg"
                   alt="Waqar UL Hassan"
                   fill
                   className="object-cover object-top"
@@ -62,7 +62,7 @@ export default function About() {
                   className="absolute bottom-0 left-0 right-0 p-5 about-name-overlay"
                 >
                   <p className="text-white/80 font-semibold text-base leading-tight">Waqar UL Hassan</p>
-                  <p className="text-white/35 text-[10px] font-mono tracking-[0.2em] uppercase mt-1">
+                  <p className="text-white/80 font-medium text-[10px] font-mono tracking-[0.2em] uppercase mt-1">
                     Full-Stack · DevOps · AI
                   </p>
                 </div>
@@ -169,7 +169,7 @@ export default function About() {
           </div>
         </div>
       </section>
-      <div className="w-full my-24 h-px bg-white/8" />
+      <div className="w-full my-10 md:my-24 h-px bg-white/8" />
     </>
   );
 }

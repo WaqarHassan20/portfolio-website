@@ -3,6 +3,7 @@ import About from "./components/About";
 import Domains from "./components/Domains";
 import TechStack from "./components/TechStack";
 import Experience from "./components/Experience";
+import Projects from "./components/Projects";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
         <Domains />
         <TechStack />
         <Experience />
+        {/* <Projects /> */}
         <Footer />
       </div>
     </main>

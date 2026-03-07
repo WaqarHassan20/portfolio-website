@@ -15,11 +15,12 @@
   --font-mono: var(--font-roboto-mono), "Roboto Mono", monospace;
   --font-display: var(--font-playfair), "Playfair Display", serif;
   --font-outfit: var(--font-outfit), "Outfit", sans-serif;
+  --font-jetbrains: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-x: clip; } /* clip ≠ hidden: doesn't create a scroll-container, so position:sticky works */
 
 body {
   background: var(--bg);

@@ -102,7 +102,7 @@ export default function Domains() {
 
             <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
               <span className="text-white font-bold text-5xl">Main</span>
-              <span className="text-white/70 ml-6 text-5xl">Domains</span>
+              <span className="text-white/65 font-normal ml-6 text-5xl">Domains</span>
             </h2>
           </motion.div>
 
@@ -215,7 +215,7 @@ export default function Domains() {
 
         </div>
       </section>
-      <div className="my-32 w-full h-px bg-white/8" />
+      <div className="my-10 md:my-32 w-full h-px bg-white/8" />
     </>
   );
 }

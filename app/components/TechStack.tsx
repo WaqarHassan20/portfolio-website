@@ -1,182 +1,239 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-  SiJavascript,
-  SiTypescript,
-  SiPython,
-  SiCplusplus,
-  SiReact,
-  SiNextdotjs,
-  SiHtml5,
-  SiCss3,
-  SiTailwindcss,
-  SiNodedotjs,
-  SiBun,
-  SiExpress,
-  SiGraphql,
-  SiPostman,
-  SiPostgresql,
-  SiMongodb,
-  SiRedis,
-  SiPrisma,
-  SiApachekafka,
-  SiSocketdotio,
-  SiJsonwebtokens,
-  SiLangchain,
-  SiAmazonwebservices,
-  SiDigitalocean,
-  SiCloudflare,
-  SiDocker,
-  SiKubernetes,
-  SiNginx,
-  SiGnubash,
-  SiTerraform,
-  SiAnsible,
-  SiHelm,
-  SiPrometheus,
-  SiGrafana,
-  SiGithubactions,
-  SiJenkins,
-  SiGit,
-  SiDrizzle,
-  SiFigma,
-  SiVercel,
-} from "react-icons/si";
-import { FaJava } from "react-icons/fa";
 
-const TECHS = [
-  // Row 0
-  { icon: SiJavascript, label: "JavaScript", color: "#F7DF1E" },
-  { icon: SiTypescript, label: "TypeScript", color: "#3178C6" },
-  { icon: SiPython, label: "Python", color: "#3776AB" },
-  { icon: SiCplusplus, label: "C++", color: "#00599C" },
-  { icon: FaJava, label: "Java", color: "#ED8B00" },
-  { icon: SiReact, label: "React", color: "#61DAFB" },
-  { icon: SiNextdotjs, label: "Next.js", color: "#FFFFFF" },
-  { icon: SiHtml5, label: "HTML5", color: "#E34F26" },
-  { icon: SiCss3, label: "CSS3", color: "#1572B6" },
-  { icon: SiTailwindcss, label: "Tailwind", color: "#06B6D4" },
-  { icon: SiNodedotjs, label: "Node.js", color: "#339933" },
-  { icon: SiBun, label: "Bun", color: "#FBF0DF" },
-  { icon: SiExpress, label: "Express", color: "#FFFFFF" },
-  { icon: SiGraphql, label: "GraphQL", color: "#E10098" },
-  { icon: SiPostman, label: "Postman", color: "#FF6C37" },
-  { icon: SiPostgresql, label: "PostgreSQL", color: "#4169E1" },
-  { icon: SiMongodb, label: "MongoDB", color: "#47A248" },
-  { icon: SiRedis, label: "Redis", color: "#FF4438" },
-  { icon: SiPrisma, label: "Prisma", color: "#5A67D8" },
-  { icon: SiDrizzle, label: "Drizzle", color: "#C5F74F" },
-  { icon: SiApachekafka, label: "Kafka", color: "#CDCDCD" },
-  { icon: SiSocketdotio, label: "Socket.IO", color: "#FFFFFF" },
-  { icon: SiJsonwebtokens, label: "JWT", color: "#D63AFF" },
-  { icon: SiLangchain, label: "LangChain", color: "#00C896" },
-  { icon: SiAmazonwebservices, label: "AWS", color: "#FF9900" },
-  { icon: SiDigitalocean, label: "DigitalOcean", color: "#0080FF" },
-  { icon: SiCloudflare, label: "Cloudflare", color: "#F38020" },
-  { icon: SiDocker, label: "Docker", color: "#2496ED" },
-  { icon: SiKubernetes, label: "Kubernetes", color: "#326CE5" },
-  { icon: SiNginx, label: "Nginx", color: "#009639" },
-  { icon: SiGnubash, label: "Bash", color: "#4EAA25" },
-  { icon: SiTerraform, label: "Terraform", color: "#844FBA" },
-  { icon: SiAnsible, label: "Ansible", color: "#EE0000" },
-  { icon: SiHelm, label: "Helm", color: "#0F1689" },
-  { icon: SiPrometheus, label: "Prometheus", color: "#E6522C" },
-  { icon: SiGrafana, label: "Grafana", color: "#F46800" },
-  { icon: SiGithubactions, label: "GH Actions", color: "#2088FF" },
-  { icon: SiJenkins, label: "Jenkins", color: "#D33833" },
-  { icon: SiGit, label: "Git", color: "#F05032" },
-  { icon: SiFigma, label: "Figma", color: "#F24E1E" },
-  { icon: SiVercel, label: "Vercel", color: "#FFFFFF" },
+// Raw GitHub devicon URLs — exact same source as reference portfolio
+const DV = "https://raw.githubusercontent.com/devicons/devicon/master/icons";
+
+type TechEntry = { img: string; label: string; color: string; invert?: boolean };
+
+const TECHS: TechEntry[] = [
+  // ── Languages
+  { img: `${DV}/javascript/javascript-original.svg`,   label: "JavaScript",   color: "#F7DF1E" },
+  { img: `${DV}/typescript/typescript-original.svg`,   label: "TypeScript",   color: "#3178C6" },
+  { img: `${DV}/python/python-original.svg`,           label: "Python",       color: "#3776AB" },
+  { img: `${DV}/c/c-original.svg`,                     label: "C",            color: "#A8B9CC" },
+  { img: `${DV}/cplusplus/cplusplus-original.svg`,     label: "C++",          color: "#00599C" },
+  { img: `${DV}/java/java-original.svg`,               label: "Java",         color: "#ED8B00" },
+  { img: `${DV}/csharp/csharp-original.svg`,           label: "C#",           color: "#512BD4" },
+  { img: `${DV}/jupyter/jupyter-original.svg`,         label: "Jupyter",      color: "#F37626" },
+  // ── Frontend
+  { img: `${DV}/react/react-original.svg`,             label: "React",        color: "#61DAFB" },
+  { img: `${DV}/nextjs/nextjs-original.svg`,           label: "Next.js",      color: "#FFFFFF" },
+  { img: `${DV}/html5/html5-original.svg`,             label: "HTML5",        color: "#E34F26" },
+  { img: `${DV}/css3/css3-original.svg`,               label: "CSS3",         color: "#1572B6" },
+  { img: "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg",                                                    label: "Tailwind CSS",  color: "#06B6D4" },
+  { img: "https://avatars.githubusercontent.com/u/124599?s=200&v=4",                                                              label: "shadcn/ui",     color: "#FFFFFF" },
+  { img: "https://avatars.githubusercontent.com/u/10342521?s=200&v=4",                                                            label: "Chart.js",      color: "#FF6384" },
+  // ── Testing
+  { img: `${DV}/jest/jest-plain.svg`,                  label: "Jest",         color: "#C21325" },
+  { img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vitejs-logo.svg/500px-Vitejs-logo.svg.png",                    label: "Vitest",       color: "#6E9F18" },
+  { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOmtyerOsIHJ4qF84e6tKiRtq3FmpJsa06Wg&s",                         label: "Cypress",      color: "#69D3A7" },
+  // ── Backend & Runtime
+  { img: `${DV}/nodejs/nodejs-original.svg`,           label: "Node.js",      color: "#339933" },
+  { img: "https://user-images.githubusercontent.com/709451/182802334-d9c42afe-f35d-4a7b-86ea-9985f73f20c3.png",                    label: "Bun",          color: "#FBF0DF" },
+  { img: "https://www.peanutsquare.com/wp-content/uploads/2024/04/Express.png",                                                    label: "Express",      color: "#FFFFFF" },
+  { img: `${DV}/fastapi/fastapi-original.svg`,         label: "FastAPI",      color: "#009688" },
+  { img: "https://avatars.githubusercontent.com/u/98495527?s=280&v=4",                                                             label: "Hono",         color: "#E36002" },
+  { img: `${DV}/graphql/graphql-plain.svg`,            label: "GraphQL",      color: "#E10098" },
+  { img: "https://avatars.githubusercontent.com/u/78011399?s=200&v=4",                                                             label: "tRPC",         color: "#2596BE" },
+  { img: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg",                                                       label: "Postman",      color: "#FF6C37" },
+  // ── Databases & ORMs
+  { img: `${DV}/postgresql/postgresql-original.svg`,   label: "PostgreSQL",   color: "#4169E1" },
+  { img: `${DV}/mongodb/mongodb-original.svg`,         label: "MongoDB",      color: "#47A248" },
+  { img: `${DV}/redis/redis-original.svg`,             label: "Redis",        color: "#FF4438" },
+  { img: `${DV}/prisma/prisma-original.svg`,           label: "Prisma",       color: "#5A67D8", invert: true },
+  { img: "https://pic.vsixhub.com/22/91/rphlmr.vscode-drizzle-orm-logo.webp",                                                      label: "Drizzle",      color: "#C5F74F" },
+  { img: "https://avatars.githubusercontent.com/u/54801242?s=200&v=4",                                                             label: "ClickHouse",   color: "#FFCC01" },
+  { img: "https://cdn.simpleicons.org/timescale/FDB515",                                                                          label: "TimescaleDB",  color: "#FDB515" },
+  // ── Messaging & Realtime
+  { img: `${DV}/apachekafka/apachekafka-original.svg`, label: "Kafka",        color: "#CDCDCD", invert: true },
+  { img: "https://www.vectorlogo.zone/logos/rabbitmq/rabbitmq-icon.svg",                                                           label: "RabbitMQ",     color: "#FF6600" },
+  { img: `${DV}/socketio/socketio-original.svg`,       label: "Socket.IO",    color: "#FFFFFF", invert: true },
+  { img: "https://jwt.io/img/logo-asset.svg",          label: "JWT",          color: "#D63AFF" },
+  // ── AI
+  { img: "https://avatars.githubusercontent.com/u/126733545?s=200&v=4",                                                            label: "LangChain",    color: "#00C896" },
+  // ── Cloud
+  { img: `${DV}/amazonwebservices/amazonwebservices-original-wordmark.svg`,     label: "AWS",          color: "#FF9900" },
+  { img: `${DV}/digitalocean/digitalocean-original.svg`, label: "DigitalOcean", color: "#0080FF" },
+  { img: `${DV}/cloudflare/cloudflare-original.svg`,   label: "Cloudflare",   color: "#F38020" },
+  { img: "https://www.svgrepo.com/show/327408/logo-vercel.svg",                                                                     label: "Vercel",       color: "#FFFFFF", invert: true },
+  // ── DevOps & Infrastructure
+  { img: `${DV}/docker/docker-original.svg`,           label: "Docker",       color: "#2496ED" },
+  { img: `${DV}/kubernetes/kubernetes-plain.svg`,      label: "Kubernetes",   color: "#326CE5" },
+  { img: `${DV}/nginx/nginx-original.svg`,             label: "Nginx",        color: "#009639" },
+  { img: `${DV}/bash/bash-original.svg`,               label: "Bash",         color: "#4EAA25", invert: true },
+  { img: `${DV}/terraform/terraform-original.svg`,     label: "Terraform",    color: "#844FBA" },
+  { img: `${DV}/ansible/ansible-original.svg`,         label: "Ansible",      color: "#EE0000" },
+  { img: `${DV}/helm/helm-original.svg`,               label: "Helm",         color: "#277A9F", invert: true },
+  { img: "https://www.vectorlogo.zone/logos/vaultproject/vaultproject-icon.svg",                                                    label: "Vault",        color: "#FFEC6E", invert: true },
+  { img: "https://user-images.githubusercontent.com/4060187/196936104-5797972c-ab10-4834-bd61-0d1e5f442c9c.png",                   label: "Turborepo",    color: "#EF4444" },
+  { img: `${DV}/argocd/argocd-original.svg`,           label: "ArgoCD",       color: "#EF7B4D" },
+  // ── Monitoring & CI/CD
+  { img: `${DV}/prometheus/prometheus-original.svg`,   label: "Prometheus",   color: "#E6522C" },
+  { img: `${DV}/grafana/grafana-original.svg`,         label: "Grafana",      color: "#F46800" },
+  { img: `${DV}/githubactions/githubactions-original.svg`, label: "GH Actions", color: "#2088FF" },
+  { img: `${DV}/jenkins/jenkins-original.svg`,         label: "Jenkins",      color: "#D33833" },
+  { img: "https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg",                                                              label: "Git",          color: "#F05032" },
+  // ── Design
+  { img: `${DV}/figma/figma-original.svg`,             label: "Figma",        color: "#F24E1E" },
 ];
 
-// Build diamond-net rows: odd rows are offset by half a cell (staggered)
-// The visual is like a net/grid tilted 45° — we achieve this by giving
-// even rows a normal left start and odd rows a +half-cell offset.
-const COLS = 10; // wider grid to span full screen
+const CLIP = "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)";
 
-function TechCard({ tech, index }: { tech: (typeof TECHS)[0]; index: number }) {
+// ── Responsive grid config: cols + cell size adapt to viewport ───────────────
+function useGridConfig() {
+  const [winW, setWinW] = useState<number | null>(null);
+  useEffect(() => {
+    const update = () => setWinW(window.innerWidth);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  if (!winW || winW >= 1400) return { cols: 10, cell: 122, gap: 12 };
+  if (winW >= 1100) return { cols: 8,  cell: 116, gap: 12 };
+  if (winW >= 800)  return { cols: 6,  cell: 110, gap: 10 };
+  if (winW >= 560)  return { cols: 5,  cell: 90,  gap: 10 };
+  return                   { cols: 4,  cell: 72,  gap: 8  };
+}
+
+function TechCard({
+  tech,
+  index,
+  cell,
+  cols,
+  onHover,
+  colorized,
+}: {
+  tech: TechEntry;
+  index: number;
+  cell: number;
+  cols: number;
+  onHover: (hovered: boolean) => void;
+  colorized: boolean;
+}) {
   const [hovered, setHovered] = useState(false);
-  const Icon = tech.icon;
+
+  const handleHover = (h: boolean) => {
+    setHovered(h);
+    onHover(h);
+  };
+
+  const staggerDelay = colorized ? `${index * 28}ms` : "0ms";
+  const showColorIcon   = colorized || hovered;
+  const showColorBorder = hovered;
+  const logoSize = Math.round(cell * 0.265);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.6 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{
-        duration: 0.4,
-        delay: (index % COLS) * 0.04 + Math.floor(index / COLS) * 0.06,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="relative flex flex-col items-center justify-center gap-2 cursor-default group"
+    <div
       style={{
-        width: 128,
-        height: 128,
+        width: cell,
+        height: cell,
+        filter: showColorBorder
+          ? `drop-shadow(0 0 1.5px ${tech.color})
+             drop-shadow(0 0 6px  ${tech.color}aa)
+             drop-shadow(0 0 16px ${tech.color}44)`
+          : "none",
+        transition: "filter 0.4s ease",
       }}
+      onMouseEnter={() => handleHover(true)}
+      onMouseLeave={() => handleHover(false)}
     >
-      {/* Diamond shape */}
-      <div
-        className="absolute inset-0 transition-all duration-300"
-        style={{
-          clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-          background: hovered
-            ? `rgba(${hexToRgb(tech.color)}, 0.14)`
-            : "rgba(255,255,255,0.03)",
-          boxShadow: hovered
-            ? `0 0 36px 8px ${tech.color}55, inset 0 0 24px ${tech.color}22`
-            : "none",
+      <motion.div
+        initial={{ opacity: 0, scale: 0.6 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{
+          duration: 0.4,
+          delay: (index % cols) * 0.04 + Math.floor(index / cols) * 0.06,
+          ease: [0.22, 1, 0.36, 1],
         }}
-      />
-      {/* Diamond border */}
-      <div
-        className="absolute inset-0 transition-all duration-300"
-        style={{
-          clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-          background: "transparent",
-          boxShadow: hovered
-            ? `0 0 0 1.5px ${tech.color}99`
-            : "0 0 0 1px rgba(255,255,255,0.08)",
-        }}
-      />
-      {/* Icon */}
-      <Icon
-        className="relative z-10 transition-all duration-300"
-        style={{
-          fontSize: 38,
-          color: hovered ? tech.color : "rgba(255,255,255,0.30)",
-          filter: hovered ? `drop-shadow(0 0 12px ${tech.color}cc)` : "none",
-        }}
-      />
-      {/* Label tooltip on hover */}
-      <div
-        className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap
-                   text-[11px] font-mono tracking-wide transition-all duration-200 pointer-events-none"
-        style={{
-          color: hovered ? tech.color : "transparent",
-          opacity: hovered ? 1 : 0,
-        }}
+        className="relative w-full h-full"
       >
-        {tech.label}
-      </div>
-    </motion.div>
+        {/* ── Outer diamond → border colour ────────────────────── */}
+        <div
+          className="absolute inset-0"
+          style={{
+            clipPath: CLIP,
+            background: showColorBorder ? tech.color : "rgba(255,255,255,0.14)",
+            transition: "background 0.4s ease",
+          }}
+        />
+        {/* ── Inner diamond → pitch-dark fill (creates the thin ring) ── */}
+        <div
+          className="absolute"
+          style={{ inset: "2.5px", clipPath: CLIP, background: "#060606" }}
+        />
+
+        {/* ── Logo bg ambient glow — subtle colored radial light on hover ── */}
+        <div
+          className="absolute"
+          style={{
+            inset: "2.5px",
+            clipPath: CLIP,
+            background: showColorBorder
+              ? `radial-gradient(circle at 50% 50%, ${tech.color}2e 0%, ${tech.color}12 55%, transparent 78%)`
+              : "transparent",
+            transition: "background 0.4s ease",
+            zIndex: 2,
+          }}
+        />
+
+        {/* ── Logo ─────────────────────────────────────────────── */}
+        {/* rest → grayscale (colorless but visible), hover → full brand colors */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={tech.img}
+            alt={tech.label}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.opacity = "0";
+            }}
+            style={{
+              width: logoSize,
+              height: logoSize,
+              objectFit: "contain",
+              filter: showColorIcon
+                ? tech.invert
+                  ? `invert(1) brightness(1.25) drop-shadow(0 0 8px ${tech.color}cc)`
+                  : `grayscale(0%) brightness(1.3) drop-shadow(0 0 8px ${tech.color}cc)`
+                : tech.invert
+                  ? "invert(1) grayscale(100%) brightness(0.78)"
+                  : "grayscale(100%) brightness(0.82) saturate(0)",
+              transition: `filter 0.4s ease ${staggerDelay}`,
+            }}
+          />
+        </div>
+
+        {/* ── Label — rendered below card, z-index lifted at grid level ── */}
+        <div
+          className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap
+                     text-[10px] font-mono tracking-wide pointer-events-none"
+          style={{
+            color: tech.color,
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.2s ease",
+          }}
+        >
+          {tech.label}
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
-function hexToRgb(hex: string): string {
-  const clean = hex.replace("#", "");
-  if (clean.length !== 6) return "255,255,255";
-  const r = parseInt(clean.substring(0, 2), 16);
-  const g = parseInt(clean.substring(2, 4), 16);
-  const b = parseInt(clean.substring(4, 6), 16);
-  return `${r},${g},${b}`;
-}
 
 export default function TechStack() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const [hoveredIdx, setHoveredIdx] = useState<number>(-1);
+  const [locked, setLocked] = useState(false);   // click-locked on
+  const [btnHover, setBtnHover] = useState(false); // pointer is on button
+  const colorized = locked || btnHover;
+
+  const { cols: COLS, cell: CELL, gap: GAP } = useGridConfig();
+  const STEP = CELL + GAP;
+  const OFFSET = STEP / 2;
 
   // Split into rows of COLS, odd rows offset
   const rows: ((typeof TECHS)[0] | null)[][] = [];
@@ -187,23 +244,29 @@ export default function TechStack() {
   const lastRow = rows[rows.length - 1];
   while (lastRow.length < COLS) lastRow.push(null);
 
-  const CELL = 128; // px — diamond cell width/height
-  const GAP = 12;   // px — gap between diamonds
-  const STEP = CELL + GAP;
-  const OFFSET = STEP / 2; // half-step offset for odd rows
-
   const gridW = COLS * STEP - GAP;
-  const gridH = rows.length * STEP - GAP + OFFSET; // extra for stagger
+  // Actual bottom of last row: uses 0.72 vertical compression + half-step stagger for odd last row
+  const gridH = Math.ceil((rows.length - 1) * STEP * 0.72 + CELL + (OFFSET * 0.72));
 
   return (
     <>
     <section
       id="skills"
       ref={ref}
-      className="relative pt-20 pb-0 overflow-hidden"
+      className="relative pt-16 pb-8 sm:pb-20 md:pb-32 overflow-hidden"
     >
-      <div className="absolute top-0 left-0 w-px h-full bg-linear-to-b from-transparent via-white/5 to-transparent" />
-      <div className="absolute top-0 right-0 w-px h-full bg-linear-to-b from-transparent via-white/5 to-transparent" />
+
+      {/* Ambient glow  — layered silver bloom behind the icon grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: [
+            "radial-gradient(ellipse 75% 50% at 50% 58%, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 40%, transparent 68%)",
+            "radial-gradient(ellipse 55% 40% at 30% 40%, rgba(200,214,224,0.055) 0%, transparent 55%)",
+            "radial-gradient(ellipse 50% 45% at 72% 65%, rgba(180,200,220,0.045) 0%, transparent 55%)",
+          ].join(", "),
+        }}
+      />
 
       <div className="w-full">
         {/* Header */}
@@ -211,26 +274,78 @@ export default function TechStack() {
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20 px-6"
+          className="text-center mb-12 px-6"
         >
-          <button
-            onClick={() => document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" })}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 text-white/40 text-sm font-mono mb-6 cursor-pointer hover:border-white/25 hover:text-white/65 transition-all duration-300"
-          >
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            Skills &amp; Tech Stack
-          </button>
-          <h2 className="text-4xl sm:text-6xl font-semibold text-white/70 mb-4">
-            Tools I Work With
-          </h2>
-          <p className="text-white/35 max-w-2xl mx-auto text-lg">
-            Hover any icon to reveal its true color — a full stack from UI to
-            infrastructure.
+          <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-4">
+            Skills I work with
           </p>
+          <div className="flex flex-col items-center gap-4 sm:relative sm:flex-row sm:justify-center" style={{ maxWidth: gridW, margin: "0 auto" }}>
+            <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
+              <span className="text-white font-bold about-heading-size">Tech</span>
+              <span className="text-white/65 font-normal ml-5 about-heading-size">Stack</span>
+            </h2>
+
+            {/* Colors button — hover = peek (pulsing), click = lock (solid) */}
+            <div
+              className="flex items-center gap-2 px-4 py-2 rounded-full
+                         font-mono text-[9px] tracking-[0.22em] uppercase
+                         border transition-all duration-300 cursor-pointer select-none
+                         sm:absolute sm:right-0"
+              style={{
+                borderColor: locked
+                  ? "rgba(255,255,255,0.40)"
+                  : btnHover
+                    ? "rgba(255,255,255,0.22)"
+                    : "rgba(255,255,255,0.18)",
+                background: locked
+                  ? "rgba(255,255,255,0.10)"
+                  : btnHover
+                    ? "rgba(255,255,255,0.04)"
+                    : "transparent",
+                color: locked
+                  ? "rgba(255,255,255,0.85)"
+                  : btnHover
+                    ? "rgba(255,255,255,0.55)"
+                    : "rgba(255,255,255,0.45)",
+              }}
+              onMouseEnter={() => setBtnHover(true)}
+              onMouseLeave={() => setBtnHover(false)}
+              onClick={() => setLocked((v) => !v)}
+            >
+              {/* Dot: pulsing ring on hover-only, solid on locked */}
+              <span className="relative flex items-center justify-center" style={{ width: 7, height: 7 }}>
+                {/* Pulsing ring — shows only on hover when NOT locked */}
+                {btnHover && !locked && (
+                  <motion.span
+                    className="absolute rounded-full"
+                    style={{ inset: -3, border: "1px solid rgba(255,255,255,0.45)" }}
+                    animate={{ scale: [1, 1.7, 1], opacity: [0.6, 0, 0.6] }}
+                    transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                )}
+                <span
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    background: locked
+                      ? "#ffffff"
+                      : btnHover
+                        ? "rgba(255,255,255,0.55)"
+                        : "rgba(255,255,255,0.2)",
+                    display: "inline-block",
+                    transition: "background 0.3s",
+                    boxShadow: locked ? "0 0 6px 1px rgba(255,255,255,0.4)" : "none",
+                  }}
+                />
+              </span>
+              {locked ? "Unlock Colors" : "Lock Colors"}
+            </div>
+          </div>
         </motion.div>
 
         {/* Diamond net grid — full screen width */}
-        <div className="w-full overflow-x-auto px-8">
+        <div className="w-full overflow-x-auto px-3 sm:px-8">
           <div className="flex justify-center min-w-full">
           <div className="relative" style={{ width: gridW, height: gridH }}>
             {rows.map((row, rowIdx) =>
@@ -243,9 +358,16 @@ export default function TechStack() {
                   <div
                     key={`${rowIdx}-${colIdx}`}
                     className="absolute"
-                    style={{ left: x, top: y }}
+                    style={{ left: x, top: y, zIndex: hoveredIdx === globalIdx ? 50 : 1 }}
                   >
-                    <TechCard tech={tech} index={globalIdx} />
+                    <TechCard
+                      tech={tech}
+                      index={globalIdx}
+                      cell={CELL}
+                      cols={COLS}
+                      onHover={(h) => setHoveredIdx(h ? globalIdx : -1)}
+                      colorized={colorized}
+                    />
                   </div>
                 );
               }),

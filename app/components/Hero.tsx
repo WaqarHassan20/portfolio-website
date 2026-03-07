@@ -6,7 +6,6 @@ import {
 } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 import { Github, Linkedin, Twitter, ArrowDown } from "lucide-react";
-import BootLoader from "./BootLoader";
 
 const SOCIALS = [
   { icon: Github, href: "https://github.com/WaqarHassan20", label: "GitHub" },
@@ -217,10 +216,20 @@ function CrystalVisual() {
 export default function Hero() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const [loaderType, setLoaderType] = useState<"loader1" | "loader2" | null>(null);
+
+  const toggleLoader = () => {
+    setLoaderType(prev => {
+      const next: "loader1" | "loader2" = prev === "loader2" ? "loader1" : "loader2";
+      localStorage.setItem("portfolio_loader", next);
+      return next;
+    });
+  };
 
   useEffect(() => {
     const id = setTimeout(() => setMounted(true), 0);
+    const stored = localStorage.getItem("portfolio_loader") as "loader1" | "loader2" | null;
+    setLoaderType(stored ?? "loader1");
     return () => clearTimeout(id);
   }, []);
 
@@ -230,8 +239,6 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex items-center overflow-hidden"
     >
-      {/* Terminal boot loader overlay */}
-      {!loaded && <BootLoader onDone={() => setLoaded(true)} />}
       {/* Full-page smoke drifts */}
       <div className="absolute inset-0 pointer-events-none">
         {(
@@ -325,7 +332,7 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full
-                       glass border border-green-500/20 text-green-400 text-xs font-mono mb-3 tracking-wide"
+                       glass border border-green-500/20 text-green-400 text-xs font-mono mb-5 tracking-wide"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_6px_rgba(74,222,128,0.7)]" />
             Available for new projects
@@ -467,6 +474,51 @@ export default function Hero() {
         </div>
       </motion.div>
 
+      {/* Intro-style toggle — fixed bottom-right, far from all content */}
+      {mounted && loaderType && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2.2, duration: 0.5 }}
+          className="fixed top-30 right-30 z-50 hidden lg:flex flex-col items-center gap-2"
+        >
+          <span
+            className="text-[9px] font-mono tracking-[0.35em] uppercase text-gray-300"
+          >
+            Loading
+          </span>
+          <button
+            onClick={toggleLoader}
+            className="cursor-pointer"
+          >
+            <div className="relative flex rounded-full p-1 border border-white/20 bg-white/[0.03]">
+              {/* Sliding active indicator */}
+              <motion.div
+                className="absolute top-1 left-1 w-9 h-9 rounded-full bg-white/[0.14]"
+                animate={{ x: loaderType === "loader2" ? 36 : 0 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
+              {/* Name pill */}
+              <div
+                className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-mono tracking-[0.08em] uppercase transition-colors duration-200 ${
+                  loaderType === "loader1" ? "text-white/80" : "text-white/20"
+                }`}
+              >
+                N
+              </div>
+              {/* 100% pill */}
+              <div
+                className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-mono tracking-[0.04em] uppercase transition-colors duration-200 ${
+                  loaderType === "loader2" ? "text-white/80" : "text-white/20"
+                }`}
+              >
+                %
+              </div>
+            </div>
+          </button>
+        </motion.div>
+      )}
+
       {/* Scroll indicator */}
       <motion.button
         onClick={() =>
@@ -488,6 +540,8 @@ export default function Hero() {
           <ArrowDown className="w-3.5 h-3.5" />
         </div>
       </motion.button>
+
+
     </section>
     <div className="w-full mt-24 h-px bg-white/8" />
     </>
