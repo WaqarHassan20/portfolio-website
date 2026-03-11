@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Saira, Roboto, Playfair_Display, Outfit, Roboto_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SocialSidebar from "./components/SocialSidebar";
+import NavDock from "./components/NavDock";
 import BootLoaderGate from "./components/BootLoaderGate";
 
 const outfit = Outfit({
@@ -66,6 +67,7 @@ export default function RootLayout({
         className={`${saira.variable} ${roboto.variable} ${robotoMono.variable} ${playfairDisplay.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
       >
         <SocialSidebar />
+        <NavDock />
         <BootLoaderGate>
           {children}
         </BootLoaderGate>
