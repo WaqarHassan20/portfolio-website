@@ -1,0 +1,192 @@
+"use client";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Home, User, Layers, Code2, Briefcase, MessageSquare, Mail } from "lucide-react";
+
+const SECTIONS = [
+  { id: "home",        label: "Home",        Icon: Home          },
+  { id: "about",       label: "About",       Icon: User          },
+  { id: "domains",     label: "Domains",     Icon: Layers        },
+  { id: "skills",      label: "Tech Stack",  Icon: Code2         },
+  { id: "experience",  label: "Experience",  Icon: Briefcase     },
+  { id: "collaborate", label: "Collaborate", Icon: MessageSquare },
+  { id: "footer",      label: "Contact",     Icon: Mail          },
+];
+
+export default function NavDock() {
+  const [active, setActive]   = useState<string>("home");
+  const [hovered, setHovered] = useState<string | null>(null);
+
+  /* ── Scroll spy ──────────────────────────────────────── */
+  useEffect(() => {
+    const getActive = () => {
+      const pivot = window.scrollY + window.innerHeight * 0.38;
+      let current = SECTIONS[0].id;
+      for (const { id } of SECTIONS) {
+        const el =
+          id === "footer"
+            ? document.querySelector("footer")
+            : document.getElementById(id);
+        if (el && el.getBoundingClientRect().top + window.scrollY <= pivot) {
+          current = id;
+        }
+      }
+      setActive(current);
+    };
+    getActive();
+    window.addEventListener("scroll", getActive, { passive: true });
+    return () => window.removeEventListener("scroll", getActive);
+  }, []);
+
+  const scrollTo = (id: string) => {
+    const el = id === "footer" ? document.querySelector("footer") : document.getElementById(id);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 32 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed right-16 top-1/2 -translate-y-1/2 z-40 hidden lg:flex"
+    >
+      {/* Outer pill shell */}
+      <div
+        className="relative flex flex-col items-stretch py-3 px-0 rounded-2xl"
+        style={{
+          background: "rgba(10,10,10,0.72)",
+          border: "1px solid rgba(255,255,255,0.07)",
+          backdropFilter: "blur(20px) saturate(160%)",
+          boxShadow: "0 8px 40px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05) inset",
+          width: 52,
+        }}
+      >
+        {/* Subtle inner top sheen */}
+        <div
+          className="pointer-events-none absolute top-0 left-0 right-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)" }}
+        />
+
+        {/* Active glowing track — slides between items */}
+        <AnimatePresence>
+          {SECTIONS.map((s, i) =>
+            s.id === active ? (
+              <motion.div
+                key="track"
+                layoutId="nav-track"
+                className="absolute left-0 w-[2px] rounded-full pointer-events-none"
+                style={{
+                  top: 12 + i * 46 + 13,
+                  height: 20,
+                  background: "linear-gradient(180deg, rgba(120,200,255,0.9), rgba(80,160,255,0.5))",
+                  boxShadow: "0 0 8px 2px rgba(120,200,255,0.5), 0 0 18px 4px rgba(80,160,255,0.25)",
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 28 }}
+              />
+            ) : null
+          )}
+        </AnimatePresence>
+
+        {/* Nav items */}
+        {SECTIONS.map((section, i) => {
+          const { id, label, Icon } = section;
+          const isActive  = active  === id;
+          const isHovered = hovered === id;
+
+          return (
+            <motion.div
+              key={id}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.35, delay: 1.2 + i * 0.07, ease: "easeOut" }}
+              className="relative"
+              onMouseEnter={() => setHovered(id)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              {/* Tooltip */}
+              <AnimatePresence >
+                {isHovered && (
+                  <motion.div
+                    key="tip"
+                    initial={{ opacity: 0, x: 8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={  { opacity: 0, x: 6 }}
+                    transition={{ duration: 0.14 }}
+                    className="absolute right-[calc(100%+12px)] top-1/2 -translate-y-1/2
+                               pointer-events-none select-none whitespace-nowrap"
+                  >
+                    <span
+                      className="block font-mono text-[10px] tracking-[0.24em] uppercase"
+                      style={{
+                        color: "rgba(255,255,255,0.95)",
+                        textShadow: "0 0 12px rgba(180,220,255,0.35)",
+                      }}
+                    >
+                      {label}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Button */}
+              <motion.button
+                onClick={() => scrollTo(id)}
+                aria-label={`Navigate to ${label}`}
+                animate={{
+                  scale: isHovered ? 1.18 : 1,
+                }}
+                transition={{ type: "spring", stiffness: 420, damping: 22 }}
+                className="relative flex items-center justify-center w-full outline-none cursor-pointer"
+                style={{ height: 46 }}
+              >
+                {/* Active item bg flush */}
+                {isActive && (
+                  <motion.div
+                    layoutId="nav-bg"
+                    className="absolute inset-x-1 inset-y-1.5 rounded-xl pointer-events-none"
+                    style={{
+                      background: "rgba(255,255,255,0.055)",
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 28 }}
+                  />
+                )}
+
+                {/* Hover shimmer */}
+                {isHovered && !isActive && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-x-1 inset-y-1.5 rounded-xl pointer-events-none"
+                    style={{ background: "rgba(255,255,255,0.04)" }}
+                  />
+                )}
+
+                <Icon
+                  size={17}
+                  strokeWidth={isActive ? 1.8 : 1.5}
+                  className="relative z-10 transition-all duration-300"
+                  style={{
+                    color: isActive
+                      ? "rgba(255,255,255,0.95)"
+                      : isHovered
+                      ? "rgba(255,255,255,0.72)"
+                      : "rgba(255,255,255,0.32)",
+                    filter: isActive ? "drop-shadow(0 0 6px rgba(160,220,255,0.7))" : "none",
+                    transition: "color 0.25s, filter 0.25s",
+                  }}
+                />
+              </motion.button>
+            </motion.div>
+          );
+        })}
+
+        {/* Subtle inner bottom sheen */}
+        <div
+          className="pointer-events-none absolute bottom-0 left-0 right-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)" }}
+        />
+      </div>
+    </motion.div>
+  );
+}
