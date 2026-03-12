@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowUpRight, Download } from "lucide-react";
@@ -12,10 +12,42 @@ const STATS = [
   { value: "3",   label: "Core Domains" },
 ];
 
+// Each glyph: position (%), font size, base opacity, parallax offset (px), rotation
+const CODE_GLYPHS = [
+  { symbol: "</>",    x: 10,  y: 16,  size: 22, op: 0.28, px: 22,  py: 14,  rot: -8  },
+  { symbol: "{  }",  x: 62,  y: 8,   size: 20, op: 0.22, px: -26, py: 18,  rot: 6   },
+  { symbol: "//",    x: 74,  y: 50,  size: 26, op: 0.20, px: 30,  py: -20, rot: 0   },
+  { symbol: "=>",    x: 6,   y: 60,  size: 24, op: 0.25, px: -18, py: 26,  rot: 0   },
+  { symbol: "</div>",x: 48,  y: 78,  size: 16, op: 0.18, px: 22,  py: -16, rot: -4  },
+  { symbol: "const", x: 12,  y: 38,  size: 18, op: 0.20, px: -28, py: -12, rot: 3   },
+  { symbol: "<>",    x: 68,  y: 28,  size: 28, op: 0.22, px: 16,  py: 24,  rot: 12  },
+  { symbol: "fn()",  x: 35,  y: 68,  size: 20, op: 0.20, px: -14, py: -26, rot: -6  },
+  { symbol: "===",   x: 78,  y: 72,  size: 18, op: 0.17, px: 20,  py: 18,  rot: 0   },
+  { symbol: "_;",    x: 24,  y: 86,  size: 22, op: 0.18, px: -10, py: 20,  rot: 5   },
+];
+
 export default function About() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const router = useRouter();
+
+  const profileCardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, active: false });
+  const [spotPos, setSpotPos] = useState({ x: 50, y: 50 });
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = profileCardRef.current;
+    if (!el) return;
+    const { left, top, width, height } = el.getBoundingClientRect();
+    const px = (e.clientX - left) / width;
+    const py = (e.clientY - top) / height;
+    setTilt({ rx: (py - 0.5) * -22, ry: (px - 0.5) * 22, active: true });
+    setSpotPos({ x: px * 100, y: py * 100 });
+  };
+
+  const handleCardMouseLeave = () => {
+    setTilt({ rx: 0, ry: 0, active: false });
+  };
 
   return (
     <>
@@ -40,31 +72,104 @@ export default function About() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7 }}
-                className="relative rounded-2xl overflow-hidden glass border border-white/8 about-profile-card"
               >
-                {/* Subtle gradient fill */}
                 <div
-                  className="absolute inset-0 about-profile-radial"
-                />
-
-                {/* GitHub profile picture */}
-                <Image
-                  src="/picture.jpeg"
-                  alt="Waqar UL Hassan"
-                  fill
-                  className="object-cover object-top"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-
-                {/* Bottom name overlay */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 p-5 about-name-overlay"
+                  ref={profileCardRef}
+                  onMouseMove={handleCardMouseMove}
+                  onMouseLeave={handleCardMouseLeave}
+                  style={{
+                    transform: `perspective(1000px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${tilt.active ? 1.04 : 1})`,
+                    transition: tilt.active
+                      ? "transform 0.1s ease-out"
+                      : "transform 0.7s cubic-bezier(0.23, 1, 0.32, 1)",
+                    willChange: "transform",
+                  }}
+                  className="relative rounded-2xl overflow-hidden glass border border-white/8 about-profile-card cursor-pointer"
                 >
-                  <p className="text-white/80 font-semibold text-base leading-tight">Waqar UL Hassan</p>
-                  <p className="text-white/80 font-medium text-[10px] font-mono tracking-[0.2em] uppercase mt-1">
-                    Full-Stack · DevOps · AI
-                  </p>
+                  {/* Floating code glyphs — parallax on cursor move */}
+                  {CODE_GLYPHS.map((g, i) => (
+                    <span
+                      key={i}
+                      className="absolute font-mono select-none pointer-events-none z-30"
+                      style={{
+                        left: `${g.x}%`,
+                        top: `${g.y}%`,
+                        fontSize: `${g.size}px`,
+                        color: `rgba(220,235,255,${tilt.active ? Math.min(g.op * 3.2, 0.82) : 0})`,
+                        transform: tilt.active
+                          ? `translate(${(spotPos.x / 100 - 0.5) * g.px}px, ${(spotPos.y / 100 - 0.5) * g.py}px) rotate(${g.rot}deg)`
+                          : `translate(0px, 0px) rotate(${g.rot}deg)`,
+                        transition: tilt.active
+                          ? "color 0.35s ease, transform 0.12s ease-out"
+                          : "color 0.55s ease, transform 0.8s cubic-bezier(0.23,1,0.32,1)",
+                        textShadow: tilt.active ? "0 0 14px rgba(140,200,255,0.5)" : "none",
+                        letterSpacing: "0.04em",
+                        fontWeight: 900,
+                      }}
+                    >
+                      {g.symbol}
+                    </span>
+                  ))}
+
+                  {/* Spotlight glare that tracks cursor */}
+                  <div
+                    className="absolute inset-0 z-20 pointer-events-none rounded-2xl"
+                    style={{
+                      opacity: tilt.active ? 1 : 0,
+                      transition: "opacity 0.4s ease",
+                      background: `radial-gradient(circle at ${spotPos.x}% ${spotPos.y}%, rgba(255,255,255,0.13) 0%, rgba(120,210,255,0.06) 45%, transparent 68%)`,
+                    }}
+                  />
+
+                  {/* Inset border glow on hover */}
+                  <div
+                    className="absolute inset-0 z-20 pointer-events-none rounded-2xl"
+                    style={{
+                      opacity: tilt.active ? 1 : 0,
+                      transition: "opacity 0.4s ease",
+                      boxShadow: "inset 0 0 0 1px rgba(120,210,255,0.35), 0 0 40px rgba(120,210,255,0.08)",
+                    }}
+                  />
+
+                  {/* Subtle gradient fill */}
+                  <div className="absolute inset-0 about-profile-radial" />
+
+                  {/* Image with parallax zoom on hover */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      transform: tilt.active ? "scale(1.1)" : "scale(1)",
+                      transition: tilt.active
+                        ? "transform 0.5s ease"
+                        : "transform 0.7s cubic-bezier(0.23, 1, 0.32, 1)",
+                    }}
+                  >
+                    <Image
+                      src="/avatar.jpg"
+                      alt="Waqar UL Hassan"
+                      fill
+                      className="object-cover object-top"
+                      priority
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                  </div>
+
+                  {/* Bottom name overlay */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 p-5 z-10 about-name-overlay"
+                    style={{
+                      opacity: tilt.active ? 0 : 1,
+                      transform: tilt.active ? "translateY(6px)" : "translateY(0px)",
+                      transition: tilt.active
+                        ? "opacity 0.25s ease, transform 0.25s ease"
+                        : "opacity 0.45s ease, transform 0.45s ease",
+                    }}
+                  >
+                    <p className="text-white/80 font-semibold text-base leading-tight">Waqar UL Hassan</p>
+                    <p className="text-white/80 font-medium text-[10px] font-mono tracking-[0.2em] uppercase mt-1">
+                      Full-Stack · DevOps · AI
+                    </p>
+                  </div>
                 </div>
               </motion.div>
 
