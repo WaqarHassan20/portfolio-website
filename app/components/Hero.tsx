@@ -470,7 +470,7 @@ export default function Hero() {
             ))}
             <div className="h-px w-10 bg-white/10 ml-1" />
             <span className="text-white text-[11px] font-mono tracking-widest">
-              WaqarHassan20
+              Waqar-UL-Hassan
             </span>
           </motion.div>
         </div>
@@ -482,7 +482,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.2, duration: 0.5 }}
-          className="fixed top-30 right-30 z-50 hidden lg:flex flex-col items-center gap-2"
+          className="fixed top-35 right-15 z-50 hidden lg:flex flex-col items-center gap-2"
         >
           <span
             className="text-[9px] font-mono tracking-[0.35em] uppercase text-gray-300"
