@@ -54,19 +54,9 @@ export default function NavDock() {
       <div
         className="relative flex flex-col items-stretch py-3 px-0 rounded-2xl"
         style={{
-          background: "rgba(10,10,10,0.72)",
-          border: "1px solid rgba(255,255,255,0.07)",
-          backdropFilter: "blur(20px) saturate(160%)",
-          boxShadow: "0 8px 40px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05) inset",
           width: 52,
         }}
       >
-        {/* Subtle inner top sheen */}
-        <div
-          className="pointer-events-none absolute top-0 left-0 right-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)" }}
-        />
-
         {/* Active glowing track — slides between items */}
         <AnimatePresence>
           {SECTIONS.map((s, i) =>
@@ -139,18 +129,6 @@ export default function NavDock() {
                 className="relative flex items-center justify-center w-full outline-none cursor-pointer"
                 style={{ height: 46 }}
               >
-                {/* Active item bg flush */}
-                {isActive && (
-                  <motion.div
-                    layoutId="nav-bg"
-                    className="absolute inset-x-1 inset-y-1.5 rounded-xl pointer-events-none"
-                    style={{
-                      background: "rgba(255,255,255,0.055)",
-                    }}
-                    transition={{ type: "spring", stiffness: 300, damping: 28 }}
-                  />
-                )}
-
                 {/* Hover shimmer */}
                 {isHovered && !isActive && (
                   <motion.div
@@ -180,12 +158,6 @@ export default function NavDock() {
             </motion.div>
           );
         })}
-
-        {/* Subtle inner bottom sheen */}
-        <div
-          className="pointer-events-none absolute bottom-0 left-0 right-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)" }}
-        />
       </div>
     </motion.div>
   );
