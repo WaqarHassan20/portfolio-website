@@ -1,17 +1,20 @@
 "use client";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import BootLoader1 from "./BootLoader1";
 import BootLoader2 from "./BootLoader2";
 
 const STORAGE_KEY = "portfolio_loader";
 
 export default function BootLoaderGate({ children }: { children: React.ReactNode }) {
-  // null on server and first client render — localStorage read only after mount
-  const [active] = useState<"loader1" | "loader2">(() => {
-    if (typeof window === "undefined") return "loader1";
-    return (localStorage.getItem(STORAGE_KEY) as "loader1" | "loader2") ?? "loader1";
-  });
+  // Always start as null so server + first client render are identical (no loader shown).
+  // After mount, read localStorage and show the correct loader.
+  const [active, setActive] = useState<"loader1" | "loader2" | null>(null);
   const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY) as "loader1" | "loader2" | null;
+    setActive(stored ?? "loader1");
+  }, []);
 
   return (
     <>

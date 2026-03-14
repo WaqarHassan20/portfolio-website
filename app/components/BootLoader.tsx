@@ -10,6 +10,155 @@ const STAGES = [
   { label: "System ready",             dur: 300 },
 ];
 
+const GLITCH_POOL = "!@#$%&<>/\\|_+=~^?[]{}ABCXYZ0123456789";
+
+/* ── Arc ring progress indicator ────────────────────────── */
+function RingProgress({ pct, done }: { pct: number; done: boolean }) {
+  const R = 88;
+  const SIZE = 220;
+  const cx = SIZE / 2;
+  const STROKE = 1.5;
+  const circumference = 2 * Math.PI * R;
+  const dashOffset = circumference * (1 - pct / 100);
+
+  // tip dot position (arc starts at top = -90°)
+  const tipRad = ((-90 + (pct / 100) * 360) * Math.PI) / 180;
+  const tipX = cx + R * Math.cos(tipRad);
+  const tipY = cx + R * Math.sin(tipRad);
+
+  return (
+    <div
+      className="relative flex items-center justify-center select-none"
+      style={{ width: SIZE, height: SIZE }}
+    >
+      <svg width={SIZE} height={SIZE} className="absolute inset-0">
+        {/* Outer dashed decoration ring */}
+        <circle
+          cx={cx} cy={cx} r={R + 12}
+          fill="none"
+          stroke="rgba(255,255,255,0.025)"
+          strokeWidth={1}
+          strokeDasharray="2 9"
+        />
+        {/* Track */}
+        <circle
+          cx={cx} cy={cx} r={R}
+          fill="none"
+          stroke="rgba(255,255,255,0.06)"
+          strokeWidth={STROKE}
+        />
+        {/* Progress arc */}
+        <circle
+          cx={cx} cy={cx} r={R}
+          fill="none"
+          stroke={done ? "rgba(255,255,255,0.94)" : "rgba(255,255,255,0.78)"}
+          strokeWidth={STROKE}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={dashOffset}
+          transform={`rotate(-90 ${cx} ${cx})`}
+          style={{ transition: "stroke-dashoffset 0.04s linear, stroke 0.6s ease" }}
+        />
+        {/* Glowing tip dot */}
+        {pct > 1 && pct < 100 && (
+          <circle
+            cx={tipX} cy={tipY} r={2.5}
+            fill="rgba(255,255,255,0.95)"
+            style={{ filter: "drop-shadow(0 0 5px rgba(255,255,255,0.9))" }}
+          />
+        )}
+      </svg>
+
+      {/* Center content */}
+      <div className="flex flex-col items-center justify-center z-10">
+        <div className="flex items-start leading-none">
+          <span
+            className="font-black tabular-nums"
+            style={{
+              fontSize: "clamp(3.8rem, 13vw, 6.5rem)",
+              letterSpacing: "-0.06em",
+              color: done ? "#fff" : "rgba(255,255,255,0.88)",
+              textShadow: done
+                ? "0 0 50px rgba(255,255,255,0.55), 0 0 100px rgba(255,255,255,0.22)"
+                : "0 0 28px rgba(255,255,255,0.1)",
+              transition: "color 0.5s ease, text-shadow 0.6s ease",
+            }}
+          >
+            {pct}
+          </span>
+          <span
+            className="font-bold mt-2 ml-0.5"
+            style={{ fontSize: "clamp(1rem, 3vw, 1.8rem)", color: "rgba(255,255,255,0.28)" }}
+          >
+            %
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const NAME = "Waqar UL Hassan";
+
+/* ── Per-letter glitch scramble reveal for the name ─────────── */
+function GlitchName({ show }: { show: boolean }) {
+  const [letters, setLetters] = useState<string[]>(
+    () => NAME.split("").map(c => (c === " " ? " " : "\u00a0"))
+  );
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (!show || started.current) return;
+    started.current = true;
+    NAME.split("").forEach((realChar, i) => {
+      const delay = i * 58;
+      if (realChar === " ") {
+        setTimeout(() => setLetters(p => { const a = [...p]; a[i] = " "; return a; }), delay);
+        return;
+      }
+      let count = 0;
+      const scrambles = 9;
+      setTimeout(() => {
+        const iv = setInterval(() => {
+          count++;
+          setLetters(p => {
+            const a = [...p];
+            a[i] = count >= scrambles
+              ? realChar
+              : GLITCH_POOL[Math.floor(Math.random() * GLITCH_POOL.length)];
+            return a;
+          });
+          if (count >= scrambles) clearInterval(iv);
+        }, 46);
+      }, delay);
+    });
+  }, [show]);
+
+  return (
+    <p
+      className="font-black leading-tight"
+      style={{ fontSize: "clamp(1.15rem, 2.8vw, 1.75rem)", letterSpacing: "-0.01em" }}
+    >
+      {NAME.split("").map((realChar, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={show ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.08, delay: i * 0.058 }}
+          className="inline-block"
+          style={{
+            color: letters[i] === realChar || letters[i] === " "
+              ? "rgba(255,255,255,0.9)"
+              : "rgba(100,200,255,0.92)",
+          }}
+        >
+          {letters[i]}
+        </motion.span>
+      ))}
+    </p>
+  );
+}
+
 export default function BootLoader({ onDone }: { onDone: () => void }) {
   const [stage, setStage] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -103,32 +252,8 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
           <div className="h-px w-10" style={{ background: "rgba(255,255,255,0.38)" }} />
         </motion.div>
 
-        {/* ── Giant percentage counter ── */}
-        <div className="relative flex items-start mb-3">
-          <span
-            className="font-black leading-none tabular-nums"
-            style={{
-              fontSize: "clamp(5.5rem, 17vw, 13rem)",
-              letterSpacing: "-0.05em",
-              color: "#ffffff",
-              textShadow: done
-                ? "0 0 80px rgba(255,255,255,0.4), 0 0 160px rgba(255,255,255,0.15)"
-                : "0 0 40px rgba(255,255,255,0.14)",
-              transition: "text-shadow 0.6s ease",
-            }}
-          >
-            {String(pct).padStart(3, "0")}
-          </span>
-          <span
-            className="font-bold leading-none mt-3 ml-2"
-            style={{
-              fontSize: "clamp(1rem, 3vw, 2.2rem)",
-              color: "rgba(255,255,255,0.32)",
-            }}
-          >
-            %
-          </span>
-        </div>
+        {/* ── Arc ring progress ── */}
+        <RingProgress pct={pct} done={done} />
 
         {/* ── Current stage label ── */}
         <motion.div
@@ -153,51 +278,22 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
           </span>
         </motion.div>
 
-        {/* ── Progress bar ── */}
-        <div className="w-full mb-1.5">
-          <div
-            className="w-full rounded-full relative overflow-hidden"
-            style={{ height: "1.5px", background: "rgba(255,255,255,0.1)" }}
-          >
-            <div
-              className="absolute left-0 top-0 h-full rounded-full"
-              style={{
-                width: `${pct}%`,
-                background: done ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.72)",
-                transition: "width 0.04s linear, background 0.5s ease",
-              }}
-            />
-          </div>
-          <div className="flex justify-between mt-1.5">
-            <span className="text-[8px] tracking-[0.18em]" style={{ color: "rgba(255,255,255,0.22)" }}>000</span>
-            <span className="text-[8px] tracking-[0.18em]" style={{ color: "rgba(255,255,255,0.22)" }}>100</span>
-          </div>
-        </div>
+        {/* ── Progress bar ── removed (borderless) ── */}
 
-        {/* ── Name + role (fade in mid-load) ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={showName ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-          transition={{ duration: 0.75, ease: "easeOut" }}
-          className="text-center mt-7 mb-3"
-        >
-          <p
-            className="font-black leading-tight"
-            style={{
-              fontSize: "clamp(1.15rem, 2.8vw, 1.75rem)",
-              letterSpacing: "-0.01em",
-              color: "rgba(255,255,255,0.88)",
-            }}
-          >
-            Waqar UL Hassan
-          </p>
-          <p
+
+        {/* ── Name + role (glitch scramble reveal per letter) ── */}
+        <div className="text-center mt-7 mb-3" aria-label="Waqar UL Hassan">
+          <GlitchName show={showName} />
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={showName ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.75, delay: 0.9, ease: "easeOut" }}
             className="mt-1.5 tracking-[0.38em] uppercase"
             style={{ fontSize: "10px", color: "rgba(255,255,255,0.44)" }}
           >
             Software&nbsp;Engineer&nbsp;&middot;&nbsp;Full-Stack&nbsp;Developer
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
         {/* ── Cursor while loading / "Complete" badge when done ── */}
         <div className="mt-6 h-6 flex items-center justify-center">
