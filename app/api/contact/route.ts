@@ -8,12 +8,13 @@ interface ContactBody {
 }
 
 function validateBody(body: Partial<ContactBody>): string | null {
-  if (!body.name?.trim())                          return "Name is required.";
-  if (!body.email?.trim())                         return "Email is required.";
+  if (!body.name?.trim()) return "Name is required.";
+  if (!body.email?.trim()) return "Email is required.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email ?? ""))
-                                                   return "Invalid email address.";
-  if (!body.subject?.trim())                       return "Subject is required.";
-  if ((body.message?.trim().length ?? 0) < 20)    return "Message must be at least 20 characters.";
+    return "Invalid email address.";
+  if (!body.subject?.trim()) return "Subject is required.";
+  if ((body.message?.trim().length ?? 0) < 20)
+    return "Message must be at least 20 characters.";
   return null;
 }
 
@@ -41,6 +42,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: "Internal server error." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error." },
+      { status: 500 },
+    );
   }
 }
