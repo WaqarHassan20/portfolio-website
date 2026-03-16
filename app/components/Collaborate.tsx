@@ -2,17 +2,9 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-
-const PROJECT_TYPES = [
-  "Web App",
-  "Mobile App",
-  "API / Backend",
-  "AI Integration",
-  "DevOps",
-  "Other",
-];
-
-const BUDGETS = ["< $500", "$500–2k", "$2k–5k", "$5k–10k", "$10k+", "Let's talk"];
+import SectionHeading from "@/app/components/shared/SectionHeading";
+import { COLLAB_BUDGETS, COLLAB_PROJECT_TYPES } from "@/app/data/collaborate";
+import type { BudgetOption, ProjectTypeOption } from "@/app/types/content";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -21,11 +13,11 @@ export default function Collaborate() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   const [name,     setName]     = useState("");
-  const [selected, setSelected] = useState<string[]>([]);
-  const [budget,   setBudget]   = useState("");
+  const [selected, setSelected] = useState<ProjectTypeOption[]>([]);
+  const [budget, setBudget] = useState<BudgetOption | "">("");
   const [brief,    setBrief]    = useState("");
 
-  const toggleType = (t: string) =>
+  const toggleType = (t: ProjectTypeOption) =>
     setSelected((prev) =>
       prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
     );
@@ -38,6 +30,8 @@ export default function Collaborate() {
 
   const handleSend = () => {
     if (!isValid) return;
+
+    // Build a prefilled Gmail compose URL from the validated form state.
     const subject = encodeURIComponent(`Project Brief from ${name.trim()}`);
     const body = encodeURIComponent(
       `Hi Waqar,\n\nName: ${name.trim()}\nProject Type: ${selected.join(", ")}\nBudget: ${budget || "Not specified"}\n\nProject Brief:\n${brief.trim()}\n`
@@ -76,13 +70,13 @@ export default function Collaborate() {
             transition={{ duration: 0.8, ease: EASE }}
             className="text-center mb-10 px-6"
           >
-            <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-4">
-              Got a project in mind?
-            </p>
-            <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
-              <span className="text-white font-bold about-heading-size">Let&apos;s</span>
-              <span className="text-white/65 font-normal ml-4 about-heading-size">Collaborate</span>
-            </h2>
+            <SectionHeading
+              eyebrow="Got a project in mind?"
+              primary="Let's"
+              secondary="Collaborate"
+              className="text-center"
+              secondaryClassName="text-white/65 font-normal ml-4 about-heading-size"
+            />
           </motion.div>
 
           {/* ── Form card ── */}
@@ -140,7 +134,7 @@ export default function Collaborate() {
             {/* Project type */}
             <FieldBlock label="Project Type ">
               <div className="flex flex-wrap gap-2 ">
-                {PROJECT_TYPES.map((t) => {
+                {COLLAB_PROJECT_TYPES.map((t) => {
                   const on = selected.includes(t);
                   return (
                     <button
@@ -171,7 +165,7 @@ export default function Collaborate() {
             {/* Budget */}
             <FieldBlock label="Budget Range">
               <div className="flex flex-wrap gap-2">
-                {BUDGETS.map((b) => {
+                {COLLAB_BUDGETS.map((b) => {
                   const on = budget === b;
                   return (
                     <button

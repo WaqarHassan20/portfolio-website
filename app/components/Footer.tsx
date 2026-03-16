@@ -2,21 +2,10 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { FOOTER_NAME, FOOTER_NAME_LINE_1, FOOTER_NAME_LINE_2 } from "@/app/data/footer";
+import { FOOTER_SOCIALS } from "@/app/data/social";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-const SOCIALS = [
-  { label: "GitHub",    href: "https://github.com/WaqarHassan20" },
-  { label: "LinkedIn",  href: "https://linkedin.com/in/waqar-khalid-9a1342338" },
-  { label: "Twitter",   href: "https://x.com/Waqarkhalid" },
-  { label: "Facebook",  href: "https://facebook.com/waqar.hassan.5" },
-  { label: "Instagram", href: "https://instagram.com/waqar_hassan20" },
-];
-
-
-const NAME = "Waqar UL Hassan";
-const NAME_LINE1 = "Waqar UL";
-const NAME_LINE2 = "Hassan";
 
 export default function Footer() {
   const ref = useRef<HTMLElement>(null);
@@ -35,11 +24,11 @@ export default function Footer() {
           <h2
             className="font-jetbrains font-bold uppercase leading-[0.88] tracking-normal select-none text-white text-left sm:text-center"
             style={{ fontSize: "clamp(2.8rem, 9vw, 7rem)" }}
-            aria-label={NAME}
+            aria-label={FOOTER_NAME}
           >
             {/* Line 1: "Waqar UL" — block on mobile, inline on desktop */}
             <span className="block sm:inline-block">
-              {NAME_LINE1.split("").map((char, i) => (
+              {FOOTER_NAME_LINE_1.split("").map((char, i) => (
                 <motion.span
                   key={`l1-${i}`}
                   initial={{ opacity: 0, y: 60 }}
@@ -57,12 +46,12 @@ export default function Footer() {
 
             {/* Line 2: "Hassan" — block on mobile, inline on desktop */}
             <span className="block sm:inline-block">
-              {NAME_LINE2.split("").map((char, i) => (
+              {FOOTER_NAME_LINE_2.split("").map((char, i) => (
                 <motion.span
                   key={`l2-${i}`}
                   initial={{ opacity: 0, y: 60 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.1 + (NAME_LINE1.length + 1 + i) * 0.04, ease: EASE }}
+                  transition={{ duration: 0.6, delay: 0.1 + (FOOTER_NAME_LINE_1.length + 1 + i) * 0.04, ease: EASE }}
                   className="inline-block"
                 >
                   {char}
@@ -127,7 +116,7 @@ export default function Footer() {
               Social
             </p>
             <ul className="w-full max-w-60">
-              {SOCIALS.map((s, i) => (
+              {FOOTER_SOCIALS.map((s, i) => (
                 <motion.li
                   key={s.label}
                   initial={{ opacity: 0, x: -10 }}

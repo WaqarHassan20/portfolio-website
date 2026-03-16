@@ -1,28 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, User, Layers, Code2, Briefcase, MessageSquare, Mail } from "lucide-react";
-
-const SECTIONS = [
-  { id: "home",        label: "Home",        Icon: Home          },
-  { id: "about",       label: "About",       Icon: User          },
-  { id: "domains",     label: "Domains",     Icon: Layers        },
-  { id: "skills",      label: "Tech Stack",  Icon: Code2         },
-  { id: "experience",  label: "Experience",  Icon: Briefcase     },
-  { id: "collaborate", label: "Collaborate", Icon: MessageSquare },
-  { id: "footer",      label: "Contact",     Icon: Mail          },
-];
+import { NAV_DOCK_SECTIONS } from "@/app/data/navigation";
+import type { DockSectionId } from "@/app/types/navigation";
 
 export default function NavDock() {
-  const [active, setActive]   = useState<string>("home");
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [active, setActive] = useState<DockSectionId>("home");
+  const [hovered, setHovered] = useState<DockSectionId | null>(null);
 
   /* ── Scroll spy ──────────────────────────────────────── */
   useEffect(() => {
     const getActive = () => {
       const pivot = window.scrollY + window.innerHeight * 0.38;
-      let current = SECTIONS[0].id;
-      for (const { id } of SECTIONS) {
+      let current: DockSectionId = NAV_DOCK_SECTIONS[0].id;
+      for (const { id } of NAV_DOCK_SECTIONS) {
         const el =
           id === "footer"
             ? document.querySelector("footer")
@@ -38,7 +29,7 @@ export default function NavDock() {
     return () => window.removeEventListener("scroll", getActive);
   }, []);
 
-  const scrollTo = (id: string) => {
+  const scrollTo = (id: DockSectionId) => {
     const el = id === "footer" ? document.querySelector("footer") : document.getElementById(id);
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -59,12 +50,12 @@ export default function NavDock() {
       >
         {/* Active glowing track — slides between items */}
         <AnimatePresence>
-          {SECTIONS.map((s, i) =>
+          {NAV_DOCK_SECTIONS.map((s, i) =>
             s.id === active ? (
               <motion.div
                 key="track"
                 layoutId="nav-track"
-                className="absolute left-0 w-[2px] rounded-full pointer-events-none"
+                className="absolute left-0 w-0.5 rounded-full pointer-events-none"
                 style={{
                   top: 12 + i * 46 + 13,
                   height: 20,
@@ -78,7 +69,7 @@ export default function NavDock() {
         </AnimatePresence>
 
         {/* Nav items */}
-        {SECTIONS.map((section, i) => {
+        {NAV_DOCK_SECTIONS.map((section, i) => {
           const { id, label, Icon } = section;
           const isActive  = active  === id;
           const isHovered = hovered === id;

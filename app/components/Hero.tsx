@@ -5,17 +5,15 @@ import {
   motion,
 } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
-import { Github, Linkedin, Twitter, ArrowDown } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Twitter } from "lucide-react";
+import { HERO_SOCIALS } from "@/app/data/social";
+import type { HeroSocial } from "@/app/types/content";
 
-const SOCIALS = [
-  { icon: Github, href: "https://github.com/WaqarHassan20", label: "GitHub" },
-  {
-    icon: Linkedin,
-    href: "https://linkedin.com/in/waqar-khalid-9a1342338",
-    label: "LinkedIn",
-  },
-  { icon: Twitter, href: "https://x.com/Waqarkhalid", label: "X" },
-];
+const HERO_ICON_BY_KEY: Record<HeroSocial["icon"], typeof Github> = {
+  github: Github,
+  linkedin: Linkedin,
+  twitter: Twitter,
+};
 
 /* ── Crystal shard composition ───────────────────────────── */
 function CrystalShard({
@@ -450,7 +448,9 @@ export default function Hero() {
             transition={{ delay: 1.3 }}
             className="flex items-center justify-center gap-2"
           >
-            {SOCIALS.map((s, i) => (
+            {HERO_SOCIALS.map((s, i) => {
+              const Icon = HERO_ICON_BY_KEY[s.icon];
+              return (
               <motion.a
                 key={s.label}
                 href={s.href}
@@ -465,9 +465,10 @@ export default function Hero() {
                            hover:text-white transition-colors duration-200 cursor-pointer"
                 aria-label={s.label}
               >
-                <s.icon className="w-4 h-4" />
+                <Icon className="w-4 h-4" />
               </motion.a>
-            ))}
+              );
+            })}
             <div className="h-px w-10 bg-white/10 ml-1" />
             <span className="text-white text-[11px] font-mono tracking-widest">
               Waqar-UL-Hassan

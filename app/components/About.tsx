@@ -4,27 +4,11 @@ import { motion, useInView } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowUpRight, Download } from "lucide-react";
 import Image from "next/image";
+import { ABOUT_CODE_GLYPHS, ABOUT_STATS } from "@/app/data/about";
+import SectionHeading from "@/app/components/shared/SectionHeading";
 
-const STATS = [
-  { value: "3+",  label: "Years Experience" },
-  { value: "15+", label: "Projects Delivered" },
-  { value: "50+", label: "Technologies" },
-  { value: "3",   label: "Core Domains" },
-];
-
-// Each glyph: position (%), font size, base opacity, parallax offset (px), rotation
-const CODE_GLYPHS = [
-  { symbol: "</>",    x: 10,  y: 16,  size: 22, op: 0.28, px: 22,  py: 14,  rot: -8  },
-  { symbol: "{  }",  x: 62,  y: 8,   size: 20, op: 0.22, px: -26, py: 18,  rot: 6   },
-  { symbol: "//",    x: 74,  y: 50,  size: 26, op: 0.20, px: 30,  py: -20, rot: 0   },
-  { symbol: "=>",    x: 6,   y: 60,  size: 24, op: 0.25, px: -18, py: 26,  rot: 0   },
-  { symbol: "</div>",x: 48,  y: 78,  size: 16, op: 0.18, px: 22,  py: -16, rot: -4  },
-  { symbol: "const", x: 12,  y: 38,  size: 18, op: 0.20, px: -28, py: -12, rot: 3   },
-  { symbol: "<>",    x: 68,  y: 28,  size: 28, op: 0.22, px: 16,  py: 24,  rot: 12  },
-  { symbol: "fn()",  x: 35,  y: 68,  size: 20, op: 0.20, px: -14, py: -26, rot: -6  },
-  { symbol: "===",   x: 78,  y: 72,  size: 18, op: 0.17, px: 20,  py: 18,  rot: 0   },
-  { symbol: "_;",    x: 24,  y: 86,  size: 22, op: 0.18, px: -10, py: 20,  rot: 5   },
-];
+type TiltState = { rx: number; ry: number; active: boolean };
+type SpotPosition = { x: number; y: number };
 
 export default function About() {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,8 +16,8 @@ export default function About() {
   const router = useRouter();
 
   const profileCardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0, active: false });
-  const [spotPos, setSpotPos] = useState({ x: 50, y: 50 });
+  const [tilt, setTilt] = useState<TiltState>({ rx: 0, ry: 0, active: false });
+  const [spotPos, setSpotPos] = useState<SpotPosition>({ x: 50, y: 50 });
 
   const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = profileCardRef.current;
@@ -53,14 +37,12 @@ export default function About() {
     <>
       <section id="about" ref={ref} className="relative h-screen py-24 px-6 overflow-hidden flex flex-col justify-center">
         <div className="max-w-6xl mx-auto w-full flex flex-col flex-1 justify-center">
-          {/* Section heading */}
-          <div className="my-10 text-center">
-            <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-4">More about me</p>
-            <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
-              <span className="text-white font-bold about-heading-size">About</span>
-              <span className="text-white/65 font-normal ml-5 about-heading-size">Me</span>
-            </h2>
-          </div>
+          <SectionHeading
+            eyebrow="More about me"
+            primary="About"
+            secondary="Me"
+            className="my-10 text-center"
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 sm:gap-5 items-start flex-1 my-10">
 
@@ -87,9 +69,9 @@ export default function About() {
                   className="relative rounded-2xl overflow-hidden glass border border-white/8 about-profile-card cursor-pointer"
                 >
                   {/* Floating code glyphs — parallax on cursor move */}
-                  {CODE_GLYPHS.map((g, i) => (
+                  {ABOUT_CODE_GLYPHS.map((g) => (
                     <span
-                      key={i}
+                      key={`${g.symbol}-${g.x}-${g.y}`}
                       className="absolute font-mono select-none pointer-events-none z-30"
                       style={{
                         left: `${g.x}%`,
@@ -180,7 +162,7 @@ export default function About() {
                 transition={{ duration: 0.6, delay: 0.18 }}
                 className="grid grid-cols-2 gap-3 w-full"
               >
-                {STATS.map((s, i) => (
+                {ABOUT_STATS.map((s, i) => (
                   <motion.div
                     key={s.label}
                     initial={{ opacity: 0, scale: 0.94 }}

@@ -4,20 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Zap } from "lucide-react";
-
-/* Links that scroll within the home page */
-const SCROLL_LINKS = [
-  { label: "About",      href: "#about" },
-  { label: "Skills",     href: "#skills" },
-  { label: "Experience", href: "#experience" },
-  { label: "Services",   href: "#services" },
-];
-
-/* Links that navigate to separate routes */
-const ROUTE_LINKS = [
-  { label: "Projects", href: "/projects" },
-  { label: "Contact",  href: "/contact" },
-];
+import {
+  HOME_SCROLL_SPY_IDS,
+  NAVBAR_ROUTE_LINKS,
+  NAVBAR_SCROLL_LINKS,
+} from "@/app/data/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -34,8 +25,9 @@ export default function Navbar() {
       setScrolled(scrollTop > 50);
       setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
       if (!isHome) return;
-      const ids = ["home", "about", "skills", "experience", "services", "testimonials"];
-      for (const id of [...ids].reverse()) {
+
+      // Reverse scan picks the latest section crossed by the viewport.
+      for (const id of [...HOME_SCROLL_SPY_IDS].reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 200) {
           setActiveSection(id);
@@ -95,7 +87,7 @@ export default function Navbar() {
             {/* Desktop Links */}
             <nav className="hidden md:flex items-center gap-0.5" aria-label="Main navigation">
               {/* Scroll-anchor links — only shown on home page */}
-              {isHome && SCROLL_LINKS.map((link, i) => (
+              {isHome && NAVBAR_SCROLL_LINKS.map((link, i) => (
                 <motion.button
                   key={link.label}
                   onClick={() => scrollTo(link.href)}
@@ -120,7 +112,7 @@ export default function Navbar() {
               ))}
 
               {/* Route links */}
-              {ROUTE_LINKS.map((link) => (
+              {NAVBAR_ROUTE_LINKS.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -192,7 +184,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  {isHome && SCROLL_LINKS.map((link, i) => (
+                  {isHome && NAVBAR_SCROLL_LINKS.map((link, i) => (
                     <motion.button
                       key={link.label}
                       initial={{ opacity: 0, x: 20 }}
@@ -209,12 +201,12 @@ export default function Navbar() {
                     </motion.button>
                   ))}
 
-                  {ROUTE_LINKS.map((link, i) => (
+                  {NAVBAR_ROUTE_LINKS.map((link, i) => (
                     <motion.div
                       key={link.label}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: ((isHome ? SCROLL_LINKS.length : 0) + i) * 0.05 }}
+                      transition={{ delay: ((isHome ? NAVBAR_SCROLL_LINKS.length : 0) + i) * 0.05 }}
                     >
                       <Link
                         href={link.href}
