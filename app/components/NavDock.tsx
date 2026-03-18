@@ -132,7 +132,7 @@ export default function NavDock() {
                 )}
 
                 <Icon
-                  size={17}
+                  size={20}
                   strokeWidth={isActive ? 1.8 : 1.5}
                   className="relative z-10 transition-all duration-300"
                   style={{

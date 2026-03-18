@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState, useTransition } from "react";
 import BootLoader1 from "./BootLoader1";
 import BootLoader2 from "./BootLoader2";
 
@@ -10,10 +10,14 @@ export default function BootLoaderGate({ children }: { children: React.ReactNode
   // After mount, read localStorage and show the correct loader.
   const [active, setActive] = useState<"loader1" | "loader2" | null>(null);
   const [done, setDone] = useState(false);
+  const [, startTransition] = useTransition();
 
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as "loader1" | "loader2" | null;
-    setActive(stored ?? "loader1");
+  useLayoutEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    const loader = (stored === "loader1" || stored === "loader2") ? stored : "loader1";
+    startTransition(() => {
+      setActive(loader);
+    });
   }, []);
 
   return (
