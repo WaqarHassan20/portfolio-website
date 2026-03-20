@@ -187,7 +187,7 @@ function TimelineRow({
           >
             {entry.year}
           </span>
-          <NodeDot isPresent={entry.isPresent} isActive={yearGlows} size="md" />
+          <NodeDot isPresent={entry.isPresent} isActive={isActive} size="md" />
         </div>
 
         {/* Col 3 — description, left-aligned */}
@@ -210,7 +210,7 @@ function TimelineRow({
 
         {/* Col 1 — node pinned over beam */}
         <div className="flex justify-center pt-1.5">
-          <NodeDot isPresent={entry.isPresent} isActive={yearGlows} size="sm" />
+          <NodeDot isPresent={entry.isPresent} isActive={isActive} size="sm" />
         </div>
 
         {/* Col 2 — year → role → category → description */}

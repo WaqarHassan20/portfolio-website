@@ -46,7 +46,14 @@ export function GlobeLeftPanel({ tech }: { tech: TechEntry | null }) {
             gradient={`linear-gradient(135deg, ${tech.color}12 0%, rgba(10,10,10,0.92) 100%)`}
           >
             {/* Header: icon + name + category */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 12,
+              }}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={tech.img}
@@ -62,25 +69,67 @@ export function GlobeLeftPanel({ tech }: { tech: TechEntry | null }) {
                 }}
               />
               <div>
-                <div style={{ fontFamily: "monospace", fontSize: 13, fontWeight: 700, color: tech.color, letterSpacing: "0.06em", textShadow: `0 0 12px ${tech.color}55`, lineHeight: 1.2 }}>
+                <div
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: tech.color,
+                    letterSpacing: "0.06em",
+                    textShadow: `0 0 12px ${tech.color}55`,
+                    lineHeight: 1.2,
+                  }}
+                >
                   {tech.label}
                 </div>
-                <div style={{ fontFamily: "monospace", fontSize: 9, color: `${tech.color}80`, letterSpacing: "0.18em", textTransform: "uppercase", marginTop: 3 }}>
+                <div
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 9,
+                    color: `${tech.color}80`,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    marginTop: 3,
+                  }}
+                >
                   {CATEGORY_MAP[tech.label] ?? "Tool"}
                 </div>
               </div>
             </div>
 
             {/* Separator */}
-            <div style={{ height: 1, background: `linear-gradient(90deg, ${tech.color}44, ${tech.color}18, transparent)`, marginBottom: 12 }} />
+            <div
+              style={{
+                height: 1,
+                background: `linear-gradient(90deg, ${tech.color}44, ${tech.color}18, transparent)`,
+                marginBottom: 12,
+              }}
+            />
 
             {/* Section label */}
-            <div style={{ fontFamily: "monospace", fontSize: 9, color: `${tech.color}65`, letterSpacing: "0.20em", textTransform: "uppercase", marginBottom: 8 }}>
+            <div
+              style={{
+                fontFamily: "monospace",
+                fontSize: 9,
+                color: `${tech.color}65`,
+                letterSpacing: "0.20em",
+                textTransform: "uppercase",
+                marginBottom: 8,
+              }}
+            >
               What it is
             </div>
 
             {/* Description */}
-            <p style={{ fontFamily: "monospace", fontSize: 11, color: "#cccccc", lineHeight: 1.72, margin: 0 }}>
+            <p
+              style={{
+                fontFamily: "monospace",
+                fontSize: 11,
+                color: "#cccccc",
+                lineHeight: 1.72,
+                margin: 0,
+              }}
+            >
               {tech.desc}
             </p>
           </CardShell>
@@ -107,15 +156,38 @@ export function GlobeRightPanel({ tech }: { tech: TechEntry | null }) {
             gradient={`linear-gradient(135deg, rgba(10,10,10,0.92) 0%, ${tech.color}10 100%)`}
           >
             {/* Section label */}
-            <div style={{ fontFamily: "monospace", fontSize: 9, color: `${tech.color}65`, letterSpacing: "0.20em", textTransform: "uppercase", marginBottom: 8 }}>
+            <div
+              style={{
+                fontFamily: "monospace",
+                fontSize: 9,
+                color: `${tech.color}65`,
+                letterSpacing: "0.20em",
+                textTransform: "uppercase",
+                marginBottom: 8,
+              }}
+            >
               In my stack
             </div>
 
             {/* Separator */}
-            <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${tech.color}20, ${tech.color}44)`, marginBottom: 12 }} />
+            <div
+              style={{
+                height: 1,
+                background: `linear-gradient(90deg, transparent, ${tech.color}20, ${tech.color}44)`,
+                marginBottom: 12,
+              }}
+            />
 
             {/* Use description */}
-            <p style={{ fontFamily: "monospace", fontSize: 11, color: "#A9A9A9", lineHeight: 1.72, margin: "0 0 14px" }}>
+            <p
+              style={{
+                fontFamily: "monospace",
+                fontSize: 11,
+                color: "#A9A9A9",
+                lineHeight: 1.72,
+                margin: "0 0 14px",
+              }}
+            >
               {tech.use}
             </p>
 

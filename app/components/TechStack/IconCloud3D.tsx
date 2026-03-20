@@ -9,20 +9,22 @@ type Props = {
 };
 
 export function IconCloud3D({ colorized, onHoverTech }: Props) {
-  const containerRef  = useRef<HTMLDivElement>(null);
-  const itemRefs      = useRef<(HTMLDivElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [hoveredCloud, setHoveredCloud] = useState(-1);
-  const rotRef        = useRef({ x: 0.38, y: 0 });
-  const isDragging    = useRef(false);
+  const rotRef = useRef({ x: 0.38, y: 0 });
+  const isDragging = useRef(false);
   const isHoveringIcon = useRef(false);
-  const lastMouse     = useRef({ x: 0, y: 0 });
-  const dragVelRef    = useRef({ x: 0, y: 0 });
-  const rafRef        = useRef(0);
+  const lastMouse = useRef({ x: 0, y: 0 });
+  const dragVelRef = useRef({ x: 0, y: 0 });
+  const rafRef = useRef(0);
   const [cloudSize, setCloudSize] = useState(560);
 
   useEffect(() => {
     const update = () =>
-      setCloudSize(window.innerWidth >= 640 ? 560 : Math.max(300, window.innerWidth - 40));
+      setCloudSize(
+        window.innerWidth >= 640 ? 560 : Math.max(300, window.innerWidth - 40),
+      );
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
@@ -33,8 +35,8 @@ export function IconCloud3D({ colorized, onHoverTech }: Props) {
   const basePoints = useMemo(() => {
     const phi = Math.PI * (3 - Math.sqrt(5));
     return Array.from({ length: N }, (_, i) => {
-      const y     = 1 - (i / (N - 1)) * 2;
-      const r     = Math.sqrt(1 - y * y);
+      const y = 1 - (i / (N - 1)) * 2;
+      const r = Math.sqrt(1 - y * y);
       const theta = phi * i;
       return { x: r * Math.cos(theta), y, z: r * Math.sin(theta) };
     });
@@ -42,9 +44,9 @@ export function IconCloud3D({ colorized, onHoverTech }: Props) {
 
   useEffect(() => {
     let running = true;
-    const CX     = cloudSize / 2;
-    const CY     = cloudSize / 2;
-    const radius = cloudSize * 0.40;
+    const CX = cloudSize / 2;
+    const CY = cloudSize / 2;
+    const radius = cloudSize * 0.4;
 
     const tick = () => {
       if (!running) return;
@@ -52,7 +54,8 @@ export function IconCloud3D({ colorized, onHoverTech }: Props) {
         dragVelRef.current.y *= 0.95;
         dragVelRef.current.x *= 0.95;
         rotRef.current.y += 0.003 + dragVelRef.current.y;
-        rotRef.current.x += (0.38 - rotRef.current.x) * 0.008 + dragVelRef.current.x;
+        rotRef.current.x +=
+          (0.38 - rotRef.current.x) * 0.008 + dragVelRef.current.x;
       }
       const cosX = Math.cos(rotRef.current.x);
       const sinX = Math.sin(rotRef.current.x);
@@ -62,23 +65,26 @@ export function IconCloud3D({ colorized, onHoverTech }: Props) {
       basePoints.forEach((pt, idx) => {
         const el = itemRefs.current[idx];
         if (!el) return;
-        const x1    = pt.x * cosY + pt.z * sinY;
-        const z1    = -pt.x * sinY + pt.z * cosY;
-        const y2    = pt.y * cosX - z1 * sinX;
-        const z2    = pt.y * sinX + z1 * cosX;
+        const x1 = pt.x * cosY + pt.z * sinY;
+        const z1 = -pt.x * sinY + pt.z * cosY;
+        const y2 = pt.y * cosX - z1 * sinX;
+        const z2 = pt.y * sinX + z1 * cosX;
         const depth = (z2 + 1) / 2;
         const scale = 0.45 + depth * 0.85;
         const opacity = 0.15 + depth * 0.85;
-        el.style.left      = `${CX + x1 * radius}px`;
-        el.style.top       = `${CY - y2 * radius}px`;
-        el.style.opacity   = `${opacity}`;
+        el.style.left = `${CX + x1 * radius}px`;
+        el.style.top = `${CY - y2 * radius}px`;
+        el.style.opacity = `${opacity}`;
         el.style.transform = `translate(-50%, -50%) scale(${scale})`;
-        el.style.zIndex    = `${Math.round(z2 * 100 + 100)}`;
+        el.style.zIndex = `${Math.round(z2 * 100 + 100)}`;
       });
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
-    return () => { running = false; cancelAnimationFrame(rafRef.current); };
+    return () => {
+      running = false;
+      cancelAnimationFrame(rafRef.current);
+    };
   }, [basePoints, cloudSize]);
 
   return (
@@ -88,38 +94,50 @@ export function IconCloud3D({ colorized, onHoverTech }: Props) {
       style={{ width: cloudSize, height: cloudSize }}
       onMouseDown={(e) => {
         e.preventDefault();
-        isDragging.current  = true;
-        lastMouse.current   = { x: e.clientX, y: e.clientY };
+        isDragging.current = true;
+        lastMouse.current = { x: e.clientX, y: e.clientY };
       }}
       onMouseMove={(e) => {
         if (!isDragging.current) return;
         const dx = e.clientX - lastMouse.current.x;
         const dy = e.clientY - lastMouse.current.y;
-        dragVelRef.current.y    = dx * 0.008;
-        dragVelRef.current.x    = dy * 0.008;
-        rotRef.current.y        += dx * 0.005;
-        rotRef.current.x        += dy * 0.005;
+        dragVelRef.current.y = dx * 0.008;
+        dragVelRef.current.x = dy * 0.008;
+        rotRef.current.y += dx * 0.005;
+        rotRef.current.x += dy * 0.005;
         lastMouse.current = { x: e.clientX, y: e.clientY };
       }}
-      onMouseUp={() => { isDragging.current = false; }}
+      onMouseUp={() => {
+        isDragging.current = false;
+      }}
       onMouseLeave={() => {
-        isDragging.current    = false;
+        isDragging.current = false;
         isHoveringIcon.current = false;
         setHoveredCloud(-1);
         onHoverTech(null);
       }}
     >
       {TECHS.map((tech, i) => {
-        const isHov     = hoveredCloud === i;
+        const isHov = hoveredCloud === i;
         const showColor = colorized || isHov;
         return (
           <div
             key={i}
-            ref={(el) => { itemRefs.current[i] = el; }}
+            ref={(el) => {
+              itemRefs.current[i] = el;
+            }}
             className="absolute"
             style={{ willChange: "transform, opacity, left, top" }}
-            onMouseEnter={() => { isHoveringIcon.current = true;  setHoveredCloud(i); onHoverTech(tech); }}
-            onMouseLeave={() => { isHoveringIcon.current = false; setHoveredCloud(-1); onHoverTech(null); }}
+            onMouseEnter={() => {
+              isHoveringIcon.current = true;
+              setHoveredCloud(i);
+              onHoverTech(tech);
+            }}
+            onMouseLeave={() => {
+              isHoveringIcon.current = false;
+              setHoveredCloud(-1);
+              onHoverTech(null);
+            }}
           >
             <div
               style={{
@@ -133,7 +151,9 @@ export function IconCloud3D({ colorized, onHoverTech }: Props) {
               <img
                 src={tech.img}
                 alt={tech.label}
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = "0"; }}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.opacity = "0";
+                }}
                 style={{
                   width: 44,
                   height: 44,

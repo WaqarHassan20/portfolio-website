@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
+import type { ReactElement } from "react";
 import { SIDEBAR_SOCIALS } from "@/app/data/social";
 import type { SidebarSocial } from "@/app/types/content";
 
@@ -24,7 +25,7 @@ function WhatsappIcon() {
   );
 }
 
-const SIDEBAR_ICON_BY_KEY: Record<SidebarSocial["icon"], JSX.Element> = {
+const SIDEBAR_ICON_BY_KEY: Record<SidebarSocial["icon"], ReactElement> = {
   github: <Github size={17} strokeWidth={1.6} />,
   twitter: <Twitter size={17} strokeWidth={1.6} />,
   linkedin: <Linkedin size={17} strokeWidth={1.6} />,
@@ -38,7 +39,7 @@ export default function SocialSidebar() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
-      className="fixed left-15 top-[58%] -translate-y-1/2 z-40 flex flex-col items-center gap-2"
+      className="fixed left-15 top-[62%] -translate-y-1/2 z-40 hidden lg:flex flex-col items-center gap-2"
     >
       {SIDEBAR_SOCIALS.map(({ label, href, icon }, i) => (
         <motion.a
@@ -66,7 +67,8 @@ export default function SocialSidebar() {
             transition={{ duration: 0.25 }}
             className="pointer-events-none absolute inset-0 rounded-xl"
             style={{
-              boxShadow: "0 0 14px 3px rgba(255,255,255,0.18), 0 0 30px 6px rgba(255,255,255,0.07)",
+              boxShadow:
+                "0 0 14px 3px rgba(255,255,255,0.18), 0 0 30px 6px rgba(255,255,255,0.07)",
             }}
           />
           {SIDEBAR_ICON_BY_KEY[icon]}

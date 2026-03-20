@@ -4,18 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const STAGES = [
   { label: "Initializing environment", dur: 520 },
-  { label: "Loading modules",          dur: 480 },
-  { label: "Compiling assets",         dur: 600 },
-  { label: "Starting runtime",         dur: 420 },
-  { label: "System ready",             dur: 300 },
+  { label: "Loading modules", dur: 480 },
+  { label: "Compiling assets", dur: 600 },
+  { label: "Starting runtime", dur: 420 },
+  { label: "System ready", dur: 300 },
 ];
 const TOTAL_DUR = STAGES.reduce((a, s) => a + s.dur, 0);
 const NAME_CHARS = "WAQAR UL HASSAN".split("");
 
 const CORNERS = [
-  { id: "tl", top: true,  left: true  },
-  { id: "tr", top: true,  left: false },
-  { id: "bl", top: false, left: true  },
+  { id: "tl", top: true, left: true },
+  { id: "tr", top: true, left: false },
+  { id: "bl", top: false, left: true },
   { id: "br", top: false, left: false },
 ];
 
@@ -26,8 +26,12 @@ export default function BootLoader2({ onDone }: { onDone: () => void }) {
   const [exiting, setExiting] = useState(false);
   const [year, setYear] = useState<number | null>(null);
   const onDoneRef = useRef(onDone);
-  useEffect(() => { onDoneRef.current = onDone; });
-  useEffect(() => { setYear(new Date().getFullYear()); }, []);
+  useEffect(() => {
+    onDoneRef.current = onDone;
+  });
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -47,22 +51,27 @@ export default function BootLoader2({ onDone }: { onDone: () => void }) {
           if (cancelled) return;
           setExiting(true);
           setTimeout(() => onDoneRef.current(), 900);
-        }, 1800);
+        }, 1000);
       }
     }, TICK);
 
     let acc = 0;
     STAGES.forEach((s, i) => {
       acc += s.dur;
-      setTimeout(() => { if (!cancelled) setStage(i); }, acc);
+      setTimeout(() => {
+        if (!cancelled) setStage(i);
+      }, acc);
     });
 
-    return () => { cancelled = true; clearInterval(interval); };
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
 
   // Letters reveal between pct 8 – 65, with blur-in animation
   const visibleChars = Math.floor(
-    Math.max(0, Math.min(1, (pct - 8) / 57)) * NAME_CHARS.length
+    Math.max(0, Math.min(1, (pct - 8) / 57)) * NAME_CHARS.length,
   );
 
   return (
@@ -107,7 +116,8 @@ export default function BootLoader2({ onDone }: { onDone: () => void }) {
           transition={{ duration: 0.04, ease: "linear" }}
           style={{
             background: "rgba(255,255,255,0.82)",
-            boxShadow: "0 0 8px rgba(255,255,255,0.55), 0 0 24px rgba(255,255,255,0.2)",
+            boxShadow:
+              "0 0 8px rgba(255,255,255,0.55), 0 0 24px rgba(255,255,255,0.2)",
           }}
         />
       </div>
@@ -118,13 +128,13 @@ export default function BootLoader2({ onDone }: { onDone: () => void }) {
           key={id}
           className="absolute"
           style={{
-            ...(top  ? { top: 28 }    : { bottom: 28 }),
-            ...(left ? { left: 36 }   : { right: 36 }),
+            ...(top ? { top: 28 } : { bottom: 28 }),
+            ...(left ? { left: 36 } : { right: 36 }),
             width: 22,
             height: 22,
-            borderTop:    top  ? "1px solid rgba(255,255,255,0.2)" : undefined,
+            borderTop: top ? "1px solid rgba(255,255,255,0.2)" : undefined,
             borderBottom: !top ? "1px solid rgba(255,255,255,0.2)" : undefined,
-            borderLeft:   left ? "1px solid rgba(255,255,255,0.2)" : undefined,
+            borderLeft: left ? "1px solid rgba(255,255,255,0.2)" : undefined,
             borderRight: !left ? "1px solid rgba(255,255,255,0.2)" : undefined,
           }}
           initial={{ opacity: 0, x: left ? -5 : 5, y: top ? -5 : 5 }}
@@ -140,22 +150,44 @@ export default function BootLoader2({ onDone }: { onDone: () => void }) {
         transition={{ duration: 0.5, delay: 0.15 }}
         className="relative z-10 flex items-center justify-between px-14 sm:px-20 pt-6"
       >
-        <span style={{ fontSize: 8, letterSpacing: "0.52em", textTransform: "uppercase", color: "rgba(255,255,255,0.28)" }}>
+        <span
+          style={{
+            fontSize: 8,
+            letterSpacing: "0.52em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.28)",
+          }}
+        >
           Portfolio
         </span>
-        <span style={{ fontSize: 8, letterSpacing: "0.28em", color: "rgba(255,255,255,0.16)" }}>
+        <span
+          style={{
+            fontSize: 8,
+            letterSpacing: "0.28em",
+            color: "rgba(255,255,255,0.16)",
+          }}
+        >
           {year ?? ""}
         </span>
-        <span className="tabular-nums" style={{ fontSize: 8, letterSpacing: "0.28em", color: "rgba(255,255,255,0.28)" }}>
+        <span
+          className="tabular-nums"
+          style={{
+            fontSize: 8,
+            letterSpacing: "0.28em",
+            color: "rgba(255,255,255,0.28)",
+          }}
+        >
           {String(pct).padStart(3, "0")} / 100
         </span>
       </motion.div>
 
       {/* ── Main centre content ── */}
       <div className="flex-1 flex flex-col items-center justify-center px-8 -mt-6">
-
         {/* Name — letter-by-letter blur reveal */}
-        <div className="flex items-baseline flex-wrap justify-center" style={{ gap: "0.06em" }}>
+        <div
+          className="flex items-baseline flex-wrap justify-center"
+          style={{ gap: "0.06em" }}
+        >
           {NAME_CHARS.map((char, i) => (
             <motion.span
               key={i}
@@ -269,8 +301,8 @@ export default function BootLoader2({ onDone }: { onDone: () => void }) {
                   done || i < stage
                     ? "rgba(255,255,255,0.65)"
                     : i === stage
-                    ? "rgba(255,255,255,0.9)"
-                    : "rgba(255,255,255,0.15)",
+                      ? "rgba(255,255,255,0.9)"
+                      : "rgba(255,255,255,0.15)",
               }}
               transition={{ duration: 0.3 }}
               style={{ height: 3, borderRadius: 2, flexShrink: 0 }}

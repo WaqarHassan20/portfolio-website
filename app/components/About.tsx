@@ -35,7 +35,7 @@ export default function About() {
 
   return (
     <>
-      <section id="about" ref={ref} className="relative h-screen py-24 px-6 overflow-hidden flex flex-col justify-center">
+      <section id="about" ref={ref} className="relative min-h-screen px-6 overflow-hidden flex flex-col justify-center">
         <div className="max-w-6xl mx-auto w-full flex flex-col flex-1 justify-center">
           <SectionHeading
             eyebrow="More about me"
@@ -47,7 +47,7 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 sm:gap-5 items-start flex-1 my-10">
 
             {/* ── LEFT COLUMN ── */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 px-3 lg:px-1">
 
               {/* Profile card */}
               <motion.div
@@ -66,7 +66,7 @@ export default function About() {
                       : "transform 0.7s cubic-bezier(0.23, 1, 0.32, 1)",
                     willChange: "transform",
                   }}
-                  className="relative rounded-2xl overflow-hidden glass border border-white/8 about-profile-card cursor-pointer"
+                  className="relative h-96 lg:h-100 xl:h-100 rounded-2xl overflow-hidden glass border border-white/8 about-profile-card cursor-pointer"
                 >
                   {/* Floating code glyphs — parallax on cursor move */}
                   {ABOUT_CODE_GLYPHS.map((g) => (
@@ -186,7 +186,7 @@ export default function About() {
               initial={{ opacity: 0, x: 28 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.12 }}
-              className="flex flex-col justify-center gap-6 lg:pl-8"
+              className="flex flex-col justify-center gap-6 lg:pl-8 px-3 lg:px-1"
             >
               {/* Name intro */}
               <h3
@@ -224,7 +224,7 @@ export default function About() {
               <div className="w-full h-px bg-white/8" />
 
               {/* CTA buttons */}
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="md:flex md:flex-wrap items-center gap-4">
                 <motion.button
                   onClick={() => router.push("/projects")}
                   whileTap={{ scale: 0.97 }}

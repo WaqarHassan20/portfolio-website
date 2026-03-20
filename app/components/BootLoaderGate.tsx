@@ -5,7 +5,11 @@ import BootLoader2 from "./BootLoader2";
 
 const STORAGE_KEY = "portfolio_loader";
 
-export default function BootLoaderGate({ children }: { children: React.ReactNode }) {
+export default function BootLoaderGate({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   // Always start as null so server + first client render are identical (no loader shown).
   // After mount, read localStorage and show the correct loader.
   const [active, setActive] = useState<"loader1" | "loader2" | null>(null);
@@ -14,7 +18,8 @@ export default function BootLoaderGate({ children }: { children: React.ReactNode
 
   useLayoutEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
-    const loader = (stored === "loader1" || stored === "loader2") ? stored : "loader1";
+    const loader =
+      stored === "loader1" || stored === "loader2" ? stored : "loader1";
     startTransition(() => {
       setActive(loader);
     });

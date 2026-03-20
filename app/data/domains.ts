@@ -1,4 +1,11 @@
-import type { CircleKey, CirclePoint, DomainCircle, HitArea, HitZone, IntersectionLabel } from "@/app/types/domains";
+import type {
+  CircleKey,
+  CirclePoint,
+  DomainCircle,
+  HitArea,
+  HitZone,
+  IntersectionLabel,
+} from "@/app/types/domains";
 
 // Geometry for SVG viewBox="0 0 900 770".
 export const DOMAIN_RADIUS = 240;
@@ -24,7 +31,10 @@ export const DOMAIN_CIRCLES: DomainCircle[] = [
     key: "frontend",
     title: "Frontend",
     sub: "UI / UX",
-    skillRows: [["React", "Next.js", "TypeScript"], ["Tailwind CSS", "Framer Motion"]],
+    skillRows: [
+      ["React", "Next.js", "TypeScript"],
+      ["Tailwind CSS", "Framer Motion"],
+    ],
     lx: 200,
     ly: 210,
   },
@@ -32,7 +42,10 @@ export const DOMAIN_CIRCLES: DomainCircle[] = [
     key: "backend",
     title: "Backend",
     sub: "API / DB",
-    skillRows: [["Node.js", "Express", "PostgreSQL"], ["MongoDB", "Redis", "GraphQL"]],
+    skillRows: [
+      ["Node.js", "Express", "PostgreSQL"],
+      ["MongoDB", "Redis", "GraphQL"],
+    ],
     lx: 700,
     ly: 210,
   },
@@ -40,7 +53,10 @@ export const DOMAIN_CIRCLES: DomainCircle[] = [
     key: "devops",
     title: "DevOps",
     sub: "CI / CD",
-    skillRows: [["Docker", "Kubernetes", "GitHub Actions"], ["AWS", "Terraform", "Linux"]],
+    skillRows: [
+      ["Docker", "Kubernetes", "GitHub Actions"],
+      ["AWS", "Terraform", "Linux"],
+    ],
     lx: 450,
     ly: 598,
   },

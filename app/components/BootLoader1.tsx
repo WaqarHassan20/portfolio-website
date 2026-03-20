@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 const STAGES = [
   { label: "Initializing environment", dur: 520 },
-  { label: "Loading modules",          dur: 480 },
-  { label: "Compiling assets",         dur: 600 },
-  { label: "Starting runtime",         dur: 420 },
-  { label: "System ready",             dur: 300 },
+  { label: "Loading modules", dur: 480 },
+  { label: "Compiling assets", dur: 600 },
+  { label: "Starting runtime", dur: 420 },
+  { label: "System ready", dur: 300 },
 ];
 
 export default function BootLoader1({ onDone }: { onDone: () => void }) {
@@ -18,7 +18,9 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
   const [done, setDone] = useState(false);
   const [exiting, setExiting] = useState(false);
   const onDoneRef = useRef(onDone);
-  useEffect(() => { onDoneRef.current = onDone; });
+  useEffect(() => {
+    onDoneRef.current = onDone;
+  });
 
   useEffect(() => {
     let cancelled = false;
@@ -41,7 +43,7 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
           if (cancelled) return;
           setExiting(true);
           setTimeout(() => onDoneRef.current(), 850);
-        }, 2000);
+        }, 1000);
       }
     }, TICK);
 
@@ -56,7 +58,10 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
       }, acc);
     });
 
-    return () => { cancelled = true; clearInterval(interval); };
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
 
   const pct = Math.round(progress);
@@ -69,13 +74,16 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.85, ease: "easeInOut" }}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-[#060606] overflow-hidden"
-      style={{ fontFamily: 'var(--font-jetbrains-mono, "JetBrains Mono", monospace)' }}
+      style={{
+        fontFamily: 'var(--font-jetbrains-mono, "JetBrains Mono", monospace)',
+      }}
     >
       {/* Dot-grid background */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.042) 1px, transparent 1px)",
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.042) 1px, transparent 1px)",
           backgroundSize: "28px 28px",
         }}
       />
@@ -83,12 +91,12 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 85% 75% at 50% 50%, transparent 38%, rgba(0,0,0,0.76) 100%)",
+          background:
+            "radial-gradient(ellipse 85% 75% at 50% 50%, transparent 38%, rgba(0,0,0,0.76) 100%)",
         }}
       />
 
       <div className="relative z-10 flex flex-col items-center text-center select-none w-full px-8">
-
         {/* ── WELCOME ── */}
         <motion.p
           initial={{ opacity: 0, letterSpacing: "0.6em" }}
@@ -131,7 +139,6 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
 
         {/* ── Progress section ── */}
         <div className="w-full max-w-xs sm:max-w-sm">
-
           {/* Label row */}
           <div className="flex justify-between items-center mb-3">
             <motion.span
@@ -140,7 +147,11 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
               className="text-[10px] tracking-[0.2em] uppercase"
-              style={{ color: done ? "rgba(255,255,255,0.78)" : "rgba(255,255,255,0.60)" }}
+              style={{
+                color: done
+                  ? "rgba(255,255,255,0.78)"
+                  : "rgba(255,255,255,0.60)",
+              }}
             >
               {STAGES[stage]?.label}
             </motion.span>
@@ -161,7 +172,9 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
               className="absolute left-0 top-0 h-full rounded-full"
               style={{
                 width: `${pct}%`,
-                background: done ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.78)",
+                background: done
+                  ? "rgba(255,255,255,0.92)"
+                  : "rgba(255,255,255,0.78)",
                 transition: "width 0.04s linear, background 0.5s ease",
               }}
             />
@@ -173,9 +186,12 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
               <span
                 key={i}
                 style={{
-                  color: i < filled
-                    ? (done ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.72)")
-                    : "rgba(255,255,255,0.13)",
+                  color:
+                    i < filled
+                      ? done
+                        ? "rgba(255,255,255,0.88)"
+                        : "rgba(255,255,255,0.72)"
+                      : "rgba(255,255,255,0.13)",
                 }}
               >
                 {i < filled ? "█" : "░"}
@@ -193,25 +209,34 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
               transition={{ duration: 0.4, ease: "easeOut" }}
               className="flex items-center gap-2.5"
             >
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.62)" }} />
+              <div
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ background: "rgba(255,255,255,0.62)" }}
+              />
               <span
                 className="text-[9px] tracking-[0.5em] uppercase"
                 style={{ color: "rgba(255,255,255,0.52)" }}
               >
                 Complete
               </span>
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.62)" }} />
+              <div
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ background: "rgba(255,255,255,0.62)" }}
+              />
             </motion.div>
           ) : (
             <motion.div
               animate={{ opacity: [1, 0, 1] }}
               transition={{ duration: 0.9, repeat: Infinity }}
               className="rounded-[1px]"
-              style={{ width: 9, height: 18, background: "rgba(255,255,255,0.58)" }}
+              style={{
+                width: 9,
+                height: 18,
+                background: "rgba(255,255,255,0.58)",
+              }}
             />
           )}
         </div>
-
       </div>
     </motion.div>
   );

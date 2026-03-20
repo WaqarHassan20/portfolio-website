@@ -6,6 +6,8 @@ export type DockSectionId =
   | "domains"
   | "skills"
   | "experience"
+  | "github"
+  | "projects"
   | "collaborate"
   | "footer";
 

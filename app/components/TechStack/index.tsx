@@ -17,10 +17,10 @@ function useGridConfig() {
     return () => window.removeEventListener("resize", update);
   }, []);
   if (!winW || winW >= 1400) return { cols: 10, cell: 122, gap: 12 };
-  if (winW >= 1100)           return { cols: 8,  cell: 116, gap: 12 };
-  if (winW >= 800)            return { cols: 6,  cell: 110, gap: 10 };
-  if (winW >= 560)            return { cols: 5,  cell: 90,  gap: 10 };
-  return                             { cols: 4,  cell: 72,  gap: 8  };
+  if (winW >= 1100) return { cols: 8, cell: 116, gap: 12 };
+  if (winW >= 800) return { cols: 6, cell: 110, gap: 10 };
+  if (winW >= 560) return { cols: 5, cell: 90, gap: 10 };
+  return { cols: 4, cell: 72, gap: 8 };
 }
 
 /* ── Diamond mesh grid ───────────────────────────────────────────────────── */
@@ -32,16 +32,19 @@ function TechGrid({
   onHover: (tech: TechEntry | null, idx: number) => void;
 }) {
   const { cols: COLS, cell: CELL, gap: GAP } = useGridConfig();
-  const STEP   = CELL + GAP;
+  const STEP = CELL + GAP;
   const OFFSET = STEP / 2;
 
   const rows: ((typeof TECHS)[0] | null)[][] = [];
-  for (let i = 0; i < TECHS.length; i += COLS) rows.push(TECHS.slice(i, i + COLS));
+  for (let i = 0; i < TECHS.length; i += COLS)
+    rows.push(TECHS.slice(i, i + COLS));
   const lastRow = rows[rows.length - 1];
   while (lastRow.length < COLS) lastRow.push(null);
 
   const gridW = COLS * STEP - GAP;
-  const gridH = Math.ceil((rows.length - 1) * STEP * 0.72 + CELL + OFFSET * 0.72);
+  const gridH = Math.ceil(
+    (rows.length - 1) * STEP * 0.72 + CELL + OFFSET * 0.72,
+  );
 
   const [hoveredIdx, setHoveredIdx] = useState(-1);
 
@@ -52,14 +55,18 @@ function TechGrid({
           {rows.map((row, rowIdx) =>
             row.map((tech, colIdx) => {
               if (!tech) return null;
-              const x         = colIdx * STEP + (rowIdx % 2 === 1 ? OFFSET : 0);
-              const y         = rowIdx * STEP * 0.72;
+              const x = colIdx * STEP + (rowIdx % 2 === 1 ? OFFSET : 0);
+              const y = rowIdx * STEP * 0.72;
               const globalIdx = rowIdx * COLS + colIdx;
               return (
                 <div
                   key={`${rowIdx}-${colIdx}`}
                   className="absolute"
-                  style={{ left: x, top: y, zIndex: hoveredIdx === globalIdx ? 50 : 1 }}
+                  style={{
+                    left: x,
+                    top: y,
+                    zIndex: hoveredIdx === globalIdx ? 50 : 1,
+                  }}
                 >
                   <TechCard
                     tech={tech}
@@ -87,16 +94,25 @@ function TechGrid({
             {rows.map((row, rowIdx) =>
               row.map((tech, colIdx) => {
                 if (!tech) return null;
-                const cx = colIdx * STEP + (rowIdx % 2 === 1 ? OFFSET : 0) + CELL / 2;
+                const cx =
+                  colIdx * STEP + (rowIdx % 2 === 1 ? OFFSET : 0) + CELL / 2;
                 const cy = rowIdx * STEP * 0.72 + CELL / 2;
                 const lines = [];
 
                 if (colIdx + 1 < COLS && row[colIdx + 1]) {
                   lines.push(
-                    <line key={`r-${rowIdx}-${colIdx}`}
-                      x1={cx} y1={cy}
-                      x2={(colIdx + 1) * STEP + (rowIdx % 2 === 1 ? OFFSET : 0) + CELL / 2} y2={cy}
-                      stroke="rgba(255,255,255,0.05)" strokeWidth="1"
+                    <line
+                      key={`r-${rowIdx}-${colIdx}`}
+                      x1={cx}
+                      y1={cy}
+                      x2={
+                        (colIdx + 1) * STEP +
+                        (rowIdx % 2 === 1 ? OFFSET : 0) +
+                        CELL / 2
+                      }
+                      y2={cy}
+                      stroke="rgba(255,255,255,0.05)"
+                      strokeWidth="1"
                     />,
                   );
                 }
@@ -104,22 +120,36 @@ function TechGrid({
                   const blCol = rowIdx % 2 === 0 ? colIdx - 1 : colIdx;
                   if (blCol >= 0 && blCol < COLS && rows[rowIdx + 1][blCol]) {
                     lines.push(
-                      <line key={`bl-${rowIdx}-${colIdx}`}
-                        x1={cx} y1={cy}
-                        x2={blCol * STEP + ((rowIdx + 1) % 2 === 1 ? OFFSET : 0) + CELL / 2}
+                      <line
+                        key={`bl-${rowIdx}-${colIdx}`}
+                        x1={cx}
+                        y1={cy}
+                        x2={
+                          blCol * STEP +
+                          ((rowIdx + 1) % 2 === 1 ? OFFSET : 0) +
+                          CELL / 2
+                        }
                         y2={(rowIdx + 1) * STEP * 0.72 + CELL / 2}
-                        stroke="rgba(255,255,255,0.05)" strokeWidth="1"
+                        stroke="rgba(255,255,255,0.05)"
+                        strokeWidth="1"
                       />,
                     );
                   }
                   const brCol = rowIdx % 2 === 0 ? colIdx : colIdx + 1;
                   if (brCol >= 0 && brCol < COLS && rows[rowIdx + 1][brCol]) {
                     lines.push(
-                      <line key={`br-${rowIdx}-${colIdx}`}
-                        x1={cx} y1={cy}
-                        x2={brCol * STEP + ((rowIdx + 1) % 2 === 1 ? OFFSET : 0) + CELL / 2}
+                      <line
+                        key={`br-${rowIdx}-${colIdx}`}
+                        x1={cx}
+                        y1={cy}
+                        x2={
+                          brCol * STEP +
+                          ((rowIdx + 1) % 2 === 1 ? OFFSET : 0) +
+                          CELL / 2
+                        }
                         y2={(rowIdx + 1) * STEP * 0.72 + CELL / 2}
-                        stroke="rgba(255,255,255,0.05)" strokeWidth="1"
+                        stroke="rgba(255,255,255,0.05)"
+                        strokeWidth="1"
                       />,
                     );
                   }
@@ -147,23 +177,44 @@ function ToggleBtn({
   children: React.ReactNode;
 }) {
   const [hover, setHover] = useState(false);
-  const handleEnter = () => { setHover(true);  onHoverChange?.(true); };
-  const handleLeave = () => { setHover(false); onHoverChange?.(false); };
+  const handleEnter = () => {
+    setHover(true);
+    onHoverChange?.(true);
+  };
+  const handleLeave = () => {
+    setHover(false);
+    onHoverChange?.(false);
+  };
   return (
     <div
       className="flex items-center gap-2 px-4 py-2 rounded-full font-mono text-[9px]
                  tracking-[0.22em] uppercase border transition-all duration-300
                  cursor-pointer select-none"
       style={{
-        borderColor: active ? "rgba(255,255,255,0.40)" : hover ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.18)",
-        background:  active ? "rgba(255,255,255,0.10)" : hover ? "rgba(255,255,255,0.04)" : "transparent",
-        color:       active ? "rgba(255,255,255,0.85)" : hover ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.45)",
+        borderColor: active
+          ? "rgba(255,255,255,0.40)"
+          : hover
+            ? "rgba(255,255,255,0.22)"
+            : "rgba(255,255,255,0.18)",
+        background: active
+          ? "rgba(255,255,255,0.10)"
+          : hover
+            ? "rgba(255,255,255,0.04)"
+            : "transparent",
+        color: active
+          ? "rgba(255,255,255,0.85)"
+          : hover
+            ? "rgba(255,255,255,0.55)"
+            : "rgba(255,255,255,0.45)",
       }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       onClick={onClick}
     >
-      <span className="relative flex items-center justify-center" style={{ width: 7, height: 7 }}>
+      <span
+        className="relative flex items-center justify-center"
+        style={{ width: 7, height: 7 }}
+      >
         {hover && !active && (
           <motion.span
             className="absolute rounded-full"
@@ -174,8 +225,15 @@ function ToggleBtn({
         )}
         <span
           style={{
-            width: 5, height: 5, borderRadius: "50%", display: "inline-block",
-            background: active ? "#ffffff" : hover ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.2)",
+            width: 5,
+            height: 5,
+            borderRadius: "50%",
+            display: "inline-block",
+            background: active
+              ? "#ffffff"
+              : hover
+                ? "rgba(255,255,255,0.55)"
+                : "rgba(255,255,255,0.2)",
             transition: "background 0.3s",
             boxShadow: active ? "0 0 6px 1px rgba(255,255,255,0.4)" : "none",
           }}
@@ -188,12 +246,12 @@ function ToggleBtn({
 
 /* ── Main TechStack section ──────────────────────────────────────────────── */
 export default function TechStack() {
-  const ref     = useRef<HTMLDivElement>(null);
-  const inView  = useInView(ref, { once: true, margin: "-100px" });
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   const [hoveredTech, setHoveredTech] = useState<TechEntry | null>(null);
-  const [locked,      setLocked]      = useState(false);
-  const [btnHover,    setBtnHover]    = useState(false);
-  const [viewMode,    setViewMode]    = useState<"mesh" | "cloud">("mesh");
+  const [locked, setLocked] = useState(false);
+  const [btnHover, setBtnHover] = useState(false);
+  const [viewMode, setViewMode] = useState<"mesh" | "cloud">("mesh");
   const colorized = locked || btnHover;
 
   const { cols: COLS, cell: CELL, gap: GAP } = useGridConfig();
@@ -204,7 +262,7 @@ export default function TechStack() {
       <section
         id="skills"
         ref={ref}
-        className="relative pt-16 pb-8 sm:pb-20 md:pb-32 overflow-hidden"
+        className="relative pt-24 pb-6 sm:pb-14 md:pb-24 overflow-hidden"
       >
         {/* Ambient glow */}
         <div
@@ -230,24 +288,48 @@ export default function TechStack() {
               Skills I work with
             </p>
             <div
-              className="flex flex-col items-center gap-4 sm:relative sm:flex-row sm:justify-center"
+              className="flex flex-col items-center gap-4 lg:relative lg:flex-row lg:justify-center"
               style={{ maxWidth: gridW, margin: "0 auto" }}
             >
-              <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
-                <span className="text-white font-bold about-heading-size">Tech</span>
-                <span className="text-white/65 font-normal ml-5 about-heading-size">Stack</span>
+              <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em] mb-2">
+                <span className="text-white font-bold about-heading-size">
+                  Tech
+                </span>
+                <span className="text-white/65 font-normal ml-5 about-heading-size">
+                  Stack
+                </span>
               </h2>
 
-              <div className="sm:absolute sm:left-0">
+              <div className="order-2 flex items-center gap-3 lg:hidden">
                 <ToggleBtn
                   active={viewMode === "cloud"}
-                  onClick={() => setViewMode((v) => (v === "mesh" ? "cloud" : "mesh"))}
+                  onClick={() =>
+                    setViewMode((v) => (v === "mesh" ? "cloud" : "mesh"))
+                  }
+                >
+                  {viewMode === "cloud" ? "Grid View" : "Globe View"}
+                </ToggleBtn>
+                <ToggleBtn
+                  active={locked}
+                  onClick={() => setLocked((v) => !v)}
+                  onHoverChange={setBtnHover}
+                >
+                  {locked ? "Unlock Colors" : "Lock Colors"}
+                </ToggleBtn>
+              </div>
+
+              <div className="hidden lg:absolute lg:left-0 lg:block">
+                <ToggleBtn
+                  active={viewMode === "cloud"}
+                  onClick={() =>
+                    setViewMode((v) => (v === "mesh" ? "cloud" : "mesh"))
+                  }
                 >
                   {viewMode === "cloud" ? "Grid View" : "Globe View"}
                 </ToggleBtn>
               </div>
 
-              <div className="sm:absolute sm:right-0">
+              <div className="hidden lg:absolute lg:right-0 lg:block">
                 <ToggleBtn
                   active={locked}
                   onClick={() => setLocked((v) => !v)}
@@ -291,7 +373,10 @@ export default function TechStack() {
 
                   {/* Globe — wrapped to prevent mx-auto from consuming flex space */}
                   <div className="shrink-0">
-                    <IconCloud3D colorized={colorized} onHoverTech={setHoveredTech} />
+                    <IconCloud3D
+                      colorized={colorized}
+                      onHoverTech={setHoveredTech}
+                    />
                   </div>
 
                   {/* Right panel — desktop only */}
@@ -301,7 +386,7 @@ export default function TechStack() {
                 </div>
 
                 {/* Hint — visible below xl (non-desktop) */}
-                <p className="xl:hidden text-center font-mono text-[10px] tracking-[0.22em] uppercase text-white/20 pb-4">
+                <p className="text-center font-mono text-[10px] tracking-[0.22em] uppercase text-gray-200 pb-4">
                   · hover any skill to reveal insights ·
                 </p>
               </motion.div>

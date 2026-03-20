@@ -17,7 +17,8 @@ export default function Domains() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [active, setActive] = useState<HitZone | null>(null);
 
-  const isSingleHover = active === "frontend" || active === "backend" || active === "devops";
+  const isSingleHover =
+    active === "frontend" || active === "backend" || active === "devops";
 
   const getVariant = (key: CircleKey): "glow" | "dim" | "lit" | "default" => {
     if (!active) return "default";
@@ -27,9 +28,12 @@ export default function Domains() {
 
   return (
     <>
-      <section id="domains" ref={ref} className="relative h-screen py-12 px-8 flex flex-col overflow-hidden">
+      <section
+        id="domains"
+        ref={ref}
+        className="relative h-screen py-12 px-8 flex flex-col overflow-hidden"
+      >
         <div className="max-w-6xl mx-auto w-full flex flex-col flex-1 min-h-0">
-
           {/* heading */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -42,8 +46,8 @@ export default function Domains() {
               primary="Main"
               secondary="Domains"
               className="text-center"
-              primaryClassName="text-white font-bold text-5xl"
-              secondaryClassName="text-white/65 font-normal ml-6 text-5xl"
+              primaryClassName="text-white font-bold text-[clamp(2rem,7.2vw,4rem)]"
+              secondaryClassName="text-white/65 font-normal ml-3 sm:ml-6 text-[clamp(2rem,7.2vw,4rem)]"
             />
           </motion.div>
 
@@ -52,8 +56,11 @@ export default function Domains() {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="glass border border-white/13 rounded-3xl p-6 flex flex-col flex-1 min-h-0"
-              style={{ boxShadow: "0 0 0 1px rgba(255,255,255,0.04), 0 8px 40px rgba(255,255,255,0.04), inset 0 0 60px rgba(255,255,255,0.015)" }}
+            className="glass border border-white/13 rounded-3xl p-4 md:mx-4 flex flex-col flex-1 min-h-0"
+            style={{
+              boxShadow:
+                "0 0 0 1px rgba(255,255,255,0.04), 0 8px 40px rgba(255,255,255,0.04), inset 0 0 60px rgba(255,255,255,0.015)",
+            }}
           >
             <motion.svg
               initial={{ opacity: 0 }}
@@ -75,15 +82,21 @@ export default function Domains() {
                     strokeWidth="1"
                     animate={{
                       fill:
-                        v === "dim"  ? "rgba(255,255,255,0.005)" :
-                        v === "glow" ? "rgba(255,255,255,0.11)"  :
-                        v === "lit"  ? "rgba(255,255,255,0.07)"  :
-                                       "rgba(255,255,255,0.03)",
+                        v === "dim"
+                          ? "rgba(255,255,255,0.005)"
+                          : v === "glow"
+                            ? "rgba(255,255,255,0.11)"
+                            : v === "lit"
+                              ? "rgba(255,255,255,0.07)"
+                              : "rgba(255,255,255,0.03)",
                       stroke:
-                        v === "dim"  ? "rgba(255,255,255,0.04)" :
-                        v === "glow" ? "rgba(255,255,255,0.55)" :
-                        v === "lit"  ? "rgba(255,255,255,0.36)" :
-                                       "rgba(255,255,255,0.10)",
+                        v === "dim"
+                          ? "rgba(255,255,255,0.04)"
+                          : v === "glow"
+                            ? "rgba(255,255,255,0.55)"
+                            : v === "lit"
+                              ? "rgba(255,255,255,0.36)"
+                              : "rgba(255,255,255,0.10)",
                       opacity: v === "dim" ? 0.15 : 1,
                       filter:
                         v === "glow"
@@ -98,21 +111,60 @@ export default function Domains() {
               {/* ── per-circle: title + sub + skill rows with dot separators ── */}
               {DOMAIN_CIRCLES.map(({ key, title, sub, skillRows, lx, ly }) => (
                 <g key={key}>
-                  <text x={lx} y={ly} textAnchor="middle" fontSize="22" fontFamily="monospace" fontWeight="700" letterSpacing="3" fill="rgba(255,255,255,0.82)" style={{ textTransform: "uppercase" }}>
+                  <text
+                    x={lx}
+                    y={ly}
+                    textAnchor="middle"
+                    fontSize="22"
+                    fontFamily="monospace"
+                    fontWeight="700"
+                    letterSpacing="3"
+                    fill="rgba(255,255,255,0.82)"
+                    style={{ textTransform: "uppercase" }}
+                  >
                     {title}
                   </text>
-                  <text x={lx} y={ly + 18} textAnchor="middle" fontSize="10" fontFamily="monospace" letterSpacing="2" fill="rgba(255,255,255,0.28)" style={{ textTransform: "uppercase" }}>
+                  <text
+                    x={lx}
+                    y={ly + 18}
+                    textAnchor="middle"
+                    fontSize="10"
+                    fontFamily="monospace"
+                    letterSpacing="2"
+                    fill="rgba(255,255,255,0.28)"
+                    style={{ textTransform: "uppercase" }}
+                  >
                     {sub}
                   </text>
                   {skillRows.map((row, i) => (
-                    <text key={i} x={lx} y={ly + 38 + i * 17} textAnchor="middle" fontSize="10" fontFamily="monospace" letterSpacing="0.8">
+                    <text
+                      key={i}
+                      x={lx}
+                      y={ly + 38 + i * 17}
+                      textAnchor="middle"
+                      fontSize="10"
+                      fontFamily="monospace"
+                      letterSpacing="0.8"
+                    >
                       {row.flatMap((skill, j) =>
                         j === 0
-                          ? [<tspan key={skill} fill="rgba(255,255,255,0.38)">{skill}</tspan>]
-                          : [
-                              <tspan key={`d${j}`} fill="rgba(255,255,255,0.85)"> · </tspan>,
-                              <tspan key={skill} fill="rgba(255,255,255,0.38)">{skill}</tspan>,
+                          ? [
+                              <tspan key={skill} fill="rgba(255,255,255,0.38)">
+                                {skill}
+                              </tspan>,
                             ]
+                          : [
+                              <tspan
+                                key={`d${j}`}
+                                fill="rgba(255,255,255,0.85)"
+                              >
+                                {" "}
+                                ·{" "}
+                              </tspan>,
+                              <tspan key={skill} fill="rgba(255,255,255,0.38)">
+                                {skill}
+                              </tspan>,
+                            ],
                       )}
                     </text>
                   ))}
@@ -120,31 +172,40 @@ export default function Domains() {
               ))}
 
               {/* ── intersection zone labels ── */}
-              {DOMAIN_INTERSECTION_LABELS.map(({ x, y, lines, center }, idx) => (
-                <g key={idx}>
-                  {lines.map((line, i) => (
-                    <text
-                      key={line}
-                      x={x} y={y + i * (center ? 15 : 0)}
-                      textAnchor="middle"
-                      fontSize={center ? "13" : "10"}
-                      fontFamily="monospace"
-                      fontWeight={center ? "700" : "400"}
-                      letterSpacing={center ? "3" : "1.5"}
-                      fill={center ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.22)"}
-                      style={{ textTransform: "uppercase" }}
-                    >
-                      {line}
-                    </text>
-                  ))}
-                </g>
-              ))}
+              {DOMAIN_INTERSECTION_LABELS.map(
+                ({ x, y, lines, center }, idx) => (
+                  <g key={idx}>
+                    {lines.map((line, i) => (
+                      <text
+                        key={line}
+                        x={x}
+                        y={y + i * (center ? 15 : 0)}
+                        textAnchor="middle"
+                        fontSize={center ? "13" : "10"}
+                        fontFamily="monospace"
+                        fontWeight={center ? "700" : "400"}
+                        letterSpacing={center ? "3" : "1.5"}
+                        fill={
+                          center
+                            ? "rgba(255,255,255,0.65)"
+                            : "rgba(255,255,255,0.22)"
+                        }
+                        style={{ textTransform: "uppercase" }}
+                      >
+                        {line}
+                      </text>
+                    ))}
+                  </g>
+                ),
+              )}
 
               {/* ── invisible hit areas — drawn last so they sit on top ── */}
               {DOMAIN_HIT_AREAS.map(({ id, cx, cy, r }) => (
                 <circle
                   key={id}
-                  cx={cx} cy={cy} r={r}
+                  cx={cx}
+                  cy={cy}
+                  r={r}
                   fill="transparent"
                   style={{ cursor: "pointer" }}
                   onMouseEnter={() => setActive(id)}
@@ -153,10 +214,9 @@ export default function Domains() {
               ))}
             </motion.svg>
           </motion.div>
-
         </div>
       </section>
-      <div className="my-10 md:my-32 w-full h-px bg-white/8" />
+      <div className="my-2 md:my-24 w-full h-px bg-white/8" />
     </>
   );
 }

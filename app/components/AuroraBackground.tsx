@@ -29,7 +29,7 @@ export default function AuroraBackground() {
       // Greyscale smoke / mist waves
       const smokes = [
         { y: h * 0.22, alpha: 0.022, freq: 0.0018, amp: 140, speed: 0.4 },
-        { y: h * 0.50, alpha: 0.016, freq: 0.0013, amp: 180, speed: 0.28 },
+        { y: h * 0.5, alpha: 0.016, freq: 0.0013, amp: 180, speed: 0.28 },
         { y: h * 0.75, alpha: 0.018, freq: 0.0022, amp: 100, speed: 0.52 },
       ];
 
@@ -49,7 +49,12 @@ export default function AuroraBackground() {
         ctx!.lineTo(0, h);
         ctx!.closePath();
 
-        const grad = ctx!.createLinearGradient(0, s.y - s.amp, 0, s.y + s.amp * 2.2);
+        const grad = ctx!.createLinearGradient(
+          0,
+          s.y - s.amp,
+          0,
+          s.y + s.amp * 2.2,
+        );
         grad.addColorStop(0, `rgba(255,255,255,${s.alpha})`);
         grad.addColorStop(1, "rgba(255,255,255,0)");
         ctx!.fillStyle = grad;
@@ -68,9 +73,6 @@ export default function AuroraBackground() {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-    />
+    <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />
   );
 }

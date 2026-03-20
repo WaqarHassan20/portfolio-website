@@ -22,20 +22,27 @@ export default function Contact() {
   const [timeline, setTimeline] = useState("");
 
   const effectiveBudget = isCustom ? customBudget : budget;
-  const isReady = name.trim() !== "" && projectDesc.trim() !== "" && effectiveBudget.trim() !== "";
+  const isReady =
+    name.trim() !== "" &&
+    projectDesc.trim() !== "" &&
+    effectiveBudget.trim() !== "";
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isReady) return;
     const subject = encodeURIComponent(`Project Inquiry — ${name}`);
     const body = encodeURIComponent(
-      `Name: ${name}\n\nProject / Service:\n${projectDesc}\n\nBudget: ${effectiveBudget}\n\nTimeline: ${timeline || "Not specified"}`
+      `Name: ${name}\n\nProject / Service:\n${projectDesc}\n\nBudget: ${effectiveBudget}\n\nTimeline: ${timeline || "Not specified"}`,
     );
     window.location.href = `mailto:waqarkhalid2024@gmail.com?subject=${subject}&body=${body}`;
   }
 
   return (
-    <section id="contact" ref={ref} className="relative py-32 px-6 overflow-hidden">
+    <section
+      id="contact"
+      ref={ref}
+      className="relative py-32 px-6 overflow-hidden"
+    >
       {/* Ambient glow */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
@@ -119,10 +126,16 @@ export default function Contact() {
                     }}
                     className="px-4 py-2 rounded-full text-sm font-mono border transition-all duration-200"
                     style={{
-                      borderColor: active ? "rgba(201,214,223,0.50)" : "rgba(255,255,255,0.10)",
-                      background: active ? "rgba(201,214,223,0.10)" : "rgba(255,255,255,0.03)",
+                      borderColor: active
+                        ? "rgba(201,214,223,0.50)"
+                        : "rgba(255,255,255,0.10)",
+                      background: active
+                        ? "rgba(201,214,223,0.10)"
+                        : "rgba(255,255,255,0.03)",
                       color: active ? "#C9D6DF" : "rgba(255,255,255,0.40)",
-                      boxShadow: active ? "0 0 14px rgba(201,214,223,0.15)" : "none",
+                      boxShadow: active
+                        ? "0 0 14px rgba(201,214,223,0.15)"
+                        : "none",
                     }}
                   >
                     {b}
@@ -138,10 +151,16 @@ export default function Contact() {
                 }}
                 className="px-4 py-2 rounded-full text-sm font-mono border transition-all duration-200"
                 style={{
-                  borderColor: isCustom ? "rgba(201,214,223,0.50)" : "rgba(255,255,255,0.10)",
-                  background: isCustom ? "rgba(201,214,223,0.10)" : "rgba(255,255,255,0.03)",
+                  borderColor: isCustom
+                    ? "rgba(201,214,223,0.50)"
+                    : "rgba(255,255,255,0.10)",
+                  background: isCustom
+                    ? "rgba(201,214,223,0.10)"
+                    : "rgba(255,255,255,0.03)",
                   color: isCustom ? "#C9D6DF" : "rgba(255,255,255,0.40)",
-                  boxShadow: isCustom ? "0 0 14px rgba(201,214,223,0.15)" : "none",
+                  boxShadow: isCustom
+                    ? "0 0 14px rgba(201,214,223,0.15)"
+                    : "none",
                 }}
               >
                 Custom
@@ -199,7 +218,9 @@ export default function Contact() {
                 boxShadow: isReady ? "0 0 24px rgba(201,214,223,0.12)" : "none",
               }}
             >
-              {isReady ? "Send Inquiry via Email →" : "Fill in name, project & budget to continue"}
+              {isReady
+                ? "Send Inquiry via Email →"
+                : "Fill in name, project & budget to continue"}
             </motion.button>
             {isReady && (
               <motion.p

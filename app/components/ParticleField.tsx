@@ -71,7 +71,7 @@ export default function ParticleField() {
             ctx!.beginPath();
             ctx!.moveTo(particles[i].x, particles[i].y);
             ctx!.lineTo(particles[j].x, particles[j].y);
-          ctx!.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+            ctx!.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
             ctx!.lineWidth = 0.5;
             ctx!.stroke();
           }
@@ -125,7 +125,9 @@ export default function ParticleField() {
         if (p.y < 0) p.y = height;
         if (p.y > height) p.y = 0;
 
-        const pulsedAlpha = p.alpha * (0.5 + 0.5 * Math.sin(t * p.pulseSpeed * 60 + p.pulseOffset));
+        const pulsedAlpha =
+          p.alpha *
+          (0.5 + 0.5 * Math.sin(t * p.pulseSpeed * 60 + p.pulseOffset));
 
         ctx!.beginPath();
         ctx!.arc(p.x, p.y, p.radius, 0, Math.PI * 2);

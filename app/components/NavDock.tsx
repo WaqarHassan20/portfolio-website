@@ -30,7 +30,10 @@ export default function NavDock() {
   }, []);
 
   const scrollTo = (id: DockSectionId) => {
-    const el = id === "footer" ? document.querySelector("footer") : document.getElementById(id);
+    const el =
+      id === "footer"
+        ? document.querySelector("footer")
+        : document.getElementById(id);
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -39,7 +42,7 @@ export default function NavDock() {
       initial={{ opacity: 0, x: 32 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed right-16 top-1/2 -translate-y-1/2 z-40 hidden lg:flex"
+      className="fixed right-16 top-3/5 -translate-y-1/2 z-40 hidden lg:flex"
     >
       {/* Outer pill shell */}
       <div
@@ -59,19 +62,21 @@ export default function NavDock() {
                 style={{
                   top: 12 + i * 46 + 13,
                   height: 20,
-                  background: "linear-gradient(180deg, rgba(120,200,255,0.9), rgba(80,160,255,0.5))",
-                  boxShadow: "0 0 8px 2px rgba(120,200,255,0.5), 0 0 18px 4px rgba(80,160,255,0.25)",
+                  background:
+                    "linear-gradient(180deg, rgba(120,200,255,0.9), rgba(80,160,255,0.5))",
+                  boxShadow:
+                    "0 0 8px 2px rgba(120,200,255,0.5), 0 0 18px 4px rgba(80,160,255,0.25)",
                 }}
                 transition={{ type: "spring", stiffness: 300, damping: 28 }}
               />
-            ) : null
+            ) : null,
           )}
         </AnimatePresence>
 
         {/* Nav items */}
         {NAV_DOCK_SECTIONS.map((section, i) => {
           const { id, label, Icon } = section;
-          const isActive  = active  === id;
+          const isActive = active === id;
           const isHovered = hovered === id;
 
           return (
@@ -79,19 +84,23 @@ export default function NavDock() {
               key={id}
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.35, delay: 1.2 + i * 0.07, ease: "easeOut" }}
+              transition={{
+                duration: 0.35,
+                delay: 1.2 + i * 0.07,
+                ease: "easeOut",
+              }}
               className="relative"
               onMouseEnter={() => setHovered(id)}
               onMouseLeave={() => setHovered(null)}
             >
               {/* Tooltip */}
-              <AnimatePresence >
+              <AnimatePresence>
                 {isHovered && (
                   <motion.div
                     key="tip"
                     initial={{ opacity: 0, x: 8 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={  { opacity: 0, x: 6 }}
+                    exit={{ opacity: 0, x: 6 }}
                     transition={{ duration: 0.14 }}
                     className="absolute right-[calc(100%+12px)] top-1/2 -translate-y-1/2
                                pointer-events-none select-none whitespace-nowrap"
@@ -139,9 +148,11 @@ export default function NavDock() {
                     color: isActive
                       ? "rgba(255,255,255,0.95)"
                       : isHovered
-                      ? "rgba(255,255,255,0.72)"
-                      : "rgba(255,255,255,0.32)",
-                    filter: isActive ? "drop-shadow(0 0 6px rgba(160,220,255,0.7))" : "none",
+                        ? "rgba(255,255,255,0.72)"
+                        : "rgba(255,255,255,0.32)",
+                    filter: isActive
+                      ? "drop-shadow(0 0 6px rgba(160,220,255,0.7))"
+                      : "none",
                     transition: "color 0.25s, filter 0.25s",
                   }}
                 />

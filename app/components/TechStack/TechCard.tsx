@@ -13,7 +13,14 @@ type TechCardProps = {
   colorized: boolean;
 };
 
-export function TechCard({ tech, index, cell, cols, onHover, colorized }: TechCardProps) {
+export function TechCard({
+  tech,
+  index,
+  cell,
+  cols,
+  onHover,
+  colorized,
+}: TechCardProps) {
   const [hovered, setHovered] = useState(false);
 
   const handleHover = (h: boolean) => {
@@ -21,10 +28,10 @@ export function TechCard({ tech, index, cell, cols, onHover, colorized }: TechCa
     onHover(h ? tech : null);
   };
 
-  const staggerDelay   = colorized ? `${index * 28}ms` : "0ms";
-  const showColorIcon  = colorized || hovered;
+  const staggerDelay = colorized ? `${index * 28}ms` : "0ms";
+  const showColorIcon = colorized || hovered;
   const showColorBorder = hovered;
-  const logoSize       = Math.round(cell * 0.265);
+  const logoSize = Math.round(cell * 0.265);
 
   return (
     <div
@@ -85,7 +92,9 @@ export function TechCard({ tech, index, cell, cols, onHover, colorized }: TechCa
           <img
             src={tech.img}
             alt={tech.label}
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = "0"; }}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.opacity = "0";
+            }}
             style={{
               width: logoSize,
               height: logoSize,

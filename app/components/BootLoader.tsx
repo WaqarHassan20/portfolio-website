@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 const STAGES = [
   { label: "Initializing environment", dur: 520 },
-  { label: "Loading modules",          dur: 480 },
-  { label: "Compiling assets",         dur: 600 },
-  { label: "Starting runtime",         dur: 420 },
-  { label: "System ready",             dur: 300 },
+  { label: "Loading modules", dur: 480 },
+  { label: "Compiling assets", dur: 600 },
+  { label: "Starting runtime", dur: 420 },
+  { label: "System ready", dur: 300 },
 ];
 
 const GLITCH_POOL = "!@#$%&<>/\\|_+=~^?[]{}ABCXYZ0123456789";
@@ -34,7 +34,9 @@ function RingProgress({ pct, done }: { pct: number; done: boolean }) {
       <svg width={SIZE} height={SIZE} className="absolute inset-0">
         {/* Outer dashed decoration ring */}
         <circle
-          cx={cx} cy={cx} r={R + 12}
+          cx={cx}
+          cy={cx}
+          r={R + 12}
           fill="none"
           stroke="rgba(255,255,255,0.025)"
           strokeWidth={1}
@@ -42,14 +44,18 @@ function RingProgress({ pct, done }: { pct: number; done: boolean }) {
         />
         {/* Track */}
         <circle
-          cx={cx} cy={cx} r={R}
+          cx={cx}
+          cy={cx}
+          r={R}
           fill="none"
           stroke="rgba(255,255,255,0.06)"
           strokeWidth={STROKE}
         />
         {/* Progress arc */}
         <circle
-          cx={cx} cy={cx} r={R}
+          cx={cx}
+          cy={cx}
+          r={R}
           fill="none"
           stroke={done ? "rgba(255,255,255,0.94)" : "rgba(255,255,255,0.78)"}
           strokeWidth={STROKE}
@@ -57,12 +63,16 @@ function RingProgress({ pct, done }: { pct: number; done: boolean }) {
           strokeDasharray={circumference}
           strokeDashoffset={dashOffset}
           transform={`rotate(-90 ${cx} ${cx})`}
-          style={{ transition: "stroke-dashoffset 0.04s linear, stroke 0.6s ease" }}
+          style={{
+            transition: "stroke-dashoffset 0.04s linear, stroke 0.6s ease",
+          }}
         />
         {/* Glowing tip dot */}
         {pct > 1 && pct < 100 && (
           <circle
-            cx={tipX} cy={tipY} r={2.5}
+            cx={tipX}
+            cy={tipY}
+            r={2.5}
             fill="rgba(255,255,255,0.95)"
             style={{ filter: "drop-shadow(0 0 5px rgba(255,255,255,0.9))" }}
           />
@@ -88,7 +98,10 @@ function RingProgress({ pct, done }: { pct: number; done: boolean }) {
           </span>
           <span
             className="font-bold mt-2 ml-0.5"
-            style={{ fontSize: "clamp(1rem, 3vw, 1.8rem)", color: "rgba(255,255,255,0.28)" }}
+            style={{
+              fontSize: "clamp(1rem, 3vw, 1.8rem)",
+              color: "rgba(255,255,255,0.28)",
+            }}
           >
             %
           </span>
@@ -102,8 +115,8 @@ const NAME = "Waqar UL Hassan";
 
 /* ── Per-letter glitch scramble reveal for the name ─────────── */
 function GlitchName({ show }: { show: boolean }) {
-  const [letters, setLetters] = useState<string[]>(
-    () => NAME.split("").map(c => (c === " " ? " " : "\u00a0"))
+  const [letters, setLetters] = useState<string[]>(() =>
+    NAME.split("").map((c) => (c === " " ? " " : "\u00a0")),
   );
   const started = useRef(false);
 
@@ -113,7 +126,15 @@ function GlitchName({ show }: { show: boolean }) {
     NAME.split("").forEach((realChar, i) => {
       const delay = i * 58;
       if (realChar === " ") {
-        setTimeout(() => setLetters(p => { const a = [...p]; a[i] = " "; return a; }), delay);
+        setTimeout(
+          () =>
+            setLetters((p) => {
+              const a = [...p];
+              a[i] = " ";
+              return a;
+            }),
+          delay,
+        );
         return;
       }
       let count = 0;
@@ -121,11 +142,12 @@ function GlitchName({ show }: { show: boolean }) {
       setTimeout(() => {
         const iv = setInterval(() => {
           count++;
-          setLetters(p => {
+          setLetters((p) => {
             const a = [...p];
-            a[i] = count >= scrambles
-              ? realChar
-              : GLITCH_POOL[Math.floor(Math.random() * GLITCH_POOL.length)];
+            a[i] =
+              count >= scrambles
+                ? realChar
+                : GLITCH_POOL[Math.floor(Math.random() * GLITCH_POOL.length)];
             return a;
           });
           if (count >= scrambles) clearInterval(iv);
@@ -137,7 +159,10 @@ function GlitchName({ show }: { show: boolean }) {
   return (
     <p
       className="font-black leading-tight"
-      style={{ fontSize: "clamp(1.15rem, 2.8vw, 1.75rem)", letterSpacing: "-0.01em" }}
+      style={{
+        fontSize: "clamp(1.15rem, 2.8vw, 1.75rem)",
+        letterSpacing: "-0.01em",
+      }}
     >
       {NAME.split("").map((realChar, i) => (
         <motion.span
@@ -147,9 +172,10 @@ function GlitchName({ show }: { show: boolean }) {
           transition={{ duration: 0.08, delay: i * 0.058 }}
           className="inline-block"
           style={{
-            color: letters[i] === realChar || letters[i] === " "
-              ? "rgba(255,255,255,0.9)"
-              : "rgba(100,200,255,0.92)",
+            color:
+              letters[i] === realChar || letters[i] === " "
+                ? "rgba(255,255,255,0.9)"
+                : "rgba(100,200,255,0.92)",
           }}
         >
           {letters[i]}
@@ -166,7 +192,9 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
   const [done, setDone] = useState(false);
   const [exiting, setExiting] = useState(false);
   const onDoneRef = useRef(onDone);
-  useEffect(() => { onDoneRef.current = onDone; });
+  useEffect(() => {
+    onDoneRef.current = onDone;
+  });
 
   useEffect(() => {
     let cancelled = false;
@@ -204,7 +232,10 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
       }, acc);
     });
 
-    return () => { cancelled = true; clearInterval(interval); };
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
 
   const pct = Math.round(progress);
@@ -215,13 +246,16 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.85, ease: "easeInOut" }}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#060606] overflow-hidden"
-      style={{ fontFamily: 'var(--font-jetbrains, "JetBrains Mono", monospace)' }}
+      style={{
+        fontFamily: 'var(--font-jetbrains, "JetBrains Mono", monospace)',
+      }}
     >
       {/* Dot-grid background */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.042) 1px, transparent 1px)",
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.042) 1px, transparent 1px)",
           backgroundSize: "28px 28px",
         }}
       />
@@ -229,12 +263,12 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 28%, rgba(0,0,0,0.78) 100%)",
+          background:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 28%, rgba(0,0,0,0.78) 100%)",
         }}
       />
 
       <div className="relative z-10 w-full max-w-xl px-8 sm:px-12 flex flex-col items-center select-none">
-
         {/* ── PORTFOLIO label ── */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
@@ -242,14 +276,20 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
           transition={{ duration: 0.85, ease: "easeOut" }}
           className="flex items-center gap-4 mb-12"
         >
-          <div className="h-px w-10" style={{ background: "rgba(255,255,255,0.38)" }} />
+          <div
+            className="h-px w-10"
+            style={{ background: "rgba(255,255,255,0.38)" }}
+          />
           <span
             className="text-[9.5px] tracking-[0.55em] uppercase"
             style={{ color: "rgba(255,255,255,0.52)" }}
           >
             Portfolio
           </span>
-          <div className="h-px w-10" style={{ background: "rgba(255,255,255,0.38)" }} />
+          <div
+            className="h-px w-10"
+            style={{ background: "rgba(255,255,255,0.38)" }}
+          />
         </motion.div>
 
         {/* ── Arc ring progress ── */}
@@ -265,21 +305,26 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
         >
           <motion.span
             animate={done ? { opacity: 1 } : { opacity: [0.35, 1, 0.35] }}
-            transition={{ duration: 1.1, repeat: done ? 0 : Infinity, ease: "easeInOut" }}
+            transition={{
+              duration: 1.1,
+              repeat: done ? 0 : Infinity,
+              ease: "easeInOut",
+            }}
             style={{ color: "rgba(255,255,255,0.78)", fontSize: "11px" }}
           >
             ›
           </motion.span>
           <span
             className="text-[10.5px] tracking-[0.26em] uppercase"
-            style={{ color: done ? "rgba(255,255,255,0.78)" : "rgba(255,255,255,0.58)" }}
+            style={{
+              color: done ? "rgba(255,255,255,0.78)" : "rgba(255,255,255,0.58)",
+            }}
           >
             {STAGES[stage]?.label}
           </span>
         </motion.div>
 
         {/* ── Progress bar ── removed (borderless) ── */}
-
 
         {/* ── Name + role (glitch scramble reveal per letter) ── */}
         <div className="text-center mt-7 mb-3" aria-label="Waqar UL Hassan">
@@ -304,25 +349,34 @@ export default function BootLoader({ onDone }: { onDone: () => void }) {
               transition={{ duration: 0.4, ease: "easeOut" }}
               className="flex items-center gap-2.5"
             >
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.62)" }} />
+              <div
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ background: "rgba(255,255,255,0.62)" }}
+              />
               <span
                 className="text-[9px] tracking-[0.5em] uppercase"
                 style={{ color: "rgba(255,255,255,0.52)" }}
               >
                 Complete
               </span>
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.62)" }} />
+              <div
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ background: "rgba(255,255,255,0.62)" }}
+              />
             </motion.div>
           ) : (
             <motion.div
               animate={{ opacity: [1, 0, 1] }}
               transition={{ duration: 0.9, repeat: Infinity }}
               className="rounded-[1px]"
-              style={{ width: 9, height: 18, background: "rgba(255,255,255,0.58)" }}
+              style={{
+                width: 9,
+                height: 18,
+                background: "rgba(255,255,255,0.58)",
+              }}
             />
           )}
         </div>
-
       </div>
     </motion.div>
   );
