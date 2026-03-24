@@ -262,7 +262,7 @@ export default function TechStack() {
       <section
         id="skills"
         ref={ref}
-        className="relative pt-24 pb-6 sm:pb-14 md:pb-24 overflow-hidden"
+        className="relative pt-16 pb-6 sm:pb-14 md:pb-24 overflow-hidden"
       >
         {/* Ambient glow */}
         <div
@@ -395,7 +395,7 @@ export default function TechStack() {
         </div>
       </section>
 
-      <div className="w-full h-px bg-white/8" />
+      {/* <div className="w-full h-px bg-white/8" /> */}
     </>
   );
 }

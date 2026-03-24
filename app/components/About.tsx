@@ -256,7 +256,7 @@ export default function About() {
           </div>
         </div>
       </section>
-      <div className="w-full my-10 md:my-24 h-px bg-white/8" />
+      {/* <div className="w-full my-10 md:my-24 h-px bg-white/8" /> */}
     </>
   );
 }

@@ -284,7 +284,7 @@ export default function Experience() {
       <section
         id="experience"
         ref={sectionRef}
-        className="relative py-20 sm:py-32 overflow-hidden font-mono"
+        className="relative py-20 sm:py-20 overflow-hidden font-mono"
         aria-label="Career and experience"
       >
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
@@ -362,7 +362,6 @@ export default function Experience() {
           </div>
         </div>
       </section>
-      <div className="w-full h-px bg-white/8" />
     </>
   );
 }

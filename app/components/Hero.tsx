@@ -500,7 +500,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.2, duration: 0.5 }}
-            className="fixed top-35 right-15 z-50 hidden lg:flex flex-col items-center gap-2"
+            className="fixed top-35 right-15 z-50 hidden [@media(min-width:1440px)]:flex flex-col items-center gap-2"
           >
             <span className="text-[9px] font-mono tracking-[0.35em] uppercase text-gray-300">
               Loading
@@ -556,7 +556,7 @@ export default function Hero() {
           </div>
         </motion.button>
       </section>
-      <div className="w-full my-24 h-px bg-white/8" />
+      <div className="w-full my-5 sm:my-14 h-px bg-white/8" />
     </>
   );
 }

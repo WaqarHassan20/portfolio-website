@@ -18,9 +18,9 @@ export default function Footer() {
   return (
     <footer
       ref={ref}
-      className="relative overflow-hidden border-t border-white/[0.07] min-h-screen flex flex-col justify-end-safe pb-10 "
+      className="relative overflow-hidden md:mt-20 flex flex-col justify-end-safe md:pb-10"
     >
-      <div className="relative z-10 max-w-6xl mx-auto w-full px-8 sm:px-14 py-24 sm:py-24 flex flex-col items-start sm:items-center text-left sm:text-center">
+      <div className="relative z-10 max-w-6xl mx-auto w-full px-8 sm:px-14 py-10 md:py-24 flex flex-col items-start sm:items-center text-left sm:text-center">
         {/* ── Headline — letter stagger ──────────────────────── */}
         <div className="mb-8 sm:mb-16 w-full overflow-hidden">
           <h2
@@ -89,7 +89,7 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.55, ease: EASE }}
               className="flex flex-col"
             >
-              <p className="font-jetbrains text-[11px] tracking-[0.35em] text-start uppercase text-gray-500 mb-3">
+              <p className="font-jetbrains text-[11px] tracking-[0.35em] text-start uppercase text-gray-500 mb-1 md:mb-3">
                 Contact
               </p>
               <a
@@ -108,7 +108,7 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.62, ease: EASE }}
               className="flex flex-col"
             >
-              <p className="font-jetbrains text-[11px] tracking-[0.35em] text-start uppercase text-gray-500 mb-3">
+              <p className="font-jetbrains text-[11px] tracking-[0.35em] text-start uppercase text-gray-500 mb-1 md:mb-3">
                 Location
               </p>
               <span className="font-jetbrains text-[14px] tracking-wider text-white text-start">
@@ -124,7 +124,7 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.65, ease: EASE }}
             className="flex flex-col w-full"
           >
-            <p className="font-jetbrains text-[11px] text-start tracking-[0.35em] uppercase text-gray-500 mb-7">
+            <p className="font-jetbrains text-[11px] text-start tracking-[0.35em] uppercase text-gray-500 md:mb-7">
               Social
             </p>
             <ul className="w-full max-w-60">
@@ -144,7 +144,7 @@ export default function Footer() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-between py-3"
+                    className="group flex items-center justify-between md:py-3 py-2"
                   >
                     <span className="font-jetbrains text-[16px] text-white/80 group-hover:text-white transition-colors duration-300">
                       {s.label}
@@ -167,19 +167,19 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.75, ease: EASE }}
             className="flex flex-col"
           >
-            <p className="font-jetbrains text-start text-[11px] tracking-[0.35em] uppercase text-gray-500 mb-7">
+            <p className="font-jetbrains text-start text-[11px] tracking-[0.35em] uppercase text-gray-500 md:mb-7">
               About
             </p>
             <p className="font-jetbrains text-[14px] text-start mt-5 tracking-[0.01em] text-gray-500">
               Available for freelance &amp; full-time roles.
             </p>
-            <p className="font-jetbrains text-[14px] text-start mt-5 tracking-[0.01em] text-gray-500">
+            <p className="font-jetbrains text-[14px] text-start md:mt-5 mt-2 tracking-[0.01em] text-gray-500">
               Designed &amp; Developed by
             </p>
             <span className="font-jetbrains text-white text-[14px] text-start tracking-[0.08em]">
               Waqar UL Hassan
             </span>
-            <span className="font-jetbrains text-[14px] text-start mt-5 tracking-[0.01em] text-gray-500">
+            <span className="font-jetbrains text-[14px] text-start md:mt-5 mt-2 tracking-[0.01em] text-gray-500">
               © {new Date().getFullYear()} - All rights reserved
             </span>
           </motion.div>

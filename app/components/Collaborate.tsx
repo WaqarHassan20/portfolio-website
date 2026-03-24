@@ -50,7 +50,7 @@ export default function Collaborate() {
       <section
         id="collaborate"
         ref={ref}
-        className="relative min-h-screen py-20 px-6 overflow-hidden flex items-center"
+        className="relative min-h-screen py-2 md:py-20 px-6 overflow-hidden flex items-center"
       >
         {/* Subtle ambient — same neutral tone as Experience/Domains */}
         <div
@@ -252,7 +252,6 @@ export default function Collaborate() {
           </motion.div>
         </div>
       </section>
-      <div className="w-full h-px bg-white/8" />
     </>
   );
 }

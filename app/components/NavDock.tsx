@@ -34,15 +34,21 @@ export default function NavDock() {
       id === "footer"
         ? document.querySelector("footer")
         : document.getElementById(id);
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (!el) return;
+
+    // Keep a small global top offset, but let Domains sit slightly higher.
+    const offset = id === "domains" ? -8 : 12;
+    const top = window.scrollY + el.getBoundingClientRect().top - offset;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   };
 
   return (
     <motion.div
+      data-side-ui="nav-dock"
       initial={{ opacity: 0, x: 32 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed right-16 top-3/5 -translate-y-1/2 z-40 hidden lg:flex"
+      className="fixed right-16 top-3/5 -translate-y-1/2 z-40 hidden [@media(min-width:1440px)]:flex"
     >
       {/* Outer pill shell */}
       <div

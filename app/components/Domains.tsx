@@ -31,7 +31,7 @@ export default function Domains() {
       <section
         id="domains"
         ref={ref}
-        className="relative h-screen py-12 px-8 flex flex-col overflow-hidden"
+        className="relative scroll-mt-20 h-screen py-10 px-8 flex flex-col overflow-hidden"
       >
         <div className="max-w-6xl mx-auto w-full flex flex-col flex-1 min-h-0">
           {/* heading */}
@@ -216,7 +216,7 @@ export default function Domains() {
           </motion.div>
         </div>
       </section>
-      <div className="my-2 md:my-24 w-full h-px bg-white/8" />
+      <div className="my-2 md:my-10 lg:my-24 w-full h-px bg-white/8" />
     </>
   );
 }

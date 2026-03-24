@@ -73,7 +73,7 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
       initial={{ opacity: 1 }}
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.85, ease: "easeInOut" }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[#060606] overflow-hidden"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-[#060606] overflow-hidden"
       style={{
         fontFamily: 'var(--font-jetbrains-mono, "JetBrains Mono", monospace)',
       }}
@@ -113,9 +113,9 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
           initial={{ y: 22, opacity: 0 }}
           animate={showName ? { y: 0, opacity: 1 } : { y: 22, opacity: 0 }}
           transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
-          className="font-light text-white leading-none whitespace-nowrap mb-10"
+          className="font-light text-white leading-[0.95] whitespace-normal sm:whitespace-nowrap mb-10 px-2 sm:px-0"
           style={{
-            fontSize: "clamp(3rem, 9.5vw, 8.5rem)",
+            fontSize: "clamp(2.25rem, 10.2vw, 8.5rem)",
             letterSpacing: "-0.025em",
             textShadow: done
               ? "0 0 80px rgba(255,255,255,0.38), 0 0 160px rgba(255,255,255,0.12)"
