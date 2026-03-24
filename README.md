@@ -2,6 +2,14 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Before starting, create a local environment file:
+
+```bash
+cp .env.example .env.local
+```
+
+Set `GITHUB_TOKEN` in `.env.local` so the GitHub contributions API route can query GraphQL.
+
 First, run the development server:
 
 ```bash
