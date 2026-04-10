@@ -7,4 +7,3 @@ export type ProjectShowcaseItem = {
   liveUrl: string;
   thumbnailUrl: string;
 };
-1
