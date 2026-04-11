@@ -16,11 +16,14 @@ function useGridConfig() {
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
-  if (!winW || winW >= 1400) return { cols: 10, cell: 122, gap: 12 };
-  if (winW >= 1100) return { cols: 8, cell: 116, gap: 12 };
-  if (winW >= 800) return { cols: 6, cell: 110, gap: 10 };
-  if (winW >= 560) return { cols: 5, cell: 90, gap: 10 };
-  return { cols: 4, cell: 72, gap: 8 };
+  if (!winW) return { cols: 8, cell: 106, gap: 10 };
+  if (winW >= 1700) return { cols: 10, cell: 116, gap: 12 };
+  if (winW >= 1440) return { cols: 9, cell: 108, gap: 10 };
+  if (winW >= 1280) return { cols: 8, cell: 106, gap: 10 };
+  if (winW >= 1100) return { cols: 7, cell: 100, gap: 10 };
+  if (winW >= 800) return { cols: 6, cell: 94, gap: 10 };
+  if (winW >= 560) return { cols: 5, cell: 82, gap: 8 };
+  return { cols: 4, cell: 68, gap: 8 };
 }
 
 /* ── Diamond mesh grid ───────────────────────────────────────────────────── */
@@ -49,7 +52,7 @@ function TechGrid({
   const [hoveredIdx, setHoveredIdx] = useState(-1);
 
   return (
-    <div className="w-full overflow-x-auto px-3 sm:px-8">
+    <div className="w-full overflow-x-auto px-4 sm:px-6 md:px-8">
       <div className="flex justify-center min-w-full">
         <div className="relative" style={{ width: gridW, height: gridH }}>
           {rows.map((row, rowIdx) =>
@@ -282,7 +285,7 @@ export default function TechStack() {
             initial={{ opacity: 0, y: 40 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12 px-6"
+            className="text-center mb-12 px-4 sm:px-5 md:px-6 lg:px-8"
           >
             <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-4">
               Skills I work with
