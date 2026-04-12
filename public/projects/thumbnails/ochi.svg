@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" fill="none">
+  <defs>
+    <linearGradient id="g" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#03111f"/>
+      <stop offset="100%" stop-color="#8be9fd"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="48" fill="url(#g)"/>
+  <path d="M930 110C1030 110 1110 190 1110 290C1110 390 1030 470 930 470C830 470 750 390 750 290C750 190 830 110 930 110Z" fill="rgba(255,255,255,0.08)"/>
+  <path d="M150 650C250 540 390 500 540 500C700 500 840 550 1040 700" stroke="rgba(255,255,255,0.24)" stroke-width="24" stroke-linecap="round"/>
+  <text x="80" y="170" fill="#ffffff" font-family="Arial, sans-serif" font-size="96" font-weight="700">Ochi</text>
+  <text x="80" y="255" fill="rgba(255,255,255,0.78)" font-family="Arial, sans-serif" font-size="38">Motion-heavy frontend</text>
+  <text x="80" y="780" fill="rgba(255,255,255,0.7)" font-family="Arial, sans-serif" font-size="30">UI / Frontend</text>
+</svg>

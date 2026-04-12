@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#251500"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="48" fill="url(#g)"/>
+  <circle cx="320" cy="210" r="180" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="930" cy="680" r="240" fill="rgba(255,255,255,0.06)"/>
+  <text x="80" y="170" fill="#ffffff" font-family="Arial, sans-serif" font-size="88" font-weight="700">Two Good</text>
+  <text x="80" y="250" fill="rgba(255,255,255,0.78)" font-family="Arial, sans-serif" font-size="38">Product landing</text>
+  <text x="80" y="780" fill="rgba(255,255,255,0.7)" font-family="Arial, sans-serif" font-size="30">Product Landing</text>
+</svg>
