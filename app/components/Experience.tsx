@@ -287,7 +287,7 @@ export default function Experience() {
         className="relative py-20 sm:py-20 overflow-hidden font-mono"
         aria-label="Career and experience"
       >
-        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8">
 
           {/* Section heading */}
           <motion.div

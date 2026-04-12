@@ -31,7 +31,7 @@ export default function Domains() {
       <section
         id="domains"
         ref={ref}
-        className="relative scroll-mt-20 h-screen py-10 px-8 flex flex-col overflow-hidden"
+        className="relative scroll-mt-20 h-screen py-10 px-4 sm:px-5 md:px-6 lg:px-8 flex flex-col overflow-hidden"
       >
         <div className="max-w-6xl mx-auto w-full flex flex-col flex-1 min-h-0">
           {/* heading */}

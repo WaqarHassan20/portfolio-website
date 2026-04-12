@@ -26,6 +26,64 @@ function useGridConfig() {
   return { cols: 4, cell: 68, gap: 8 };
 }
 
+function MobileTechMarquee() {
+  const rows = [
+    TECHS.filter((_, index) => index % 4 === 0),
+    TECHS.filter((_, index) => index % 4 === 1),
+    TECHS.filter((_, index) => index % 4 === 2),
+    TECHS.filter((_, index) => index % 4 === 3),
+  ];
+
+  return (
+    <div className="md:hidden px-4 pt-2 pb-10 sm:px-5">
+      <div className="mb-8 text-center">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.3em] text-white/30">
+          Skills I work with
+        </p>
+        <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
+          <span className="text-white font-bold about-heading-size">Tech</span>
+          <span className="ml-5 text-white/65 font-normal about-heading-size">
+            Stack
+          </span>
+        </h2>
+      </div>
+
+      <div className="space-y-2.5">
+        {rows.map((row, rowIndex) => {
+          const direction = rowIndex % 2 === 0 ? 1 : -1;
+          return (
+            <div key={rowIndex} className="overflow-hidden py-2">
+              <motion.div
+                className="flex w-max items-center gap-6 px-3"
+                animate={{ x: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+                transition={{
+                  duration: 14 + rowIndex * 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              >
+                {[...row, ...row].map((tech, index) => (
+                  <div
+                    key={`${rowIndex}-${tech.label}-${index}`}
+                    className="flex min-w-max items-center justify-center opacity-80 transition-opacity duration-300 hover:opacity-100"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={tech.img}
+                      alt={tech.label}
+                      className="h-6 w-6 object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.28)]"
+                    />
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ── Diamond mesh grid ───────────────────────────────────────────────────── */
 function TechGrid({
   colorized,
@@ -262,6 +320,9 @@ export default function TechStack() {
 
   return (
     <>
+      <MobileTechMarquee />
+
+      <div className="hidden md:block">
       <section
         id="skills"
         ref={ref}
@@ -397,6 +458,7 @@ export default function TechStack() {
           </AnimatePresence>
         </div>
       </section>
+      </div>
 
       {/* <div className="w-full h-px bg-white/8" /> */}
     </>

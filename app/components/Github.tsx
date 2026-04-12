@@ -22,7 +22,6 @@ export default function Github() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   const [heatmapData, setHeatmapData] = useState<GithubHeatmapResponse | null>(null);
-  const [statsFailed, setStatsFailed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -50,9 +49,8 @@ export default function Github() {
         }
 
         setHeatmapData(payload);
-        setStatsFailed(false);
       } catch {
-        setStatsFailed(true);
+        setHeatmapData(null);
       } finally {
         setIsLoading(false);
       }
@@ -104,7 +102,7 @@ export default function Github() {
     <section
       id="github"
       ref={ref}
-      className="relative scroll-mt-24 min-h-screen px-4 sm:px-8 pt-14 sm:pt-18 pb-8 sm:pb-10"
+      className="relative scroll-mt-24 min-h-screen px-4 sm:px-5 md:px-6 lg:px-8 pt-14 sm:pt-18 pb-8 sm:pb-10"
     >
       <div className="w-full max-w-6xl mx-auto">
         <div className="mb-8 sm:mb-10 text-center">

@@ -18,9 +18,9 @@ export default function Footer() {
   return (
     <footer
       ref={ref}
-      className="relative overflow-hidden md:mt-20 flex flex-col justify-end-safe md:pb-10"
+      className="relative flex flex-col justify-center lg:min-h-screen overflow-hidden "
     >
-      <div className="relative z-10 max-w-6xl mx-auto w-full px-8 sm:px-14 py-10 md:py-24 flex flex-col items-start sm:items-center text-left sm:text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-start px-8 py-8 lg:mt-24 text-left sm:items-center sm:px-14 sm:text-center md:py-20 md:-translate-y-3">
         {/* ── Headline — letter stagger ──────────────────────── */}
         <div className="mb-8 sm:mb-16 w-full overflow-hidden">
           <h2
@@ -96,7 +96,7 @@ export default function Footer() {
                 href="mailto:waqarkhalid2024@gmail.com"
                 className="group w-fit mb-4"
               >
-                <span className="font-jetbrains md:text-[11px] text-[14px] tracking-wider text-white/90 group-hover:text-white transition-colors duration-300">
+                <span className="font-jetbrains md:text-[14px] text-[14px] tracking-wider text-white/90 group-hover:text-white transition-colors duration-300">
                   waqarkhalid2024@gmail.com
                 </span>
               </a>
@@ -170,17 +170,14 @@ export default function Footer() {
             <p className="font-jetbrains text-start text-[11px] tracking-[0.35em] uppercase text-gray-500 md:mb-7">
               About
             </p>
-            <p className="font-jetbrains text-[14px] text-start mt-5 tracking-[0.01em] text-gray-500">
-              Available for freelance &amp; full-time roles.
-            </p>
             <p className="font-jetbrains text-[14px] text-start md:mt-5 mt-2 tracking-[0.01em] text-gray-500">
               Designed &amp; Developed by
             </p>
             <span className="font-jetbrains text-white text-[14px] text-start tracking-[0.08em]">
               Waqar UL Hassan
             </span>
-            <span className="font-jetbrains text-[14px] text-start md:mt-5 mt-2 tracking-[0.01em] text-gray-500">
-              © {new Date().getFullYear()} - All rights reserved
+            <span className="font-jetbrains text-[14px] text-start md:mt-4 mt-2 tracking-[0.01em] text-gray-500">
+              © {new Date().getFullYear()}.All rights reserved
             </span>
           </motion.div>
         </div>

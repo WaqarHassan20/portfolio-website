@@ -40,7 +40,7 @@ export default function SocialSidebar() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
-      className="fixed left-15 top-[62%] -translate-y-1/2 z-40 hidden [@media(min-width:1440px)]:flex flex-col items-center gap-2"
+      className="fixed top-[62%] -translate-y-1/2 z-40 hidden [@media(min-width:1080px)]:left-3 [@media(min-width:1080px)]:flex [@media(min-width:1280px)]:left-6 [@media(min-width:1440px)]:left-10 flex-col items-center gap-2"
     >
       {SIDEBAR_SOCIALS.map(({ label, href, icon }, i) => (
         <motion.a

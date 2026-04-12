@@ -37,9 +37,9 @@ export default function NavDock() {
     if (!el) return;
 
     // Keep a small global top offset, but let Domains sit slightly higher.
-    const offset = id === "domains" ? -8 : 12;
+    const offset = id === "projects" ? 0 : id === "domains" ? -8 : 12;
     const top = window.scrollY + el.getBoundingClientRect().top - offset;
-    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    window.scrollTo({ top: Math.max(0, top), behavior: id === "projects" ? "auto" : "smooth" });
   };
 
   return (
@@ -48,7 +48,7 @@ export default function NavDock() {
       initial={{ opacity: 0, x: 32 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed right-16 top-3/5 -translate-y-1/2 z-40 hidden [@media(min-width:1440px)]:flex"
+      className="fixed top-3/5 -translate-y-1/2 z-40 hidden [@media(min-width:1080px)]:right-3 [@media(min-width:1080px)]:flex [@media(min-width:1280px)]:right-6 [@media(min-width:1440px)]:right-10"
     >
       {/* Outer pill shell */}
       <div

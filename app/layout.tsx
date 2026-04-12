@@ -4,6 +4,7 @@ import "./globals.css";
 import SocialSidebar from "./components/SocialSidebar";
 import NavDock from "./components/NavDock";
 import BootLoaderGate from "./components/BootLoaderGate";
+import GlobalTopProgress from "./components/GlobalTopProgress";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -66,6 +67,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${saira.variable} ${roboto.variable} ${robotoMono.variable} ${playfairDisplay.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased noise bg-[#060606] text-[#b8c0cc] overflow-x-hidden`}
       >
+        <GlobalTopProgress />
         <SocialSidebar />
         <NavDock />
         <BootLoaderGate>

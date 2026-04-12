@@ -1,9 +1,10 @@
 export type ProjectShowcaseItem = {
-  id: number;
   number: string;
   name: string;
-  details: string;
-  techStack: string[];
-  liveUrl: string;
-  thumbnailUrl: string;
+  category: string;
+  description: string;
+  tools: string;
+  accent: string;
+  image: string;
+  live: string;
 };

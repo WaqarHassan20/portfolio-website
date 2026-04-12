@@ -35,7 +35,7 @@ export default function About() {
 
   return (
     <>
-      <section id="about" ref={ref} className="relative min-h-screen px-6 overflow-hidden flex flex-col justify-center">
+      <section id="about" ref={ref} className="relative min-h-screen px-4 sm:px-5 md:px-6 lg:px-8 overflow-hidden flex flex-col justify-center">
         <div className="max-w-6xl mx-auto w-full flex flex-col flex-1 justify-center">
           <SectionHeading
             eyebrow="More about me"
