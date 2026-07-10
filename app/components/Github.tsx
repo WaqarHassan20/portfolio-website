@@ -80,10 +80,10 @@ export default function Github() {
       maxContribution: heatmapData?.maxContribution ?? null,
       lastUpdatedText: lastUpdated
         ? new Date(lastUpdated).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })
         : "N/A",
     };
   }, [heatmapData]);

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Saira, Roboto, Playfair_Display, Outfit, Roboto_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SocialSidebar from "./components/SocialSidebar";
-import NavDock from "./components/NavDock";
 import BootLoaderGate from "./components/BootLoaderGate";
 import GlobalTopProgress from "./components/GlobalTopProgress";
 
@@ -69,7 +68,6 @@ export default function RootLayout({
       >
         <GlobalTopProgress />
         <SocialSidebar />
-        <NavDock />
         <BootLoaderGate>
           {children}
         </BootLoaderGate>

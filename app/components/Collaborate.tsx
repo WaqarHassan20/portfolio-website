@@ -5,6 +5,7 @@ import { SendHorizontal } from "lucide-react";
 import SectionHeading from "@/app/components/shared/SectionHeading";
 import { COLLAB_BUDGETS, COLLAB_PROJECT_TYPES } from "@/app/data/collaborate";
 import type { BudgetOption, ProjectTypeOption } from "@/app/types/content";
+import LightLines from "@/app/components/ui/light-lines";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -52,6 +53,16 @@ export default function Collaborate() {
         ref={ref}
         className="relative min-h-screen py-2 md:py-20 px-4 sm:px-5 md:px-6 lg:px-8 overflow-hidden flex items-center"
       >
+        <LightLines
+          lineColor="rgba(255, 255, 255, 0.02)"
+          lightColor="rgba(255, 255, 255, 0.1)"
+          linesOpacity={0.2}
+          lightsOpacity={0.15}
+          gradientFrom="transparent"
+          gradientTo="transparent"
+          speedScale={0.25}
+          className="z-0"
+        />
         {/* Subtle ambient — same neutral tone as Experience/Domains */}
         <div
           className="absolute inset-0 pointer-events-none"

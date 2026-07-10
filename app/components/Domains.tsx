@@ -85,7 +85,7 @@ export default function Domains() {
                         v === "dim"
                           ? "rgba(255,255,255,0.005)"
                           : v === "glow"
-                            ? "rgba(255,255,255,0.11)"
+                            ? "rgba(96, 165, 250, 0.08)"
                             : v === "lit"
                               ? "rgba(255,255,255,0.07)"
                               : "rgba(255,255,255,0.03)",
@@ -93,14 +93,14 @@ export default function Domains() {
                         v === "dim"
                           ? "rgba(255,255,255,0.04)"
                           : v === "glow"
-                            ? "rgba(255,255,255,0.55)"
+                            ? "rgba(96, 165, 250, 0.85)"
                             : v === "lit"
                               ? "rgba(255,255,255,0.36)"
                               : "rgba(255,255,255,0.10)",
                       opacity: v === "dim" ? 0.15 : 1,
                       filter:
                         v === "glow"
-                          ? "drop-shadow(0 0 18px rgba(255,255,255,0.45)) drop-shadow(0 0 40px rgba(255,255,255,0.2))"
+                          ? "drop-shadow(0 0 16px rgba(96, 165, 250, 0.6)) drop-shadow(0 0 30px rgba(96, 165, 250, 0.25))"
                           : "drop-shadow(0 0 0px rgba(255,255,255,0))",
                     }}
                     transition={{ duration: 0.35, ease: "easeInOut" }}
@@ -149,22 +149,22 @@ export default function Domains() {
                       {row.flatMap((skill, j) =>
                         j === 0
                           ? [
-                              <tspan key={skill} fill="rgba(255,255,255,0.38)">
-                                {skill}
-                              </tspan>,
-                            ]
+                            <tspan key={skill} fill="rgba(255,255,255,0.38)">
+                              {skill}
+                            </tspan>,
+                          ]
                           : [
-                              <tspan
-                                key={`d${j}`}
-                                fill="rgba(255,255,255,0.85)"
-                              >
-                                {" "}
-                                ·{" "}
-                              </tspan>,
-                              <tspan key={skill} fill="rgba(255,255,255,0.38)">
-                                {skill}
-                              </tspan>,
-                            ],
+                            <tspan
+                              key={`d${j}`}
+                              fill="rgba(255,255,255,0.85)"
+                            >
+                              {" "}
+                              ·{" "}
+                            </tspan>,
+                            <tspan key={skill} fill="rgba(255,255,255,0.38)">
+                              {skill}
+                            </tspan>,
+                          ],
                       )}
                     </text>
                   ))}

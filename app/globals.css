@@ -273,7 +273,6 @@ body {
 @media (min-width: 1024px) {
   .about-profile-card { min-height: 360px; }
 }
-
 /* DOMAINS SECTION */
 /* Container uses padding-bottom % trick so height scales with width */
 .domain-venn-container { padding-bottom: 90%; }
