@@ -1,4 +1,4 @@
-import type { BudgetOption, ProjectTypeOption } from "@/app/types/content";
+import type { BudgetOption, ProjectTypeOption } from "@/types/content";
 
 export const COLLAB_PROJECT_TYPES: ProjectTypeOption[] = [
   "Web App",

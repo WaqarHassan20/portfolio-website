@@ -2,7 +2,6 @@
 import { useLayoutEffect, useState, useTransition } from "react";
 import BootLoader1 from "./BootLoader1";
 
-const STORAGE_KEY = "portfolio_loader";
 
 /**
  * Detect the type of page navigation using the Performance API

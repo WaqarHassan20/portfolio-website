@@ -1,4 +1,4 @@
-import type { CodeGlyph, StatItem } from "@/app/types/content";
+import type { CodeGlyph, StatItem } from "@/types/content";
 
 export const ABOUT_STATS: StatItem[] = [
   { value: "3+", label: "Years Experience" },

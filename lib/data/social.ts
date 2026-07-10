@@ -2,7 +2,7 @@ import type {
   FooterSocial,
   HeroSocial,
   SidebarSocial,
-} from "@/app/types/content";
+} from "@/types/content";
 
 export const HERO_SOCIALS: HeroSocial[] = [
   { icon: "github", href: "https://github.com/WaqarHassan20", label: "GitHub" },

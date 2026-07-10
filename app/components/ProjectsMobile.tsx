@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
-import { PROJECT_SHOWCASE } from "@/app/data/projects";
+import { PROJECT_SHOWCASE } from "@/lib/data/projects";
 
 type ProjectCard = {
   id?: string | number;
@@ -154,7 +154,6 @@ export default function ProjectsMobile() {
               </div>
               <div className="flex flex-1 flex-col justify-between p-3 sm:p-4">
                 <div className="min-h-0">
-                  <p className="font-jetbrains text-[10px] font-bold text-white/60 sm:text-xs">{project.number}</p>
                   <h3 className="mt-1 line-clamp-2 font-jetbrains text-sm font-semibold text-white/90 sm:text-base">
                     {project.name}
                   </h3>
@@ -204,9 +203,6 @@ export default function ProjectsMobile() {
             <div className="p-6 sm:p-8">
               <div className="mb-4 flex items-start justify-between gap-4">
                 <div className="flex-1">
-                  <p className="font-jetbrains text-3xl font-bold text-white/80 sm:text-4xl">
-                    {selectedProject.number}
-                  </p>
                   <h2 className="mt-2 font-jetbrains text-2xl font-semibold text-white sm:text-3xl">
                     {selectedProject.name}
                   </h2>

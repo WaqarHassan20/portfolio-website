@@ -23,19 +23,19 @@ interface TimelineEntry {
 // ── Data ──────────────────────────────────────────────────────────
 const ENTRIES: TimelineEntry[] = [
   {
-    year: "NOW",
-    role: "Fundamentals of AI, ML",
-    category: "Always Exploring",
+    year: "2026",
+    role: "DevOps & DevSecOps",
+    category: "Security & Operations",
     description:
-      "Exploring the foundations of Artificial Intelligence, Machine Learning, and Mobile Development. Building advanced applications and exploring the core features of emerging technologies and its future.",
+      "Focusing on DevOps architectures, secure CI/CD pipelines, container runtime compliance, and continuous GitOps delivery.",
     isPresent: true,
   },
   {
     year: "2025",
-    role: "AI Engineer & Mobile Dev",
-    category: "Dived into AI & Mobile",
+    role: "Foundations of AI & DevOps",
+    category: "AI & Platform Systems",
     description:
-      "Diving deep into AI engineering and mobile development. Building intelligent applications, experimenting with LLMs, and creating seamless mobile experiences.",
+      "Exploring the foundations of Artificial Intelligence and Machine Learning alongside DevOps automation. Integrating LLMs, agentic workflows, and training pipelines with automated infrastructure.",
   },
   {
     year: "2024",
@@ -159,7 +159,7 @@ function TimelineRow({
           <span
             className="font-semibold leading-snug tracking-tight transition-colors duration-500"
             style={{
-              fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)",
+              fontSize: "clamp(0.95rem, 1.8vw, 1.25rem)",
               color: isHovered ? "#F0F5F9" : "#B8C0CC",
             }}
           >
@@ -181,7 +181,7 @@ function TimelineRow({
           <span
             className="font-mono font-extrabold leading-none tracking-tight transition-all duration-500"
             style={{
-              fontSize: "clamp(2.5rem, 5.2vw, 4.6rem)",
+              fontSize: "clamp(1.8rem, 3.8vw, 3rem)",
               color: yearGlows ? "#F0F5F9" : "#6B7A85",
             }}
           >
@@ -195,7 +195,7 @@ function TimelineRow({
           <p
             className="font-light leading-relaxed transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.82rem, 1.55vw, 0.98rem)",
+              fontSize: "clamp(0.78rem, 1.3vw, 0.88rem)",
               color: textGlows ? "#C9D6DF" : "#6B7A85",
             }}
           >
@@ -218,7 +218,7 @@ function TimelineRow({
           <span
             className="font-mono font-extrabold leading-none tracking-tight transition-colors duration-500"
             style={{
-              fontSize: "clamp(1.9rem, 8.5vw, 2.6rem)",
+              fontSize: "clamp(1.5rem, 6.5vw, 2rem)",
               color: yearGlows ? "#F0F5F9" : "#6B7A85",
             }}
           >
@@ -227,7 +227,7 @@ function TimelineRow({
           <span
             className="mt-1 font-semibold leading-snug tracking-tight transition-colors duration-500"
             style={{
-              fontSize: "clamp(1rem, 4.5vw, 1.25rem)",
+              fontSize: "clamp(0.9rem, 3.8vw, 1.1rem)",
               color: isHovered ? "#F0F5F9" : "#B8C0CC",
             }}
           >
@@ -236,7 +236,7 @@ function TimelineRow({
           <span
             className="mb-2 font-mono tracking-[0.22em] uppercase transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.58rem, 2.5vw, 0.68rem)",
+              fontSize: "clamp(0.55rem, 2.2vw, 0.62rem)",
               color: textGlows ? "#C9D6DF" : "#6B7A85",
             }}
           >
@@ -245,7 +245,7 @@ function TimelineRow({
           <p
             className="font-light leading-relaxed transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.78rem, 3.5vw, 0.92rem)",
+              fontSize: "clamp(0.75rem, 3vw, 0.85rem)",
               color: textGlows ? "#C9D6DF" : "#6B7A85",
             }}
           >

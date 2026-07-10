@@ -3,8 +3,8 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { SendHorizontal } from "lucide-react";
 import SectionHeading from "@/app/components/shared/SectionHeading";
-import { COLLAB_BUDGETS, COLLAB_PROJECT_TYPES } from "@/app/data/collaborate";
-import type { BudgetOption, ProjectTypeOption } from "@/app/types/content";
+import { COLLAB_BUDGETS, COLLAB_PROJECT_TYPES } from "@/lib/data/collaborate";
+import type { BudgetOption, ProjectTypeOption } from "@/types/content";
 import LightLines from "@/app/components/ui/light-lines";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -54,13 +54,13 @@ export default function Collaborate() {
         className="relative min-h-screen py-2 md:py-20 px-4 sm:px-5 md:px-6 lg:px-8 overflow-hidden flex items-center"
       >
         <LightLines
-          lineColor="rgba(255, 255, 255, 0.02)"
-          lightColor="rgba(255, 255, 255, 0.1)"
-          linesOpacity={0.2}
-          lightsOpacity={0.15}
-          gradientFrom="transparent"
-          gradientTo="transparent"
-          speedScale={0.25}
+          lines={14}
+          hlines={6}
+          lineColor="rgba(255, 255, 255, 0.06)"
+          lightColor="rgba(255, 255, 255, 0.28)"
+          linesOpacity={0.4}
+          lightsOpacity={0.5}
+          speedScale={1.35}
           className="z-0"
         />
         {/* Subtle ambient — same neutral tone as Experience/Domains */}
@@ -157,15 +157,11 @@ export default function Collaborate() {
                                  tracking-[0.22em] uppercase border
                                  transition-all duration-200 cursor-pointer
                                  hover:border-white/55 hover:shadow-[0_0_10px_rgba(255,255,255,0.09)]
-                                 ${on ? "border-white/35" : "border-white/10"}`}
-                      style={{
-                        background: on
-                          ? "rgba(255,255,255,0.08)"
-                          : "transparent",
-                        color: on
-                          ? "rgba(255,255,255,0.88)"
-                          : "rgba(255,255,255,0.34)",
-                      }}
+                                 ${
+                                   on
+                                     ? "border-white/35 bg-white/8 text-white/90"
+                                     : "border-white/10 bg-transparent text-white/35"
+                                 }`}
                     >
                       {t}
                     </button>
@@ -188,15 +184,11 @@ export default function Collaborate() {
                                  tracking-[0.22em] uppercase border
                                  transition-all duration-200 cursor-pointer
                                  hover:border-white/50 hover:shadow-[0_0_10px_rgba(255,255,255,0.08)]
-                                 ${on ? "border-white/30" : "border-white/8"}`}
-                      style={{
-                        background: on
-                          ? "rgba(255,255,255,0.06)"
-                          : "transparent",
-                        color: on
-                          ? "rgba(255,255,255,0.80)"
-                          : "rgba(255,255,255,0.30)",
-                      }}
+                                 ${
+                                   on
+                                     ? "border-white/30 bg-white/6 text-white/80"
+                                     : "border-white/8 bg-transparent text-white/30"
+                                 }`}
                     >
                       {b}
                     </button>

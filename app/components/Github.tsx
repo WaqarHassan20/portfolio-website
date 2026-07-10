@@ -12,8 +12,8 @@ import {
 } from "lucide-react";
 import SectionHeading from "@/app/components/shared/SectionHeading";
 import ContributionGraph from "@/app/components/github/ContributionGraph";
-import { GITHUB_PROFILE } from "@/app/data/github";
-import type { GithubHeatmapResponse } from "@/app/types/github";
+import { GITHUB_PROFILE } from "@/lib/data/github";
+import type { GithubHeatmapResponse } from "@/types/github";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 

@@ -259,7 +259,7 @@ body {
 }
 
 /* ABOUT SECTION */
-.about-heading-size    { font-size: clamp(2.2rem, 5vw, 4rem); }
+.about-heading-size    { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
 .about-profile-card    { width: 100%; aspect-ratio: 4 / 5; min-height: 260px; max-height: 520px; }
 .about-profile-radial  { background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.045) 0%, transparent 68%); }
 .about-initials        { font-size: clamp(5rem, 14vw, 8rem); }

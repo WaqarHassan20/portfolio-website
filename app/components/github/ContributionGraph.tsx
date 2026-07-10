@@ -1,5 +1,5 @@
 import { memo, useMemo } from "react";
-import type { ContributionLevel, ContributionWeek } from "@/app/types/github";
+import type { ContributionLevel, ContributionWeek } from "@/types/github";
 
 type ContributionGraphProps = {
   weeks: ContributionWeek[];

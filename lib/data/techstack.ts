@@ -1,4 +1,4 @@
-import type { TechEntry } from "@/app/types/techstack";
+import type { TechEntry } from "@/types/techstack";
 
 const DV = "https://raw.githubusercontent.com/devicons/devicon/master/icons";
 

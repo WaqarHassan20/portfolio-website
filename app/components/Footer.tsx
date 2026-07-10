@@ -6,8 +6,8 @@ import {
   FOOTER_NAME,
   FOOTER_NAME_LINE_1,
   FOOTER_NAME_LINE_2,
-} from "@/app/data/footer";
-import { FOOTER_SOCIALS } from "@/app/data/social";
+} from "@/lib/data/footer";
+import { FOOTER_SOCIALS } from "@/lib/data/social";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -24,8 +24,7 @@ export default function Footer() {
         {/* ── Headline — letter stagger ──────────────────────── */}
         <div className="mb-8 sm:mb-16 w-full overflow-hidden">
           <h2
-            className="font-jetbrains font-bold uppercase leading-[0.88] tracking-normal select-none text-white text-left sm:text-center"
-            style={{ fontSize: "clamp(2.8rem, 9vw, 7rem)" }}
+            className="font-jetbrains font-bold uppercase leading-[0.88] tracking-normal select-none text-white text-left sm:text-center text-[clamp(2.8rem,9vw,7rem)]"
             aria-label={FOOTER_NAME}
           >
             {/* Line 1: "Waqar UL" — block on mobile, inline on desktop */}

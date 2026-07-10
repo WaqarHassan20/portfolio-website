@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { TechEntry } from "@/app/types/techstack";
-import { TECHS } from "@/app/data/techstack";
+import type { TechEntry } from "@/types/techstack";
+import { TECHS } from "@/lib/data/techstack";
 
 type Props = {
   colorized: boolean;
@@ -152,12 +152,10 @@ export function IconCloud3D({ colorized, onHoverTech }: Props) {
                 src={tech.img}
                 alt={tech.label}
                 onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.opacity = "0";
+                  (e.currentTarget as HTMLImageElement).classList.add("opacity-0");
                 }}
+                className="w-11 h-11 object-contain pointer-events-none block"
                 style={{
-                  width: 44,
-                  height: 44,
-                  objectFit: "contain",
                   filter: showColor
                     ? tech.invert
                       ? "invert(1) brightness(1.25)"
@@ -166,8 +164,6 @@ export function IconCloud3D({ colorized, onHoverTech }: Props) {
                       ? "invert(1) grayscale(100%) brightness(0.78)"
                       : "grayscale(100%) brightness(0.72) saturate(0)",
                   transition: "filter 0.4s ease",
-                  pointerEvents: "none",
-                  display: "block",
                 }}
               />
             </div>

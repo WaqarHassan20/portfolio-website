@@ -8,7 +8,7 @@ import {
   HOME_SCROLL_SPY_IDS,
   NAVBAR_ROUTE_LINKS,
   NAVBAR_SCROLL_LINKS,
-} from "@/app/data/navigation";
+} from "@/lib/data/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();

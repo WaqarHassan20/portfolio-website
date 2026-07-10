@@ -1,4 +1,4 @@
-import type { ProjectShowcaseItem } from "@/app/types/project";
+import type { ProjectShowcaseItem } from "@/types/project";
 
 export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
   {

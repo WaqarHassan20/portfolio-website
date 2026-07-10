@@ -1,17 +1,15 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Zap, Globe, Cpu, Settings } from "lucide-react";
 import Image from "next/image";
-import { ABOUT_CODE_GLYPHS, ABOUT_STATS } from "@/app/data/about";
+import { ABOUT_CODE_GLYPHS, ABOUT_STATS } from "@/lib/data/about";
 
 type TiltState = { rx: number; ry: number; active: boolean };
 type SpotPosition = { x: number; y: number };
 
 export default function Hero() {
-  const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
   // States for the 3D Profile Card Tilt
@@ -55,78 +53,36 @@ export default function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
+  void mounted;
+
   return (
     <>
       <section
         id="home"
-        className="relative min-h-screen py-24 sm:py-32 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden"
+        className="relative min-h-screen pt-2 pb-12 sm:pt-4 sm:pb-16 pl-8 pr-4 sm:pl-10 sm:pr-6 md:pl-12 md:pr-8 lg:px-8 flex items-center justify-center overflow-hidden"
       >
         {/* Ambient background glow drifts */}
         <div className="absolute inset-0 pointer-events-none">
           {(
             [
-              {
-                w: 650,
-                h: 650,
-                op: 0.018,
-                bl: 90,
-                top: "-18%",
-                left: "-12%",
-                dur: 14,
-                del: 0,
-              },
-              {
-                w: 520,
-                h: 520,
-                op: 0.015,
-                bl: 110,
-                bottom: "-8%",
-                right: "-5%",
-                dur: 18,
-                del: 5,
-              },
-              {
-                w: 400,
-                h: 400,
-                op: 0.012,
-                bl: 70,
-                top: "38%",
-                left: "38%",
-                dur: 11,
-                del: 2,
-              },
+              { w: 650, h: 650, op: 0.018, bl: 90, top: "-18%", left: "-12%", dur: 14, del: 0 },
+              { w: 520, h: 520, op: 0.015, bl: 110, bottom: "-8%", right: "-5%", dur: 18, del: 5 },
+              { w: 400, h: 400, op: 0.012, bl: 70, top: "38%", left: "38%", dur: 11, del: 2 },
             ] as Array<{
-              w: number;
-              h: number;
-              op: number;
-              bl: number;
-              dur: number;
-              del: number;
-              top?: string;
-              left?: string;
-              right?: string;
-              bottom?: string;
+              w: number; h: number; op: number; bl: number; dur: number; del: number;
+              top?: string; left?: string; right?: string; bottom?: string;
             }>
           ).map((s, i) => (
             <motion.div
               key={i}
               animate={{ y: [0, -28, 0], scale: [1, 1.08, 1] }}
-              transition={{
-                duration: s.dur,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: s.del,
-              }}
+              transition={{ duration: s.dur, repeat: Infinity, ease: "easeInOut", delay: s.del }}
               className="absolute rounded-full"
               style={{
-                width: s.w,
-                height: s.h,
+                width: s.w, height: s.h,
                 background: `radial-gradient(circle, rgba(255,255,255,${s.op}) 0%, transparent 68%)`,
                 filter: `blur(${s.bl}px)`,
-                top: s.top,
-                left: s.left,
-                bottom: s.bottom,
-                right: s.right,
+                top: s.top, left: s.left, bottom: s.bottom, right: s.right,
               }}
             />
           ))}
@@ -134,7 +90,7 @@ export default function Hero() {
 
         <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
           {/* ── TOP HERO INTRODUCTION ── */}
-          <div className="w-full text-center mb-16">
+          <div className="w-full text-center mb-10">
             {/* Availability Badge (Blue Theme) */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -147,16 +103,28 @@ export default function Hero() {
               Available for new projects
             </motion.div>
 
-            {/* Main Tagline (One line, Monospace, uppercase, tracking space) */}
+            {/* Consistent Section Heading placed above tagline */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="mb-6"
+            >
+              <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-3">
+                Get to know me
+              </p>
+              <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
+                <span className="text-white font-bold about-heading-size">About</span>
+                <span className="text-white/65 font-normal ml-5 about-heading-size">Me</span>
+              </h2>
+            </motion.div>
+
+            {/* Main Tagline — Bigger text size */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.3,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="font-mono tracking-[0.06em] text-[clamp(1.3rem,2.8vw,2.4rem)] uppercase font-bold text-white/90 mb-3"
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="font-mono tracking-[0.06em] text-[clamp(1rem,2vw,1.6rem)] uppercase font-bold text-white/90 mb-3"
             >
               Cloud Orchestration Platform Engineering
             </motion.h1>
@@ -174,17 +142,17 @@ export default function Hero() {
             </motion.p>
           </div>
 
-          {/* ── BOTTOM CONSOLIDATED GRID (ABOUT MERGED) ── */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 sm:gap-16 items-start mt-4">
+          {/* ── MAIN CONTENT GRID ── */}
+          <div className="w-full grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 sm:gap-16 items-start">
 
-            {/* LEFT COLUMN: Profile Card & Stats Bento */}
+            {/* LEFT COLUMN: Profile Card only */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.6 }}
               className="flex flex-col items-center w-full"
             >
-              {/* Squared profile card (Blue outline, rounded-xl) */}
+              {/* Profile card — THICK BLUE BORDER + GLOW */}
               <div
                 ref={profileCardRef}
                 onMouseMove={handleCardMouseMove}
@@ -196,7 +164,7 @@ export default function Hero() {
                     : "transform 0.7s cubic-bezier(0.23, 1, 0.32, 1)",
                   willChange: "transform",
                 }}
-                className="relative aspect-square w-full max-w-[280px] rounded-xl overflow-hidden glass border border-blue-400/40 cursor-pointer select-none"
+                className="relative aspect-square w-full max-w-[280px] rounded-xl overflow-hidden glass border-[3px] border-blue-400/70 cursor-pointer select-none"
               >
                 {/* Floating code glyphs */}
                 {ABOUT_CODE_GLYPHS.map((g) => (
@@ -247,7 +215,7 @@ export default function Hero() {
 
                 {/* Image */}
                 <div
-                  className="absolute inset-0"
+                  className="absolute inset-0 border border-white/8"
                   style={{
                     transform: tilt.active ? "scale(1.1)" : "scale(1)",
                     transition: tilt.active
@@ -259,7 +227,7 @@ export default function Hero() {
                     src="/avatar.jpg"
                     alt="Waqar UL Hassan"
                     fill
-                    className="object-cover object-top rounded-xl"
+                    className="object-cover object-top rounded-md"
                     priority
                     sizes="280px"
                   />
@@ -282,65 +250,9 @@ export default function Hero() {
                   </p>
                 </div>
               </div>
-
-              {/* VengenceUI Bento Grid Stats (1x4 Horizontal Row format) */}
-              <div
-                ref={statsRef}
-                onMouseMove={handleStatsMouseMove}
-                onMouseEnter={() => setStatsHovered(true)}
-                onMouseLeave={() => setStatsHovered(false)}
-                className="relative grid grid-cols-4 w-full max-w-lg mt-6 border border-white/8 rounded-xl overflow-hidden bg-black/40 select-none"
-              >
-                {/* Mouse-following background glow */}
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 z-10"
-                  style={{
-                    opacity: statsHovered ? 1 : 0,
-                    background: `radial-gradient(150px circle at ${statsCoords.x}px ${statsCoords.y}px, rgba(255,255,255,0.06), transparent 70%)`,
-                  }}
-                />
-
-                {/* Mouse-following border glow */}
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 z-20"
-                  style={{
-                    opacity: statsHovered ? 1 : 0,
-                    background: `radial-gradient(180px circle at ${statsCoords.x}px ${statsCoords.y}px, rgba(255,255,255,0.22), transparent 50%)`,
-                    maskImage: `
-                      linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent calc(100% - 1px), black calc(100% - 1px), black 100%),
-                      linear-gradient(to right, transparent, transparent calc(25% - 1px), black calc(25% - 1px), black 25%, transparent 25%, transparent calc(50% - 1px), black calc(50% - 1px), black 50%, transparent 50%, transparent calc(75% - 1px), black calc(75% - 1px), black 75%, transparent 75%, transparent calc(100% - 1px), black calc(100% - 1px), black 100%)
-                    `,
-                    WebkitMaskImage: `
-                      linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent calc(100% - 1px), black calc(100% - 1px), black 100%),
-                      linear-gradient(to right, transparent, transparent calc(25% - 1px), black calc(25% - 1px), black 25%, transparent 25%, transparent calc(50% - 1px), black calc(50% - 1px), black 50%, transparent 50%, transparent calc(75% - 1px), black calc(75% - 1px), black 75%, transparent 75%, transparent calc(100% - 1px), black calc(100% - 1px), black 100%)
-                    `,
-                    maskComposite: "add",
-                    WebkitMaskComposite: "source-over",
-                  }}
-                />
-
-                {ABOUT_STATS.map((s, i) => (
-                  <div
-                    key={s.label}
-                    className="relative flex flex-col gap-1 px-3 py-4 z-10 text-center"
-                  >
-                    {/* Vertical dividers (3 total) */}
-                    {i < 3 && (
-                      <div className="absolute right-0 top-0 bottom-0 w-px bg-zinc-800/40" />
-                    )}
-
-                    <span className="text-white font-semibold text-base sm:text-lg leading-none tracking-tight">
-                      {s.value}
-                    </span>
-                    <span className="text-white/35 text-[8px] font-mono tracking-[0.2em] uppercase leading-snug">
-                      {s.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
             </motion.div>
 
-            {/* RIGHT COLUMN: Keypoints (SVG Icons) */}
+            {/* RIGHT COLUMN: About text */}
             <motion.div
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
@@ -348,7 +260,7 @@ export default function Hero() {
               className="flex flex-col justify-center gap-6 text-left"
             >
               <h3 className="font-mono text-lg text-white leading-tight tracking-normal">
-                Hola, I&apos;m Waqar UL Hassan 👋
+                Hey, I&apos;m Waqar UL Hassan 👋
               </h3>
 
               {/* Technical Bullet Points with Lucide Icons */}
@@ -356,13 +268,13 @@ export default function Hero() {
                 <li className="flex items-start gap-3">
                   <Zap size={16} className="text-blue-400 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-white/80 font-semibold">Core Expertise:</strong> DevOps orchestration, CI/CD automated deployments, and cloud platform engineering.
+                    <strong className="text-white/80 font-semibold">Core DevOps:</strong> DevOps orchestration, CI/CD automated deployments, and cloud platform engineering.
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <Globe size={16} className="text-blue-400 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-white/80 font-semibold">Full-Stack Dev:</strong> Crafting production-grade React interfaces & robust Node.js APIs (MERN stack).
+                    <strong className="text-white/80 font-semibold">Full-Stack Dev:</strong> Crafting production-grade React interfaces &amp; robust Node.js APIs (MERN stack).
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -374,12 +286,73 @@ export default function Hero() {
                 <li className="flex items-start gap-3">
                   <Settings size={16} className="text-blue-400 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-white/80 font-semibold">Quality & Scale:</strong> Focused on clean architecture, developer experience, and high performance.
+                    <strong className="text-white/80 font-semibold">Quality &amp; Scale:</strong> Focused on clean architecture, developer experience, and high performance.
                   </div>
                 </li>
               </ul>
             </motion.div>
           </div>
+
+          {/* ── FULL-WIDTH STATS ROW (spans image → text) ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.85 }}
+            className="w-full mt-10"
+          >
+            <div
+              ref={statsRef}
+              onMouseMove={handleStatsMouseMove}
+              onMouseEnter={() => setStatsHovered(true)}
+              onMouseLeave={() => setStatsHovered(false)}
+              className="relative grid grid-cols-2 sm:grid-cols-4 w-full border border-white/8 rounded-xl overflow-hidden bg-black/40 select-none"
+            >
+              {/* Mouse-following background glow */}
+              <div
+                className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-10"
+                style={{
+                  opacity: statsHovered ? 1 : 0,
+                  background: `radial-gradient(200px circle at ${statsCoords.x}px ${statsCoords.y}px, rgba(255,255,255,0.12), transparent 70%)`,
+                }}
+              />
+
+              {/* Mouse-following border glow */}
+              <div
+                className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-20"
+                style={{
+                  opacity: statsHovered ? 1 : 0,
+                  background: `radial-gradient(220px circle at ${statsCoords.x}px ${statsCoords.y}px, rgba(255,255,255,0.40), transparent 50%)`,
+                  maskImage: `
+                    linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent calc(100% - 1px), black calc(100% - 1px), black 100%),
+                    linear-gradient(to right, transparent, transparent calc(25% - 1px), black calc(25% - 1px), black 25%, transparent 25%, transparent calc(50% - 1px), black calc(50% - 1px), black 50%, transparent 50%, transparent calc(75% - 1px), black calc(75% - 1px), black 75%, transparent 75%, transparent calc(100% - 1px), black calc(100% - 1px), black 100%)
+                  `,
+                  WebkitMaskImage: `
+                    linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent calc(100% - 1px), black calc(100% - 1px), black 100%),
+                    linear-gradient(to right, transparent, transparent calc(25% - 1px), black calc(25% - 1px), black 25%, transparent 25%, transparent calc(50% - 1px), black calc(50% - 1px), black 50%, transparent 50%, transparent calc(75% - 1px), black calc(75% - 1px), black 75%, transparent 75%, transparent calc(100% - 1px), black calc(100% - 1px), black 100%)
+                  `,
+                  maskComposite: "add",
+                  WebkitMaskComposite: "source-over",
+                }}
+              />
+
+              {ABOUT_STATS.map((s, i) => (
+                <div
+                  key={s.label}
+                  className="relative flex flex-col gap-1.5 px-4 py-5 z-10 text-center border-b border-white/5 sm:border-b-0 [&:nth-last-child(-n+2)]:border-b-0"
+                >
+                  {i < 3 && (
+                    <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-px bg-zinc-800/40" />
+                  )}
+                  <span className="text-white font-semibold text-xl sm:text-2xl leading-none tracking-tight">
+                    {s.value}
+                  </span>
+                  <span className="text-white/35 text-[8px] font-mono tracking-[0.2em] uppercase leading-snug">
+                    {s.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
       <div className="w-full my-5 sm:my-14 h-px bg-white/8" />

@@ -3,7 +3,7 @@ import type {
   ContributionLevel,
   ContributionWeek,
   GithubHeatmapResponse,
-} from "@/app/types/github";
+} from "@/types/github";
 
 const GITHUB_GRAPHQL_ENDPOINT = "https://api.github.com/graphql";
 const CACHE_SECONDS = 1800;

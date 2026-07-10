@@ -5,7 +5,7 @@ import type {
   HitArea,
   HitZone,
   IntersectionLabel,
-} from "@/app/types/domains";
+} from "@/types/domains";
 
 // Geometry for SVG viewBox="0 0 900 770".
 export const DOMAIN_RADIUS = 240;
@@ -29,22 +29,22 @@ export const DOMAIN_LIT_ZONES: Record<HitZone, CircleKey[]> = {
 export const DOMAIN_CIRCLES: DomainCircle[] = [
   {
     key: "frontend",
-    title: "Frontend",
-    sub: "UI / UX",
+    title: "MERN Stack",
+    sub: "Web Development",
     skillRows: [
       ["React", "Next.js", "TypeScript"],
-      ["Tailwind CSS", "Framer Motion"],
+      ["Node.js", "Express", "MongoDB"],
     ],
     lx: 200,
     ly: 210,
   },
   {
     key: "backend",
-    title: "Backend",
-    sub: "API / DB",
+    title: "AI Injecting",
+    sub: "LLM / Agents",
     skillRows: [
-      ["Node.js", "Express", "PostgreSQL"],
-      ["MongoDB", "Redis", "GraphQL"],
+      ["LangChain", "AI Agents", "Python"],
+      ["FastAPI", "VectorDBs", "LLMs"],
     ],
     lx: 700,
     ly: 210,
@@ -52,10 +52,10 @@ export const DOMAIN_CIRCLES: DomainCircle[] = [
   {
     key: "devops",
     title: "DevOps",
-    sub: "CI / CD",
+    sub: "Infrastructure",
     skillRows: [
-      ["Docker", "Kubernetes", "GitHub Actions"],
-      ["AWS", "Terraform", "Linux"],
+      ["Docker", "Kubernetes", "GitOps"],
+      ["AWS", "Terraform", "CI/CD"],
     ],
     lx: 450,
     ly: 598,
@@ -63,10 +63,10 @@ export const DOMAIN_CIRCLES: DomainCircle[] = [
 ];
 
 export const DOMAIN_INTERSECTION_LABELS: IntersectionLabel[] = [
-  { x: 450, y: 148, lines: ["Isomorphic Apps"] },
-  { x: 340, y: 415, lines: ["Frontend Ops"] },
-  { x: 560, y: 415, lines: ["Backend Infra"] },
-  { x: 450, y: 332, center: true, lines: ["FULL STACK", "DEVELOPER"] },
+  { x: 450, y: 148, lines: ["MERN & AI"] },
+  { x: 340, y: 415, lines: ["MERN Ops"] },
+  { x: 560, y: 415, lines: ["AI Ops"] },
+  { x: 450, y: 332, center: true, lines: ["AI & DEVOPS", "ORCHESTRATION"] },
 ];
 
 export const DOMAIN_HIT_AREAS: HitArea[] = [

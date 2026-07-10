@@ -1,19 +1,17 @@
 import {
   Briefcase,
   Code2,
-  Github,
   FolderKanban,
   Home,
   Layers,
   Mail,
   MessageSquare,
-  User,
 } from "lucide-react";
 import type {
   NavDockItem,
   RouteNavLink,
   ScrollNavLink,
-} from "@/app/types/navigation";
+} from "@/types/navigation";
 
 // Shared navigation model for dock and top navbar scroll spy.
 export const NAV_DOCK_SECTIONS: NavDockItem[] = [

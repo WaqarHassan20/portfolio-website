@@ -74,7 +74,7 @@ export default function SocialSidebar() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
-      className="fixed bottom-20 right-12 sm:right-8 z-40 flex flex-row items-center gap-2.5"
+      className="fixed bottom-20 right-20 z-40 flex flex-row items-center gap-2.5"
     >
       {/* decorative horizontal line */}
       <motion.span

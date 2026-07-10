@@ -1,62 +1,96 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import type { TechEntry } from "@/app/types/techstack";
-import { TECHS } from "@/app/data/techstack";
+import type { TechEntry } from "@/types/techstack";
+import { TECHS } from "@/lib/data/techstack";
 import { TechCard } from "./TechCard";
 import { IconCloud3D } from "./IconCloud3D";
 import { GlobeLeftPanel, GlobeRightPanel } from "./GlobeInfoPanels";
 
+// ── Domain grouping configuration ──────────────────────────────────────────
+const DOMAINS = [
+  {
+    key: "devops",
+    label: "DevOps & Infrastructure",
+    color: "#3b82f6",      // blue
+    dot: "bg-blue-500",
+    labels: [
+      "Docker", "Kubernetes", "AWS", "DigitalOcean", "Cloudflare", "Vercel",
+      "Terraform", "Ansible", "Helm", "Vault", "ArgoCD", "GH Actions",
+      "Jenkins", "Prometheus", "Grafana", "Nginx", "Bash", "Turborepo",
+    ],
+  },
+  {
+    key: "mern",
+    label: "MERN Stack",
+    color: "#a855f7",      // purple
+    dot: "bg-purple-500",
+    labels: [
+      "React", "Next.js", "Node.js", "Express", "MongoDB",
+      "GraphQL", "tRPC", "Socket.IO", "Bun", "Hono", "FastAPI",
+    ],
+  },
+  {
+    key: "tools",
+    label: "Languages & Tools",
+    color: "#64748b",      // slate
+    dot: "bg-slate-400",
+    labels: [
+      "JavaScript", "TypeScript", "Python", "C", "C++", "Java", "C#",
+      "PostgreSQL", "Redis", "Prisma", "Drizzle", "ClickHouse", "TimescaleDB",
+      "Kafka", "RabbitMQ", "JWT", "LangChain", "Postman",
+      "Jest", "Vitest", "Cypress", "HTML5", "CSS3", "Tailwind CSS",
+      "shadcn/ui", "Chart.js", "Jupyter", "Figma", "Git",
+    ],
+  },
+];
+
+function getDomainTechs(labelList: string[]): TechEntry[] {
+  return labelList
+    .map((lbl) => TECHS.find((t) => t.label === lbl))
+    .filter(Boolean) as TechEntry[];
+}
+
+// ── Mobile: scrolling marquee + collapsible skill lists ──────────────────────
 function MobileTechMarquee() {
+  const [isOpen, setIsOpen] = useState(false);
   const rows = [
-    TECHS.filter((_, index) => index % 4 === 0),
-    TECHS.filter((_, index) => index % 4 === 1),
-    TECHS.filter((_, index) => index % 4 === 2),
-    TECHS.filter((_, index) => index % 4 === 3),
+    TECHS.filter((_, i) => i % 4 === 0),
+    TECHS.filter((_, i) => i % 4 === 1),
+    TECHS.filter((_, i) => i % 4 === 2),
+    TECHS.filter((_, i) => i % 4 === 3),
   ];
 
   return (
-    <div className="md:hidden px-4 pt-2 pb-10 sm:px-5">
+    <div className="md:hidden pl-8 pr-4 pt-2 pb-10 sm:pl-10 sm:pr-5">
       <div className="mb-8 text-center">
         <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.3em] text-white/30">
           Skills I work with
         </p>
         <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
           <span className="text-white font-bold about-heading-size">Tech</span>
-          <span className="ml-5 text-white/65 font-normal about-heading-size">
-            Stack
-          </span>
+          <span className="ml-5 text-white/65 font-normal about-heading-size">Stack</span>
         </h2>
       </div>
 
       <div className="space-y-2.5">
         {rows.map((row, rowIndex) => {
-          const direction = rowIndex % 2 === 0 ? 1 : -1;
+          const dir = rowIndex % 2 === 0 ? 1 : -1;
           return (
             <div key={rowIndex} className="overflow-hidden py-2">
               <motion.div
                 className="flex w-max items-center gap-6 px-3"
-                animate={{ x: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }}
-                transition={{
-                  duration: 14 + rowIndex * 2,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                animate={{ x: dir === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+                transition={{ duration: 14 + rowIndex * 2, repeat: Infinity, ease: "linear" }}
               >
-                {[...row, ...row].map((tech, index) => (
+                {[...row, ...row].map((tech, idx) => (
                   <div
-                    key={`${rowIndex}-${tech.label}-${index}`}
-                    className="flex min-w-max items-center justify-center opacity-80 transition-opacity duration-300 hover:opacity-100"
+                    key={`${rowIndex}-${tech.label}-${idx}`}
+                    className="flex min-w-max items-center justify-center opacity-80 transition-opacity"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={tech.img}
-                      alt={tech.label}
-                      className="h-6 w-6 object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.28)]"
-                    />
+                    <img src={tech.img} alt={tech.label} className="h-6 w-6 object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.28)]" />
                   </div>
                 ))}
               </motion.div>
@@ -64,95 +98,117 @@ function MobileTechMarquee() {
           );
         })}
       </div>
+
+      {/* Accordion trigger button */}
+      <div className="flex justify-center mt-6">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="px-5 py-2.5 rounded-full border border-white/12 bg-white/3 font-mono text-[10.5px] uppercase tracking-wider text-white/70 hover:bg-white hover:text-black transition-colors"
+        >
+          {isOpen ? "Hide Skills List" : "Show All Skills List"}
+        </button>
+      </div>
+
+      {/* Accordion list */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-6 flex flex-col gap-6 overflow-hidden"
+          >
+            {DOMAINS.map((domain) => {
+              const techs = getDomainTechs(domain.labels);
+              return (
+                <div key={domain.key} className="border-t border-white/5 pt-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className={`w-2 h-2 rounded-full ${domain.dot}`} />
+                    <span className="font-mono text-[10.5px] uppercase tracking-widest text-white/80 font-bold">
+                      {domain.label}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {techs.map((tech) => (
+                      <span
+                        key={tech.label}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/6 bg-white/2 font-mono text-[10px] text-white/60"
+                      >
+                        {tech.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-/* ── Staggered Square Bento Grid (with GSAP Column Scroll Animation) ── */
-function TechGrid({
+// ── Domain-grouped pill grid ─────────────────────────────────────────────────
+function TechDomainGrid({
   colorized,
   onHover,
 }: {
   colorized: boolean;
-  onHover: (tech: TechEntry | null, idx: number) => void;
+  onHover: (tech: TechEntry | null) => void;
 }) {
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!gridRef.current) return;
-
-    // Register GSAP ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
-
-    const grid = gridRef.current;
-    const cards = grid.querySelectorAll(".tech-card-item");
-
-    // Group cards into columns dynamically based on their offsetLeft coordinate
-    const colsMap: Record<number, Element[]> = {};
-    cards.forEach((card) => {
-      const left = (card as HTMLElement).offsetLeft;
-      if (!colsMap[left]) {
-        colsMap[left] = [];
-      }
-      colsMap[left].push(card);
-    });
-
-    const columns = Object.values(colsMap);
-    const middleColumnIndex = Math.floor(columns.length / 2);
-
-    // Apply staggered entry GSAP ScrollTrigger animations per-column
-    columns.forEach((columnItems, columnIndex) => {
-      const delayFactor = Math.abs(columnIndex - middleColumnIndex) * 0.15;
-
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: grid,
-          start: "top bottom-=10%",
-          end: "bottom center",
-          scrub: 1.5,
-        },
-      }).from(columnItems, {
-        y: 120,
-        opacity: 0,
-        delay: delayFactor,
-        ease: "sine.out",
-        stagger: 0.05,
-      });
-    });
-
-    return () => {
-      // Cleanup ScrollTriggers on unmount
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
-
   return (
-    <div className="max-w-5xl mx-auto w-full px-4 sm:px-6 md:px-8">
-      <div
-        ref={gridRef}
-        className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 justify-center"
-      >
-        {TECHS.map((tech, globalIdx) => (
-          <div key={tech.label} className="tech-card-item">
-            <TechCard
-              tech={tech}
-              index={globalIdx}
-              colorized={colorized}
-              onHover={(t) => onHover(t, globalIdx)}
-            />
-          </div>
-        ))}
-      </div>
+    <div className="max-w-5xl mx-auto w-full pl-8 pr-4 sm:pl-10 sm:pr-6 md:pl-12 md:pr-8 lg:px-8 flex flex-col gap-10">
+      {DOMAINS.map((domain, domainIdx) => {
+        const techs = getDomainTechs(domain.labels);
+        return (
+          <motion.div
+            key={domain.key}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: domainIdx * 0.12, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Domain header */}
+            <div className="flex items-center gap-2.5 mb-4">
+              <span
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ background: domain.color, boxShadow: `0 0 8px ${domain.color}88` }}
+              />
+              <span
+                className="font-mono text-[11px] uppercase tracking-[0.3em] font-semibold"
+                style={{ color: domain.color }}
+              >
+                {domain.label}
+              </span>
+              <span className="font-mono text-[10px] text-white/20 tracking-wider">
+                · {techs.length} skills
+              </span>
+              {/* Divider line */}
+              <div className="flex-1 h-px bg-white/5 ml-1" />
+            </div>
+
+            {/* Pills flex-wrap */}
+            <div className="flex flex-wrap gap-2">
+              {techs.map((tech, i) => (
+                <TechCard
+                  key={tech.label}
+                  tech={tech}
+                  index={domainIdx * 30 + i}
+                  colorized={colorized}
+                  onHover={onHover}
+                />
+              ))}
+            </div>
+          </motion.div>
+        );
+      })}
     </div>
   );
 }
 
-/* ── Toggle button ── */
+// ── Toggle button ────────────────────────────────────────────────────────────
 function ToggleBtn({
-  active,
-  onClick,
-  onHoverChange,
-  children,
+  active, onClick, onHoverChange, children,
 }: {
   active: boolean;
   onClick: () => void;
@@ -160,44 +216,20 @@ function ToggleBtn({
   children: React.ReactNode;
 }) {
   const [hover, setHover] = useState(false);
-  const handleEnter = () => {
-    setHover(true);
-    onHoverChange?.(true);
-  };
-  const handleLeave = () => {
-    setHover(false);
-    onHoverChange?.(false);
-  };
   return (
     <div
       className="flex items-center gap-2 px-4 py-2 rounded-full font-mono text-[9px]
-                 tracking-[0.22em] uppercase border transition-all duration-300
-                 cursor-pointer select-none"
+                 tracking-[0.22em] uppercase border transition-all duration-300 cursor-pointer select-none"
       style={{
-        borderColor: active
-          ? "rgba(255,255,255,0.40)"
-          : hover
-            ? "rgba(255,255,255,0.22)"
-            : "rgba(255,255,255,0.18)",
-        background: active
-          ? "rgba(255,255,255,0.10)"
-          : hover
-            ? "rgba(255,255,255,0.04)"
-            : "transparent",
-        color: active
-          ? "rgba(255,255,255,0.85)"
-          : hover
-            ? "rgba(255,255,255,0.55)"
-            : "rgba(255,255,255,0.45)",
+        borderColor: active ? "rgba(255,255,255,0.40)" : hover ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.18)",
+        background: active ? "rgba(255,255,255,0.10)" : hover ? "rgba(255,255,255,0.04)" : "transparent",
+        color: active ? "rgba(255,255,255,0.85)" : hover ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.45)",
       }}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      onMouseEnter={() => { setHover(true); onHoverChange?.(true); }}
+      onMouseLeave={() => { setHover(false); onHoverChange?.(false); }}
       onClick={onClick}
     >
-      <span
-        className="relative flex items-center justify-center"
-        style={{ width: 7, height: 7 }}
-      >
+      <span className="relative flex items-center justify-center" style={{ width: 7, height: 7 }}>
         {hover && !active && (
           <motion.span
             className="absolute rounded-full"
@@ -206,28 +238,19 @@ function ToggleBtn({
             transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
           />
         )}
-        <span
-          style={{
-            width: 5,
-            height: 5,
-            borderRadius: "50%",
-            display: "inline-block",
-            background: active
-              ? "#ffffff"
-              : hover
-                ? "rgba(255,255,255,0.55)"
-                : "rgba(255,255,255,0.2)",
-            transition: "background 0.3s",
-            boxShadow: active ? "0 0 6px 1px rgba(255,255,255,0.4)" : "none",
-          }}
-        />
+        <span style={{
+          width: 5, height: 5, borderRadius: "50%", display: "inline-block",
+          background: active ? "#ffffff" : hover ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.2)",
+          transition: "background 0.3s",
+          boxShadow: active ? "0 0 6px 1px rgba(255,255,255,0.4)" : "none",
+        }} />
       </span>
       {children}
     </div>
   );
 }
 
-/* ── Main TechStack section ── */
+// ── Main exported section ─────────────────────────────────────────────────────
 export default function TechStack() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
@@ -270,53 +293,30 @@ export default function TechStack() {
               <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-4">
                 Skills I work with
               </p>
-              <div
-                className="flex flex-col items-center gap-4 lg:relative lg:flex-row lg:justify-center max-w-5xl mx-auto"
-              >
+              <div className="flex flex-col items-center gap-4 lg:relative lg:flex-row lg:justify-center max-w-5xl mx-auto">
                 <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em] mb-2">
-                  <span className="text-white font-bold about-heading-size">
-                    Tech
-                  </span>
-                  <span className="text-white/65 font-normal ml-5 about-heading-size">
-                    Stack
-                  </span>
+                  <span className="text-white font-bold about-heading-size">Tech</span>
+                  <span className="text-white/65 font-normal ml-5 about-heading-size">Stack</span>
                 </h2>
 
+                {/* Mobile toggles */}
                 <div className="order-2 flex items-center gap-3 lg:hidden">
-                  <ToggleBtn
-                    active={viewMode === "cloud"}
-                    onClick={() =>
-                      setViewMode((v) => (v === "mesh" ? "cloud" : "mesh"))
-                    }
-                  >
+                  <ToggleBtn active={viewMode === "cloud"} onClick={() => setViewMode(v => v === "mesh" ? "cloud" : "mesh")}>
                     {viewMode === "cloud" ? "Grid View" : "Globe View"}
                   </ToggleBtn>
-                  <ToggleBtn
-                    active={locked}
-                    onClick={() => setLocked((v) => !v)}
-                    onHoverChange={setBtnHover}
-                  >
+                  <ToggleBtn active={locked} onClick={() => setLocked(v => !v)} onHoverChange={setBtnHover}>
                     {locked ? "Unlock Colors" : "Lock Colors"}
                   </ToggleBtn>
                 </div>
 
+                {/* Desktop toggles */}
                 <div className="hidden lg:absolute lg:left-0 lg:block">
-                  <ToggleBtn
-                    active={viewMode === "cloud"}
-                    onClick={() =>
-                      setViewMode((v) => (v === "mesh" ? "cloud" : "mesh"))
-                    }
-                  >
+                  <ToggleBtn active={viewMode === "cloud"} onClick={() => setViewMode(v => v === "mesh" ? "cloud" : "mesh")}>
                     {viewMode === "cloud" ? "Grid View" : "Globe View"}
                   </ToggleBtn>
                 </div>
-
                 <div className="hidden lg:absolute lg:right-0 lg:block">
-                  <ToggleBtn
-                    active={locked}
-                    onClick={() => setLocked((v) => !v)}
-                    onHoverChange={setBtnHover}
-                  >
+                  <ToggleBtn active={locked} onClick={() => setLocked(v => !v)} onHoverChange={setBtnHover}>
                     {locked ? "Unlock Colors" : "Lock Colors"}
                   </ToggleBtn>
                 </div>
@@ -328,15 +328,12 @@ export default function TechStack() {
               {viewMode === "mesh" ? (
                 <motion.div
                   key="mesh"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
+                  exit={{ opacity: 0, y: -16 }}
                   transition={{ duration: 0.35 }}
                 >
-                  <TechGrid
-                    colorized={colorized}
-                    onHover={(t) => setHoveredTech(t)}
-                  />
+                  <TechDomainGrid colorized={colorized} onHover={setHoveredTech} />
                 </motion.div>
               ) : (
                 <motion.div
@@ -346,28 +343,17 @@ export default function TechStack() {
                   exit={{ opacity: 0, scale: 0.92 }}
                   transition={{ duration: 0.35 }}
                 >
-                  {/* ── 3-column: left info | globe | right info ── */}
                   <div className="flex items-center justify-center gap-52 py-8 px-6">
-                    {/* Left panel — desktop only */}
                     <div className="hidden xl:block shrink-0">
                       <GlobeLeftPanel tech={hoveredTech} />
                     </div>
-
-                    {/* Globe — wrapped to prevent mx-auto from consuming flex space */}
                     <div className="shrink-0">
-                      <IconCloud3D
-                        colorized={colorized}
-                        onHoverTech={setHoveredTech}
-                      />
+                      <IconCloud3D colorized={colorized} onHoverTech={setHoveredTech} />
                     </div>
-
-                    {/* Right panel — desktop only */}
                     <div className="hidden xl:block shrink-0">
                       <GlobeRightPanel tech={hoveredTech} />
                     </div>
                   </div>
-
-                  {/* Hint — visible below xl (non-desktop) */}
                   <p className="text-center font-mono text-[10px] tracking-[0.22em] uppercase text-gray-200 pb-4">
                     · hover any skill to reveal insights ·
                   </p>
