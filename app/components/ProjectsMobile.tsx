@@ -204,6 +204,7 @@ export default function ProjectsMobile() {
               <div className="mb-4 flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <h2 className="mt-2 font-jetbrains text-2xl font-semibold text-white sm:text-3xl">
+                    <span className="font-mono font-medium text-white/35 mr-4 text-[0.85em]">{selectedProject.number}</span>
                     {selectedProject.name}
                   </h2>
                   <span className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/3 px-4 py-1.5 font-mono text-sm uppercase tracking-wider text-white/55">

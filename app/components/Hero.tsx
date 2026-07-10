@@ -108,34 +108,29 @@ export default function Hero() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="mb-6"
+              className="mb-4"
             >
-              <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-3">
-                Get to know me
-              </p>
-              <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
-                <span className="text-white font-bold about-heading-size">About</span>
-                <span className="text-white/65 font-normal ml-5 about-heading-size">Me</span>
-              </h2>
+              <h1 className="font-outfit font-extrabold tracking-tight text-[clamp(2.8rem,7.5vw,5.5rem)] leading-[1.05] text-white">
+                Waqar UL Hassan
+              </h1>
             </motion.div>
 
-            {/* Main Tagline — Bigger text size */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+            {/* Main Tagline — Spaced Mono Tech Accent */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="font-mono tracking-[0.06em] text-[clamp(1rem,2vw,1.6rem)] uppercase font-bold text-white/90 mb-3"
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="font-mono tracking-[0.16em] text-[clamp(0.9rem,1.8vw,1.25rem)] uppercase font-semibold text-blue-400 mb-6"
             >
               Cloud Orchestration Platform Engineering
-            </motion.h1>
+            </motion.p>
 
             {/* Bio Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.7 }}
-              className="text-white/40 text-sm leading-relaxed max-w-2xl mx-auto
-                       font-(family-name:--font-roboto) tracking-[0.2em]"
+              className="text-white/60 text-[clamp(0.95rem,1.25vw,1.1rem)] leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-[0.08em]"
             >
               orchestrating cloud-native infrastructure and automated deployments,
               backed by production-grade MERN stack applications.
@@ -259,9 +254,9 @@ export default function Hero() {
               transition={{ duration: 0.7, delay: 0.7 }}
               className="flex flex-col justify-center gap-6 text-left"
             >
-              <h3 className="font-mono text-lg text-white leading-tight tracking-normal">
-                Hey, I&apos;m Waqar UL Hassan 👋
-              </h3>
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/70 font-semibold mb-2">
+                {" Background & Focus"}
+              </span>
 
               {/* Technical Bullet Points with Lucide Icons */}
               <ul className="flex flex-col gap-4 font-mono text-sm leading-relaxed text-white/50">
@@ -338,7 +333,7 @@ export default function Hero() {
               {ABOUT_STATS.map((s, i) => (
                 <div
                   key={s.label}
-                  className="relative flex flex-col gap-1.5 px-4 py-5 z-10 text-center border-b border-white/5 sm:border-b-0 [&:nth-last-child(-n+2)]:border-b-0"
+                  className="relative flex flex-col gap-1.5 px-4 py-5 z-10 text-center border-b border-white/5 sm:border-b-0 [nth-last-child(-n+2)]:border-b-0"
                 >
                   {i < 3 && (
                     <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-px bg-zinc-800/40" />

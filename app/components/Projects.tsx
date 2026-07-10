@@ -113,12 +113,13 @@ function ProjectStrip({
             className="absolute inset-0 grid grid-cols-[1.1fr_0.9fr] h-full z-10"
           >
             {/* Left: text content (hides the card background under it) */}
-            <div className="flex flex-col justify-between px-7 py-6 border-r border-white/8 overflow-hidden bg-black/95 backdrop-blur-[4px]">
+            <div className="flex flex-col justify-between px-7 py-6 border-r border-white/8 overflow-hidden bg-black/95 backdrop-blur-xs">
               {/* Header */}
               <div>
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div className="text-left">
                     <h3 className="font-jetbrains text-[clamp(1.2rem,2.2vw,1.9rem)] leading-tight font-bold tracking-tight text-white">
+                      <span className="font-mono font-medium text-white mr-4 text-[0.85em]">{project.number}.</span>
                       {project.name}
                     </h3>
                     <span className="mt-2 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-white/70">
@@ -240,9 +241,8 @@ export default function Projects() {
           </h2>
         </div>
 
-        {/* Centered cards grid strip: Reduced height layout, defaults to index 0 on mouse leave */}
+        {/* Centered cards grid strip: Reduced height layout, persists last hovered index on mouse leave */}
         <div
-          onMouseLeave={() => setActiveIndex(0)}
           className="max-w-6xl mx-auto h-[52vh] min-h-[420px] max-h-[520px] flex items-stretch gap-4 overflow-hidden"
         >
           {cards.map((project, index) => (
