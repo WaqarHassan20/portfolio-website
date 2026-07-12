@@ -57,6 +57,7 @@ export default function SocialSidebar() {
       letter: "N",
       label: "Resume",
       href: "/resume.pdf",
+      download: "Waqar_Hassan_Resume.pdf",
       icon: <FileText size={17} strokeWidth={1.6} />,
     },
     {
