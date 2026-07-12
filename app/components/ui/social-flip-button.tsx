@@ -62,21 +62,21 @@ const SocialFlipNode = ({
               scale: 0.8,
               ...(direction === "horizontal"
                 ? { y: 10, x: "-50%", left: "1/2" }
-                : { x: 10, y: "-50%", top: "50%", left: "44px" }),
+                : { x: -10, y: "-50%", top: "50%", right: "44px" }),
             }}
             animate={{
               opacity: 1,
               scale: 1,
               ...(direction === "horizontal"
                 ? { y: -45, x: "-50%", left: "50%" }
-                : { x: 0, y: "-50%", top: "50%", left: "44px" }),
+                : { x: 0, y: "-50%", top: "50%", right: "44px" }),
             }}
             exit={{
               opacity: 0,
               scale: 0.8,
               ...(direction === "horizontal"
                 ? { y: 10, x: "-50%", left: "50%" }
-                : { x: 10, y: "-50%", top: "50%", left: "44px" }),
+                : { x: -10, y: "-50%", top: "50%", right: "44px" }),
             }}
             transition={{ duration: 0.18, ease: "easeOut" }}
             className={cn(
@@ -88,7 +88,7 @@ const SocialFlipNode = ({
             {direction === "horizontal" ? (
               <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rotate-45 bg-neutral-900 border-r border-b border-white/8" />
             ) : (
-              <div className="absolute -left-1 top-1/2 -translate-y-1/2 h-1.5 w-1.5 rotate-45 bg-neutral-900 border-l border-b border-white/8" />
+              <div className="absolute -right-1 top-1/2 -translate-y-1/2 h-1.5 w-1.5 rotate-45 bg-neutral-900 border-r border-t border-white/8" />
             )}
           </motion.div>
         )}
@@ -110,7 +110,7 @@ const SocialFlipNode = ({
         {/* Front - Letter */}
         <div
           className={cn(
-            "absolute inset-0 flex items-center justify-center rounded-xl bg-transparent text-base font-jetbrains font-bold text-white/45 shadow-sm border border-white/[0.07] backdrop-blur-md transition-colors hover:text-white/80 hover:border-white/18",
+            "absolute inset-0 flex items-center justify-center rounded-xl bg-transparent text-base font-jetbrains font-bold text-white/55 shadow-sm border border-white/10 backdrop-blur-md transition-colors hover:text-white/80 hover:border-white/18",
             frontClassName
           )}
           style={{ backfaceVisibility: "hidden" }}
@@ -163,43 +163,36 @@ export default function SocialFlipButton({
       }}
     >
       {/* Border Lines Container - Clipped */}
-      <div 
+      <div
         className={cn(
-          "absolute -inset-[1px] overflow-hidden rounded-2xl pointer-events-none transition-opacity duration-300",
+          "absolute -inset-px overflow-hidden rounded-2xl pointer-events-none transition-opacity duration-300",
           isHovered ? "opacity-100" : "opacity-80"
         )}
       >
-        {isVertical ? (
-          <>
-            {/* Animated Left Border Line */}
-            <motion.div
-              className="absolute left-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-white/40 to-transparent"
-              animate={isHovered ? { y: ["-100%", "100%"] } : { y: "0%" }}
-              transition={isHovered ? { duration: 3.5, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
-            />
-            {/* Animated Right Border Line */}
-            <motion.div
-              className="absolute right-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-white/40 to-transparent"
-              animate={isHovered ? { y: ["100%", "-100%"] } : { y: "0%" }}
-              transition={isHovered ? { duration: 3.5, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
-            />
-          </>
-        ) : (
-          <>
-            {/* Animated Top Border Line */}
-            <motion.div
-              className="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-white/40 to-transparent"
-              animate={isHovered ? { x: ["-100%", "100%"] } : { x: "0%" }}
-              transition={isHovered ? { duration: 3.5, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
-            />
-            {/* Animated Bottom Border Line */}
-            <motion.div
-              className="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-white/40 to-transparent"
-              animate={isHovered ? { x: ["100%", "-100%"] } : { x: "0%" }}
-              transition={isHovered ? { duration: 3.5, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
-            />
-          </>
-        )}
+        {/* Animated Left Border Line */}
+        <motion.div
+          className="absolute left-0 top-0 w-px h-full bg-linear-to-b from-transparent via-white/40 to-transparent"
+          animate={isHovered ? { y: ["-100%", "100%"] } : { y: "0%" }}
+          transition={isHovered ? { duration: 3.5, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
+        />
+        {/* Animated Right Border Line */}
+        <motion.div
+          className="absolute right-0 top-0 w-px h-full bg-linear-to-b from-transparent via-white/40 to-transparent"
+          animate={isHovered ? { y: ["100%", "-100%"] } : { y: "0%" }}
+          transition={isHovered ? { duration: 3.5, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
+        />
+        {/* Animated Top Border Line */}
+        <motion.div
+          className="absolute top-0 left-0 h-px w-full bg-linear-to-r from-transparent via-white/40 to-transparent"
+          animate={isHovered ? { x: ["-100%", "100%"] } : { x: "0%" }}
+          transition={isHovered ? { duration: 3.5, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
+        />
+        {/* Animated Bottom Border Line */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-px w-full bg-linear-to-r from-transparent via-white/40 to-transparent"
+          animate={isHovered ? { x: ["100%", "-100%"] } : { x: "0%" }}
+          transition={isHovered ? { duration: 3.5, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
+        />
       </div>
 
       {items.map((item, index) => (
