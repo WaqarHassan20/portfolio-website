@@ -122,7 +122,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className="font-mono tracking-[0.16em] text-[clamp(0.9rem,1.8vw,1.25rem)] uppercase font-semibold text-blue-400 mb-6"
             >
-              Cloud Orchestration Platform Engineering
+              Cloud Orchestration Platform Engineer
             </motion.p>
 
             {/* Bio Description */}
