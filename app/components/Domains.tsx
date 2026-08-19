@@ -157,86 +157,143 @@ export default function Domains() {
                 );
               })}
 
-              {/* ── per-circle: title + sub + skill rows with dot separators ── */}
-              {DOMAIN_CIRCLES.map(({ key, title, sub, skillRows, lx, ly }) => (
-                <g key={key}>
-                  <text
-                    x={lx}
-                    y={ly}
-                    textAnchor="middle"
-                    fontSize="22"
-                    fontFamily="monospace"
-                    fontWeight="700"
-                    letterSpacing="3"
-                    fill="rgba(255,255,255,0.82)"
-                    className="uppercase"
-                  >
-                    {title}
-                  </text>
-                  <text
-                    x={lx}
-                    y={ly + 18}
-                    textAnchor="middle"
-                    fontSize="10"
-                    fontFamily="monospace"
-                    letterSpacing="2"
-                    fill="rgba(255,255,255,0.28)"
-                    className="uppercase"
-                  >
-                    {sub}
-                  </text>
-                  {skillRows.map((row, i) => (
-                    <text
-                       key={i}
-                       x={lx}
-                       y={ly + 38 + i * 17}
-                       textAnchor="middle"
-                       fontSize="10"
-                       fontFamily="monospace"
-                       letterSpacing="0.8"
-                     >
-                       {row.flatMap((skill, j) =>
-                         j === 0
-                           ? [
-                               <tspan key={skill} fill="rgba(255,255,255,0.52)">
-                                 {skill}
-                               </tspan>,
-                             ]
-                           : [
-                               <tspan key={`${skill}-dot`} fill="rgba(255,255,255,0.18)">
-                                 {" · "}
-                               </tspan>,
-                               <tspan key={skill} fill="rgba(255,255,255,0.52)">
-                                 {skill}
-                               </tspan>,
-                             ],
-                       )}
-                     </text>
-                  ))}
-                </g>
-              ))}
+              {/* ── per-circle: title + sub + skill rows with dynamic hover lighting ── */}
+              {DOMAIN_CIRCLES.map(({ key, title, sub, skillRows, lx, ly }) => {
+                const v = getVariant(key);
+                const isLit = v === "glow" || v === "lit";
+                const titleFill = isLit
+                  ? "#ffffff"
+                  : v === "dim"
+                  ? "rgba(255,255,255,0.22)"
+                  : "rgba(255,255,255,0.38)";
+                const subFill = isLit
+                  ? "rgba(255,255,255,0.85)"
+                  : v === "dim"
+                  ? "rgba(255,255,255,0.14)"
+                  : "rgba(255,255,255,0.22)";
+                const skillFill = isLit
+                  ? "#ffffff"
+                  : v === "dim"
+                  ? "rgba(255,255,255,0.18)"
+                  : "rgba(255,255,255,0.30)";
+                const dotFill = isLit
+                  ? "rgba(255,255,255,0.60)"
+                  : "rgba(255,255,255,0.12)";
 
-              {/* ── 4 static intersection labels ── */}
-              {DOMAIN_INTERSECTION_LABELS.map(({ x, y, center, lines }) => (
-                <g key={x + "-" + y}>
-                  {lines.map((line, lineIdx) => (
+                return (
+                  <g key={key} className="transition-all duration-300">
                     <text
-                      key={line}
-                      x={x}
-                      y={y + lineIdx * 15}
+                      x={lx}
+                      y={ly}
                       textAnchor="middle"
-                      fontSize={center ? "10.5" : "9.5"}
+                      fontSize="22"
                       fontFamily="monospace"
-                      fontWeight={center ? "700" : "500"}
-                      letterSpacing="2"
-                      fill={center ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.48)"}
-                      className="uppercase"
+                      fontWeight="700"
+                      letterSpacing="3"
+                      fill={titleFill}
+                      style={
+                        isLit
+                          ? { filter: "drop-shadow(0 0 12px rgba(255,255,255,0.75))" }
+                          : undefined
+                      }
+                      className="uppercase transition-colors duration-300"
                     >
-                      {line}
+                      {title}
                     </text>
-                  ))}
-                </g>
-              ))}
+                    <text
+                      x={lx}
+                      y={ly + 18}
+                      textAnchor="middle"
+                      fontSize="10"
+                      fontFamily="monospace"
+                      letterSpacing="2"
+                      fill={subFill}
+                      className="uppercase transition-colors duration-300"
+                    >
+                      {sub}
+                    </text>
+                    {skillRows.map((row, i) => (
+                      <text
+                        key={i}
+                        x={lx}
+                        y={ly + 38 + i * 17}
+                        textAnchor="middle"
+                        fontSize="10"
+                        fontFamily="monospace"
+                        letterSpacing="0.8"
+                        className="transition-colors duration-300"
+                      >
+                        {row.flatMap((skill, j) =>
+                          j === 0
+                            ? [
+                                <tspan key={skill} fill={skillFill}>
+                                  {skill}
+                                </tspan>,
+                              ]
+                            : [
+                                <tspan key={`${skill}-dot`} fill={dotFill}>
+                                  {" · "}
+                                </tspan>,
+                                <tspan key={skill} fill={skillFill}>
+                                  {skill}
+                                </tspan>,
+                              ],
+                        )}
+                      </text>
+                    ))}
+                  </g>
+                );
+              })}
+
+              {/* ── 4 dynamic intersection labels + central collective action ── */}
+              {DOMAIN_INTERSECTION_LABELS.map(({ x, y, center, lines }) => {
+                const isCentralHover = Boolean(center && active === "all");
+                const isMernAi = lines[0].includes("MERN & AI");
+                const isMernOps = lines[0].includes("MERN Ops");
+                const isAiOps = lines[0].includes("AI Ops");
+
+                const isLabelLit = center
+                  ? active === "all"
+                  : (isMernAi && (active === "frontend" || active === "backend" || active === "fs-be" || active === "all")) ||
+                    (isMernOps && (active === "frontend" || active === "devops" || active === "fs-do" || active === "all")) ||
+                    (isAiOps && (active === "backend" || active === "devops" || active === "be-do" || active === "all"));
+
+                return (
+                  <g key={x + "-" + y}>
+                    {lines.map((line, lineIdx) => (
+                      <text
+                        key={line}
+                        x={x}
+                        y={y + lineIdx * 15}
+                        textAnchor="middle"
+                        fontSize={center ? "10.5" : "9.5"}
+                        fontFamily="monospace"
+                        fontWeight={center ? (isCentralHover ? "700" : "500") : isLabelLit ? "700" : "500"}
+                        letterSpacing="2"
+                        fill={
+                          isCentralHover
+                            ? "#00d2ff"
+                            : isLabelLit
+                            ? "#ffffff"
+                            : center
+                            ? "rgba(255,255,255,0.30)"
+                            : "rgba(255,255,255,0.22)"
+                        }
+                        style={
+                          isCentralHover
+                            ? { filter: "drop-shadow(0 0 12px rgba(0,210,255,0.95))" }
+                            : isLabelLit
+                            ? { filter: "drop-shadow(0 0 8px rgba(255,255,255,0.85))" }
+                            : undefined
+                        }
+                        className="uppercase transition-colors duration-300"
+                      >
+                        {line}
+                      </text>
+                    ))}
+                  </g>
+                );
+              })}
 
               {/* ── invisible hit areas — drawn last so they sit on top ── */}
               {DOMAIN_HIT_AREAS.map(({ id, cx, cy, r }) => (

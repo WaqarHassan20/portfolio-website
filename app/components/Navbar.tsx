@@ -2,8 +2,9 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import {
   HOME_SCROLL_SPY_IDS,
   NAVBAR_ROUTE_LINKS,
@@ -76,17 +77,21 @@ export default function Navbar() {
                             : "bg-transparent"
                         }`}
           >
-            {/* Logo */}
+            {/* Logo with profile picture navicon */}
             <Link
               href="/"
-              className="flex items-center gap-2 group shrink-0"
+              className="flex items-center gap-2.5 group shrink-0"
               aria-label="Home"
             >
-              <div className="relative w-8 h-8">
-                <div className="absolute inset-0 glass-crystal rounded-lg" />
-                <div className="relative w-full h-full glass border border-white/12 rounded-lg flex items-center justify-center group-hover:border-white/25 transition-all">
-                  <Zap className="w-4 h-4 text-white/60 group-hover:text-white/85 transition-colors" />
-                </div>
+              <div className="relative w-8.5 h-8.5 rounded-full overflow-hidden border-[1.5px] border-blue-400/70 shadow-[0_0_10px_rgba(59,130,246,0.4)] group-hover:border-blue-400 group-hover:shadow-[0_0_14px_rgba(59,130,246,0.6)] transition-all duration-300">
+                <Image
+                  src="/avatar.jpg"
+                  alt="Waqar UL Hassan"
+                  fill
+                  className="object-cover object-top"
+                  sizes="34px"
+                  priority
+                />
               </div>
               <span className="font-bold text-sm tracking-widest text-gradient-static font-mono hidden sm:block">
                 WH

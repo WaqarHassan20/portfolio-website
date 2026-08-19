@@ -211,9 +211,10 @@ export const TECHS: TechEntry[] = [
     use: "Chosen for monorepo scripts and edge services where cold-start speed is critical.",
   },
   {
-    img: "https://www.peanutsquare.com/wp-content/uploads/2024/04/Express.png",
+    img: `${DV}/express/express-original.svg`,
     label: "Express",
     color: "#FFFFFF",
+    invert: true,
     desc: "Minimal, unopinionated Node.js web framework for rapidly building REST APIs and web apps.",
     use: "Go-to HTTP layer for lightweight REST APIs and middleware-based request pipelines.",
   },
