@@ -157,19 +157,19 @@ function TimelineRow({
         {/* Col 1 — role + category, right-aligned */}
         <div className="flex flex-col items-end gap-2 pt-1 text-right">
           <span
-            className="font-semibold leading-snug tracking-tight transition-colors duration-500"
+            className="font-mono font-bold leading-snug tracking-tight transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.95rem, 1.8vw, 1.25rem)",
-              color: isHovered ? "#F0F5F9" : "#B8C0CC",
+              fontSize: "clamp(1.05rem, 2.2vw, 1.45rem)",
+              color: isHovered ? "#F0F5F9" : "#D1D5DB",
             }}
           >
             {entry.role}
           </span>
           <span
-            className="font-mono tracking-[0.22em] uppercase transition-colors duration-500"
+            className="font-mono tracking-[0.22em] uppercase font-medium transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.6rem, 1vw, 0.7rem)",
-              color: textGlows ? "#C9D6DF" : "#6B7A85",
+              fontSize: "clamp(0.72rem, 1.2vw, 0.85rem)",
+              color: textGlows ? "#C9D6DF" : "#8B9A9D",
             }}
           >
             {entry.category}
@@ -177,11 +177,11 @@ function TimelineRow({
         </div>
 
         {/* Col 2 — large year + node, centered on beam */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-10 flex flex-col items-center gap-4">
           <span
             className="font-mono font-extrabold leading-none tracking-tight transition-all duration-500"
             style={{
-              fontSize: "clamp(1.8rem, 3.8vw, 3rem)",
+              fontSize: "clamp(2.8rem, 5.5vw, 4.8rem)",
               color: yearGlows ? "#F0F5F9" : "#6B7A85",
             }}
           >
@@ -193,10 +193,10 @@ function TimelineRow({
         {/* Col 3 — description, left-aligned */}
         <div className="pt-1">
           <p
-            className="font-light leading-relaxed transition-colors duration-500"
+            className="font-mono font-light leading-relaxed transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.78rem, 1.3vw, 0.88rem)",
-              color: textGlows ? "#C9D6DF" : "#6B7A85",
+              fontSize: "clamp(0.85rem, 1.4vw, 0.98rem)",
+              color: textGlows ? "#E2E8F0" : "#94A3B8",
             }}
           >
             {entry.description}
@@ -209,44 +209,44 @@ function TimelineRow({
       <div className="grid grid-cols-[2rem_1fr] items-start gap-4 py-9 md:hidden">
 
         {/* Col 1 — node pinned over beam */}
-        <div className="flex justify-center pt-1.5">
+        <div className="flex justify-center pt-2">
           <NodeDot isPresent={entry.isPresent} isActive={isActive} size="sm" />
         </div>
 
         {/* Col 2 — year → role → category → description */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <span
             className="font-mono font-extrabold leading-none tracking-tight transition-colors duration-500"
             style={{
-              fontSize: "clamp(1.5rem, 6.5vw, 2rem)",
+              fontSize: "clamp(2.2rem, 8vw, 3.2rem)",
               color: yearGlows ? "#F0F5F9" : "#6B7A85",
             }}
           >
             {entry.year}
           </span>
           <span
-            className="mt-1 font-semibold leading-snug tracking-tight transition-colors duration-500"
+            className="mt-1 font-mono font-bold leading-snug tracking-tight transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.9rem, 3.8vw, 1.1rem)",
-              color: isHovered ? "#F0F5F9" : "#B8C0CC",
+              fontSize: "clamp(1.05rem, 4.2vw, 1.25rem)",
+              color: isHovered ? "#F0F5F9" : "#D1D5DB",
             }}
           >
             {entry.role}
           </span>
           <span
-            className="mb-2 font-mono tracking-[0.22em] uppercase transition-colors duration-500"
+            className="mb-1 font-mono tracking-[0.22em] uppercase font-medium transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.55rem, 2.2vw, 0.62rem)",
-              color: textGlows ? "#C9D6DF" : "#6B7A85",
+              fontSize: "clamp(0.7rem, 2.6vw, 0.82rem)",
+              color: textGlows ? "#C9D6DF" : "#8B9A9D",
             }}
           >
             {entry.category}
           </span>
           <p
-            className="font-light leading-relaxed transition-colors duration-500"
+            className="font-mono font-light leading-relaxed transition-colors duration-500"
             style={{
-              fontSize: "clamp(0.75rem, 3vw, 0.85rem)",
-              color: textGlows ? "#C9D6DF" : "#6B7A85",
+              fontSize: "clamp(0.82rem, 3.4vw, 0.92rem)",
+              color: textGlows ? "#E2E8F0" : "#94A3B8",
             }}
           >
             {entry.description}
@@ -284,7 +284,7 @@ export default function Experience() {
       <section
         id="experience"
         ref={sectionRef}
-        className="relative py-20 sm:py-20 overflow-hidden font-mono"
+        className="relative py-14 sm:py-16 overflow-hidden font-mono"
         aria-label="Career and experience"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8">

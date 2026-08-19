@@ -51,7 +51,7 @@ export default function Collaborate() {
       <section
         id="collaborate"
         ref={ref}
-        className="relative min-h-screen py-2 md:py-20 px-4 sm:px-5 md:px-6 lg:px-8 overflow-hidden flex items-center"
+        className="relative min-h-screen py-14 sm:py-16 px-4 sm:px-5 md:px-6 lg:px-8 overflow-hidden flex items-center"
       >
         <LightLines
           lines={14}
@@ -59,7 +59,7 @@ export default function Collaborate() {
           lineColor="rgba(255, 255, 255, 0.06)"
           lightColor="rgba(255, 255, 255, 0.28)"
           linesOpacity={0.4}
-          lightsOpacity={0.5}
+          lightsOpacity={0.55}
           speedScale={1.35}
           className="z-0"
         />

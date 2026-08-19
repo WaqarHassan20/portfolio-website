@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Zap, Globe, Cpu, Settings } from "lucide-react";
+import { Zap, Globe, Cpu, ChevronRight, Download } from "lucide-react";
 import Image from "next/image";
-import { ABOUT_CODE_GLYPHS, ABOUT_STATS } from "@/lib/data/about";
+import { ABOUT_CODE_GLYPHS } from "@/lib/data/about";
 
 type TiltState = { rx: number; ry: number; active: boolean };
 type SpotPosition = { x: number; y: number };
@@ -16,11 +16,6 @@ export default function Hero() {
   const profileCardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState<TiltState>({ rx: 0, ry: 0, active: false });
   const [spotPos, setSpotPos] = useState<SpotPosition>({ x: 50, y: 50 });
-
-  // States for VengenceUI Bento Grid mouse-tracking glow
-  const statsRef = useRef<HTMLDivElement>(null);
-  const [statsCoords, setStatsCoords] = useState({ x: 0, y: 0 });
-  const [statsHovered, setStatsHovered] = useState(false);
 
   const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = profileCardRef.current;
@@ -34,16 +29,6 @@ export default function Hero() {
 
   const handleCardMouseLeave = () => {
     setTilt({ rx: 0, ry: 0, active: false });
-  };
-
-  const handleStatsMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = statsRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    setStatsCoords({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
   };
 
   useEffect(() => {
@@ -89,20 +74,7 @@ export default function Hero() {
         </div>
 
         <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
-          {/* ── TOP HERO INTRODUCTION ── */}
           <div className="w-full text-center mb-10">
-            {/* Availability Badge (Blue Theme) */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full
-                       glass border border-blue-500/20 text-blue-400 text-xs font-mono mb-8 tracking-wide"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_6px_rgba(59,130,246,0.7)]" />
-              Available for new projects
-            </motion.div>
-
             {/* Consistent Section Heading placed above tagline */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -123,17 +95,6 @@ export default function Hero() {
               className="font-mono tracking-[0.16em] text-[clamp(0.9rem,1.8vw,1.25rem)] uppercase font-semibold text-blue-400 mb-6"
             >
               Cloud Orchestration Platform Engineer
-            </motion.p>
-
-            {/* Bio Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.7 }}
-              className="text-white/60 text-[clamp(0.95rem,1.25vw,1.1rem)] leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-[0.08em]"
-            >
-              orchestrating cloud-native infrastructure and automated deployments,
-              backed by production-grade MERN stack applications.
             </motion.p>
           </div>
 
@@ -230,7 +191,7 @@ export default function Hero() {
 
                 {/* Bottom Overlay Name */}
                 <div
-                  className="absolute bottom-0 left-0 right-0 p-5 z-10 about-name-overlay"
+                  className="absolute bottom-0 left-0 right-0 px-5 pb-5 pt-12 z-10 about-name-overlay text-left"
                   style={{
                     opacity: tilt.active ? 0 : 1,
                     transform: tilt.active ? "translateY(6px)" : "translateY(0px)",
@@ -239,118 +200,73 @@ export default function Hero() {
                       : "opacity 0.45s ease, transform 0.45s ease",
                   }}
                 >
-                  <p className="text-white/80 font-semibold text-sm leading-tight">Waqar UL Hassan</p>
-                  <p className="text-white/80 font-medium text-[9px] font-mono tracking-[0.2em] uppercase mt-1">
+                  <p className="text-white font-bold text-base sm:text-lg leading-tight">Waqar UL Hassan</p>
+                  <p className="text-white/80 font-medium text-[9.5px] font-mono tracking-[0.2em] uppercase mt-1">
                     Full-Stack · DevOps · AI
                   </p>
                 </div>
               </div>
             </motion.div>
 
-            {/* RIGHT COLUMN: About text */}
+            {/* RIGHT COLUMN: Technical Keypoints + Action Buttons */}
             <motion.div
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.7 }}
               className="flex flex-col justify-center gap-6 text-left"
             >
-              <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/70 font-semibold mb-2">
-                {" Background & Focus"}
-              </span>
-
-              {/* Technical Bullet Points with Lucide Icons */}
-              <ul className="flex flex-col gap-4 font-mono text-sm leading-relaxed text-white/50">
-                <li className="flex items-start gap-3">
-                  <Zap size={16} className="text-blue-400 shrink-0 mt-0.5" />
+              {/* Technical Bullet Points with Lucide Icons (3 Keypoints - Enlarged Size) */}
+              <ul className="flex flex-col gap-6 font-mono text-base sm:text-lg leading-relaxed text-white/70">
+                <li className="flex items-start gap-3.5">
+                  <Zap size={20} className="text-blue-400 shrink-0 mt-1" />
                   <div>
-                    <strong className="text-white/80 font-semibold">Core DevOps:</strong> DevOps orchestration, CI/CD automated deployments, and cloud platform engineering.
+                    <strong className="text-white font-semibold">Core DevOps:</strong> DevOps orchestration, CI/CD automated deployments, and cloud platform engineering.
                   </div>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Globe size={16} className="text-blue-400 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-3.5">
+                  <Globe size={20} className="text-blue-400 shrink-0 mt-1" />
                   <div>
-                    <strong className="text-white/80 font-semibold">Full-Stack Dev:</strong> Crafting production-grade React interfaces &amp; robust Node.js APIs (MERN stack).
+                    <strong className="text-white font-semibold">Full-Stack Dev:</strong> Crafting production-grade React interfaces &amp; robust Node.js APIs (MERN stack).
                   </div>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Cpu size={16} className="text-blue-400 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-3.5">
+                  <Cpu size={20} className="text-blue-400 shrink-0 mt-1" />
                   <div>
-                    <strong className="text-white/80 font-semibold">AI Integrations:</strong> Building LLM-powered services, agentic workflows, and microservice architectures.
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Settings size={16} className="text-blue-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white/80 font-semibold">Quality &amp; Scale:</strong> Focused on clean architecture, developer experience, and high performance.
+                    <strong className="text-white font-semibold">AI Integrations:</strong> Building LLM-powered services, agentic workflows, and microservice architectures.
                   </div>
                 </li>
               </ul>
+
+              {/* Action Buttons directly under the 3 keypoints with generous gap */}
+              <div className="flex flex-row items-center justify-start gap-3.5 mt-8 sm:mt-10 w-full select-none">
+                {/* Primary Button: Explore projects */}
+                <a
+                  href="#projects"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="px-5 py-2.5 rounded-xl bg-white text-zinc-950 font-sans text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 hover:bg-zinc-100 transition-all duration-200 shadow-lg cursor-pointer"
+                >
+                  <span>Explore projects</span>
+                  <ChevronRight size={15} className="text-zinc-900 stroke-[2.5]" />
+                </a>
+
+                {/* Secondary Button: Resume */}
+                <a
+                  href="/resume.pdf"
+                  download
+                  className="px-5 py-2.5 rounded-xl bg-[#0c0c0e]/90 text-zinc-300 border border-zinc-800/90 font-sans text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 hover:bg-zinc-800/60 hover:text-white hover:border-zinc-700 transition-all duration-200 cursor-pointer"
+                >
+                  <span>Resume</span>
+                  <Download size={14} className="text-zinc-400" />
+                </a>
+              </div>
             </motion.div>
           </div>
-
-          {/* ── FULL-WIDTH STATS ROW (spans image → text) ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.85 }}
-            className="w-full mt-10"
-          >
-            <div
-              ref={statsRef}
-              onMouseMove={handleStatsMouseMove}
-              onMouseEnter={() => setStatsHovered(true)}
-              onMouseLeave={() => setStatsHovered(false)}
-              className="relative grid grid-cols-2 sm:grid-cols-4 w-full border border-white/8 rounded-xl overflow-hidden bg-black/40 select-none"
-            >
-              {/* Mouse-following background glow */}
-              <div
-                className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-10"
-                style={{
-                  opacity: statsHovered ? 1 : 0,
-                  background: `radial-gradient(200px circle at ${statsCoords.x}px ${statsCoords.y}px, rgba(255,255,255,0.12), transparent 70%)`,
-                }}
-              />
-
-              {/* Mouse-following border glow */}
-              <div
-                className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-20"
-                style={{
-                  opacity: statsHovered ? 1 : 0,
-                  background: `radial-gradient(220px circle at ${statsCoords.x}px ${statsCoords.y}px, rgba(255,255,255,0.40), transparent 50%)`,
-                  maskImage: `
-                    linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent calc(100% - 1px), black calc(100% - 1px), black 100%),
-                    linear-gradient(to right, transparent, transparent calc(25% - 1px), black calc(25% - 1px), black 25%, transparent 25%, transparent calc(50% - 1px), black calc(50% - 1px), black 50%, transparent 50%, transparent calc(75% - 1px), black calc(75% - 1px), black 75%, transparent 75%, transparent calc(100% - 1px), black calc(100% - 1px), black 100%)
-                  `,
-                  WebkitMaskImage: `
-                    linear-gradient(to bottom, black 0, black 1px, transparent 1px, transparent calc(100% - 1px), black calc(100% - 1px), black 100%),
-                    linear-gradient(to right, transparent, transparent calc(25% - 1px), black calc(25% - 1px), black 25%, transparent 25%, transparent calc(50% - 1px), black calc(50% - 1px), black 50%, transparent 50%, transparent calc(75% - 1px), black calc(75% - 1px), black 75%, transparent 75%, transparent calc(100% - 1px), black calc(100% - 1px), black 100%)
-                  `,
-                  maskComposite: "add",
-                  WebkitMaskComposite: "source-over",
-                }}
-              />
-
-              {ABOUT_STATS.map((s, i) => (
-                <div
-                  key={s.label}
-                  className="relative flex flex-col gap-1.5 px-4 py-5 z-10 text-center border-b border-white/5 sm:border-b-0 [nth-last-child(-n+2)]:border-b-0"
-                >
-                  {i < 3 && (
-                    <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-px bg-zinc-800/40" />
-                  )}
-                  <span className="text-white font-semibold text-xl sm:text-2xl leading-none tracking-tight">
-                    {s.value}
-                  </span>
-                  <span className="text-white/35 text-[8px] font-mono tracking-[0.2em] uppercase leading-snug">
-                    {s.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </section>
-      <div className="w-full my-5 sm:my-14 h-px bg-white/8" />
+      <div className="w-full my-4 sm:my-8 h-px bg-white/8" />
     </>
   );
 }
