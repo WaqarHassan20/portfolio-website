@@ -11,54 +11,8 @@ import {
   type Variants,
 } from "framer-motion";
 
-// ── Types ─────────────────────────────────────────────────────────
-interface TimelineEntry {
-  year: string;
-  role: string;
-  category: string;
-  description: string;
-  isPresent?: boolean;
-}
-
-// ── Data ──────────────────────────────────────────────────────────
-const ENTRIES: TimelineEntry[] = [
-  {
-    year: "2026",
-    role: "DevOps & DevSecOps",
-    category: "Security & Operations",
-    description:
-      "Focusing on DevOps architectures, secure CI/CD pipelines, container runtime compliance, and continuous GitOps delivery.",
-    isPresent: true,
-  },
-  {
-    year: "2025",
-    role: "Foundations of AI & DevOps",
-    category: "AI & Platform Systems",
-    description:
-      "Exploring the foundations of Artificial Intelligence and Machine Learning alongside DevOps automation. Integrating LLMs, agentic workflows, and training pipelines with automated infrastructure.",
-  },
-  {
-    year: "2024",
-    role: "Full-Stack Developer",
-    category: "Web Development & Cloud",
-    description:
-      "Built production-grade applications with Next.js, TypeScript, Node.js, PostgreSQL and cloud deployments on AWS and DigitalOcean (Docker and Kubernetes ). Completed 0→100x development. Gained experience in Web development, cloud infrastructure, and DevOps practices.",
-  },
-  {
-    year: "2023",
-    role: "C & C++ Developer",
-    category: "Programming fundamentals",
-    description:
-      "Dived deep into C & C++ — systems programming, performance optimization, memory management, object-oriented programming and explored the low-level language.",
-  },
-  {
-    year: "2022",
-    role: "MS Office and Web Basics",
-    category: "Early digital literacy",
-    description:
-      "Started with MS Office tools and basic web development. Created static pages and blogs, sparking an interest in technology. ",
-  },
-];
+import type { TimelineEntry } from "@/types/experience";
+import { EXPERIENCE_ENTRIES } from "@/lib/data/experience";
 
 // ── Animation variants ────────────────────────────────────────────
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -85,7 +39,7 @@ function NodeDot({
 }) {
   const dotSz = size === "md" ? "h-3 w-3" : "h-2.5 w-2.5";
   const dotCls = isActive
-    ? "border-[#F0F5F9] bg-[#F0F5F9]"
+    ? "border-white bg-white"
     : "border-[#52616B] bg-[#060606] group-hover:border-[#C9D6DF] group-hover:bg-[#1E2022]";
   const ringSz = size === "md" ? 32 : 26;
 
@@ -97,7 +51,7 @@ function NodeDot({
           style={{
             width: ringSz,
             height: ringSz,
-            background: "rgba(240,245,249,0.10)",
+            background: "rgba(255,255,255,0.10)",
           }}
           animate={{ scale: [1, 2.2, 1], opacity: [0.5, 0, 0.5] }}
           transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
@@ -110,7 +64,7 @@ function NodeDot({
           dotSz,
           dotCls,
         ].join(" ")}
-        style={isActive ? { boxShadow: "0 0 0 2px rgba(240,245,249,0.3)" } : undefined}
+        style={isActive ? { boxShadow: "0 0 0 2px rgba(255,255,255,0.3)" } : undefined}
         aria-hidden="true"
       />
     </div>
@@ -152,7 +106,7 @@ function TimelineRow({
       {/* ── Desktop (md+): 3-col grid ──────────────────────────────────
           [role+category right] | [year+node center] | [description left]
       ─────────────────────────────────────────────────────────────────── */}
-      <div className="hidden md:grid md:grid-cols-[1fr_11rem_1fr] md:items-center md:gap-16 md:py-14">
+      <div className="hidden md:grid md:grid-cols-[1fr_7rem_1fr] lg:grid-cols-[1fr_11rem_1fr] md:items-center md:gap-8 lg:gap-16 md:py-14">
 
         {/* Col 1 — role + category, right-aligned */}
         <div className="flex flex-col items-end gap-2 pt-1 text-right">
@@ -160,7 +114,7 @@ function TimelineRow({
             className="font-mono font-bold leading-snug tracking-tight transition-colors duration-500"
             style={{
               fontSize: "clamp(1.05rem, 2.2vw, 1.45rem)",
-              color: isHovered ? "#F0F5F9" : "#D1D5DB",
+              color: isHovered ? "#ffffff" : "#D1D5DB",
             }}
           >
             {entry.role}
@@ -182,7 +136,7 @@ function TimelineRow({
             className="font-mono font-extrabold leading-none tracking-tight transition-all duration-500"
             style={{
               fontSize: "clamp(2.8rem, 5.5vw, 4.8rem)",
-              color: yearGlows ? "#F0F5F9" : "#6B7A85",
+              color: yearGlows ? "#ffffff" : "#6B7A85",
             }}
           >
             {entry.year}
@@ -219,7 +173,7 @@ function TimelineRow({
             className="font-mono font-extrabold leading-none tracking-tight transition-colors duration-500"
             style={{
               fontSize: "clamp(2.2rem, 8vw, 3.2rem)",
-              color: yearGlows ? "#F0F5F9" : "#6B7A85",
+              color: yearGlows ? "#ffffff" : "#6B7A85",
             }}
           >
             {entry.year}
@@ -228,7 +182,7 @@ function TimelineRow({
             className="mt-1 font-mono font-bold leading-snug tracking-tight transition-colors duration-500"
             style={{
               fontSize: "clamp(1.05rem, 4.2vw, 1.25rem)",
-              color: isHovered ? "#F0F5F9" : "#D1D5DB",
+              color: isHovered ? "#ffffff" : "#D1D5DB",
             }}
           >
             {entry.role}
@@ -328,16 +282,16 @@ export default function Experience() {
                 style={{
                   height: beamHeight,
                   background:
-                    "linear-gradient(to bottom, #F0F5F9 0%, rgba(240,245,249,0.75) 80%, rgba(240,245,249,0.35) 100%)",
+                    "linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0.75) 80%, rgba(255,255,255,0.35) 100%)",
                 }}
               />
 
               {/* Beam head glow dot */}
               <motion.span
-                className="absolute left-1/2 block h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F0F5F9]"
+                className="absolute left-1/2 block h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white"
                 style={{
                   top: beamHeight,
-                  boxShadow: "0 0 14px 4px rgba(240,245,249,0.55)",
+                  boxShadow: "0 0 14px 4px rgba(255,255,255,0.55)",
                 }}
               />
             </div>
@@ -348,13 +302,13 @@ export default function Experience() {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              {ENTRIES.map((entry, index) => (
+              {EXPERIENCE_ENTRIES.map((entry, index) => (
                 <TimelineRow
                   key={entry.year}
                   entry={entry}
                   beamProgress={beamScaleY}
                   index={index}
-                  total={ENTRIES.length}
+                  total={EXPERIENCE_ENTRIES.length}
                 />
               ))}
             </motion.div>

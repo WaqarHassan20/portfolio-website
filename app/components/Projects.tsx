@@ -1,53 +1,32 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { PROJECT_SHOWCASE } from "@/lib/data/projects";
 
-type ProjectCard = {
-  id?: string | number;
-  number?: string;
-  name?: string;
-  category?: string;
-  description?: string;
-  details?: string;
-  tools?: string;
-  techStack?: string[];
-  live?: string;
-  liveUrl?: string;
-  image?: string;
-  thumbnailUrl?: string;
-};
-
-type ProjectCardView = {
-  key: string;
-  number: string;
-  name: string;
-  category: string;
-  description: string;
-  tools: string;
-  href: string;
-  thumbnail: string;
-};
+import type { ProjectCard, ProjectCardView } from "@/types/project";
 
 // ── Vertical ExpandOnHover Strip ──────────────────────────────────────────
 function VerticalProjectStrip({
   project,
   isExpanded,
   onHover,
+  onOpenCaseStudy,
+  isMobile,
 }: {
   project: ProjectCardView;
   isExpanded: boolean;
   onHover: () => void;
-  index: number;
+  onOpenCaseStudy: () => void;
+  isMobile: boolean;
 }) {
   return (
     <motion.div
       onMouseEnter={onHover}
       animate={{
-        height: isExpanded ? 380 : 70,
+        height: isExpanded ? (isMobile ? 440 : 380) : 70,
         borderColor: isExpanded
           ? "rgba(255, 255, 255, 0.28)"
           : "rgba(255, 255, 255, 0.08)",
@@ -102,10 +81,10 @@ function VerticalProjectStrip({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22, delay: 0.08 }}
-            className="absolute inset-0 grid grid-cols-1 md:grid-cols-[0.88fr_1.12fr] h-full z-10"
+            className="absolute inset-0 grid grid-cols-1 md:grid-cols-[0.88fr_1.12fr] grid-rows-[1fr_128px] md:grid-rows-none h-full z-10"
           >
             {/* Left: Text Details */}
-            <div className="flex flex-col justify-between p-6 sm:p-8 border-r-0 md:border-r border-white/8 overflow-hidden bg-black/95 backdrop-blur-xs">
+            <div className="flex flex-col justify-between p-4 sm:p-6 md:p-8 border-r-0 md:border-r border-white/8 overflow-hidden bg-black/95 backdrop-blur-xs">
               <div>
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <div>
@@ -133,21 +112,21 @@ function VerticalProjectStrip({
                 <p className="font-mono text-xs leading-relaxed text-white/70 mb-5">
                   {project.tools}
                 </p>
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Open project ${project.name} live link`}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/90 transition-all duration-300 hover:bg-white hover:text-black focus:outline-none"
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenCaseStudy();
+                  }}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/90 transition-all duration-300 hover:bg-white hover:text-black focus:outline-none cursor-pointer"
                 >
-                  Visit Site
+                  Case Study
                   <ArrowUpRight size={12} />
-                </a>
+                </button>
               </div>
             </div>
 
-            {/* Right: Screenshot Image (Enlarged to ~58% width on desktop) */}
-            <div className="relative hidden md:block overflow-hidden bg-black/20">
+            {/* Right/Bottom: Screenshot Image */}
+            <div className="relative block h-32 md:h-full overflow-hidden bg-black/20 shrink-0">
               {project.thumbnail && (
                 <Image
                   src={project.thumbnail}
@@ -176,9 +155,168 @@ function VerticalProjectStrip({
   );
 }
 
+// ── Case Study Modal Overlay Component ───────────────────────────────────
+function CaseStudyModal({
+  project,
+  onClose,
+}: {
+  project: ProjectCardView;
+  onClose: () => void;
+}) {
+  // Prevent background scrolling when open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/85 backdrop-blur-md"
+      />
+
+      {/* Modal Container */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ type: "spring", duration: 0.5, bounce: 0.15 }}
+        className="relative w-full max-w-3xl max-h-[85vh] overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/90 text-white flex flex-col z-10 shadow-2xl"
+      >
+        {/* Header (Project Details) */}
+        <div className="flex items-start justify-between p-6 sm:p-8 border-b border-white/10 bg-zinc-900/40">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <span className="font-mono text-xs text-white/50 tracking-wider">
+                PROJECT {project.number}
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white/70">
+                {project.category}
+              </span>
+            </div>
+            <h3 className="font-jetbrains text-2xl sm:text-3xl font-bold tracking-tight">
+              {project.name}
+            </h3>
+          </div>
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full border border-white/10 bg-white/5 hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
+            aria-label="Close Case Study"
+          >
+            <span className="block w-5 h-5 font-mono text-sm leading-none flex items-center justify-center">&times;</span>
+          </button>
+        </div>
+
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+          {project.caseStudy ? (
+            <>
+              {/* Overview Section */}
+              <div className="space-y-2">
+                <h4 className="font-mono text-[10px] uppercase tracking-[0.25em] font-extrabold text-white/40">
+                  Overview
+                </h4>
+                <p className="font-sans text-sm sm:text-base leading-relaxed text-white/80 font-light">
+                  {project.caseStudy.overview}
+                </p>
+              </div>
+
+              {/* Practice & Approach Section */}
+              <div className="space-y-2">
+                <h4 className="font-mono text-[10px] uppercase tracking-[0.25em] font-extrabold text-white/40">
+                  Practice &amp; Approach
+                </h4>
+                <p className="font-sans text-sm sm:text-base leading-relaxed text-white/80 font-light">
+                  {project.caseStudy.practice}
+                </p>
+              </div>
+
+              {/* Skills Used Section */}
+              <div className="space-y-3">
+                <h4 className="font-mono text-[10px] uppercase tracking-[0.25em] font-extrabold text-white/40">
+                  Skills Used
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {project.caseStudy.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1 text-xs rounded-md bg-white/5 border border-white/10 text-white/70 font-mono"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="space-y-2">
+              <h4 className="font-mono text-[10px] uppercase tracking-[0.25em] font-extrabold text-white/40">
+                Project Details
+              </h4>
+              <p className="font-sans text-sm sm:text-base leading-relaxed text-white/85 font-light">
+                {project.description}
+              </p>
+              <div className="space-y-3 mt-4">
+                <h4 className="font-mono text-[10px] uppercase tracking-[0.25em] font-extrabold text-white/40">
+                  Tools Used
+                </h4>
+                <p className="font-mono text-xs text-white/60">{project.tools}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer (Actions) */}
+        <div className="p-6 border-t border-white/10 bg-zinc-900/20 flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+          <span className="font-mono text-[10px] text-white/40 flex items-center gap-1.5">
+            Accent Palette:
+            <span
+              className="inline-block w-2.5 h-2.5 rounded-full"
+              style={{ backgroundColor: 'currentColor' }}
+            />
+          </span>
+
+          {project.href && project.href !== "#" && project.href !== "" ? (
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/90 transition-all duration-300 hover:bg-white hover:text-black focus:outline-none"
+            >
+              Visit Live Site
+              <ArrowUpRight size={12} />
+            </a>
+          ) : (
+            <span className="font-mono text-[10px] text-white/40 italic">
+              Live link coming soon
+            </span>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 // ── Main exported Projects component ─────────────────────────────────────
 export default function Projects() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [selectedProject, setSelectedProject] = useState<ProjectCardView | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const cards = useMemo<ProjectCardView[]>(() => {
     return (PROJECT_SHOWCASE as ProjectCard[]).map((project, index) => {
@@ -198,13 +336,14 @@ export default function Projects() {
           "Tech stack unavailable",
         href: project.liveUrl ?? project.live ?? "#",
         thumbnail: project.thumbnailUrl ?? project.image ?? "",
+        caseStudy: project.caseStudy,
       };
     });
   }, []);
 
   return (
     <section id="projects" className="relative bg-[#050505] py-14 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-white/5">
-      <div className="max-w-5xl mx-auto w-full">
+      <div className="max-w-[90%] md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto w-full">
         {/* Section Heading */}
         <div className="text-center mb-12">
           <h2 className="font-mono font-light leading-[1.02] tracking-[0.14em]">
@@ -219,13 +358,24 @@ export default function Projects() {
             <VerticalProjectStrip
               key={project.key}
               project={project}
-              index={index}
               isExpanded={activeIndex === index}
               onHover={() => setActiveIndex(index)}
+              onOpenCaseStudy={() => setSelectedProject(project)}
+              isMobile={isMobile}
             />
           ))}
         </div>
       </div>
+
+      {/* Case Study Modal Overlay */}
+      <AnimatePresence>
+        {selectedProject && (
+          <CaseStudyModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

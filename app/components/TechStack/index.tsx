@@ -4,6 +4,8 @@ import { useState } from "react";
 import type { TechEntry } from "@/types/techstack";
 import { TECHS } from "@/lib/data/techstack";
 import VolumetricGlassInfinity from "./VolumetricGlassInfinity";
+import type { DevOpsTheme } from "@/types/techstack";
+import { THEME_COLORS } from "@/lib/data/devops-theme";
 
 // ── Section-Bounded Floating Top Tech Marquee ──
 function TopTechMarquee() {
@@ -12,7 +14,7 @@ function TopTechMarquee() {
 
   return (
     <div
-      className="max-w-5xl mx-auto w-full overflow-hidden py-3 bg-transparent select-none"
+      className="max-w-[88%] md:max-w-[80%] lg:max-w-4xl xl:max-w-5xl mx-auto w-full overflow-hidden py-3 bg-transparent select-none"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -53,7 +55,7 @@ function BottomTechMarquee() {
 
   return (
     <div
-      className="max-w-5xl mx-auto w-full overflow-hidden py-3 bg-transparent select-none"
+      className="max-w-[88%] md:max-w-[80%] lg:max-w-4xl xl:max-w-5xl mx-auto w-full overflow-hidden py-3 bg-transparent select-none"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -90,6 +92,7 @@ function BottomTechMarquee() {
 // ── Main exported section ─────────────────────────────────────────────────────
 export default function TechStack() {
   const [, setHoveredTech] = useState<TechEntry | null>(null);
+  const [activeTheme, setActiveTheme] = useState<DevOpsTheme>("galaxy");
 
   return (
     <>
@@ -146,9 +149,38 @@ export default function TechStack() {
 
           {/* 3D Volumetric Glass Infinity Loop */}
           <div className="relative w-full py-2">
-            <div className="relative flex items-center justify-center min-h-[380px]">
+            {/* Color Theme Selector Dropdown (Floating top-right inside the loop parent) */}
+            <div className="absolute top-2 right-4 sm:right-6 lg:right-8 z-30">
+              <div className="relative inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-zinc-950/80 px-3 py-1.5 backdrop-blur-md">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-white/40">
+                  Cosmos:
+                </span>
+                <select
+                  value={activeTheme}
+                  onChange={(e) => setActiveTheme(e.target.value as DevOpsTheme)}
+                  className="bg-transparent font-mono text-[10.5px] font-bold outline-none cursor-pointer border-none p-0 pr-5 transition-colors duration-300"
+                  style={{
+                    color: THEME_COLORS[activeTheme].textColor,
+                    appearance: "none",
+                    backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='${encodeURIComponent(THEME_COLORS[activeTheme].textColor)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                    backgroundPosition: "right center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "0.9rem",
+                  }}
+                >
+                  <option value="galaxy" className="bg-zinc-950 text-[#38bdf8]">Galaxy</option>
+                  <option value="nebula" className="bg-zinc-950 text-[#f472b6]">Nebula</option>
+                  <option value="solar" className="bg-zinc-950 text-[#fbbf24]">Solar</option>
+                  <option value="aurora" className="bg-zinc-950 text-[#34d399]">Aurora</option>
+                  <option value="orchid" className="bg-zinc-950 text-[#e879f9]">Orchid</option>
+                  <option value="frost" className="bg-zinc-950 text-[#7dd3fc]">Frost</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="relative flex items-center justify-center min-h-[200px] sm:min-h-[300px] md:min-h-[380px]">
               <div className="w-full">
-                <VolumetricGlassInfinity onHoverTech={setHoveredTech} />
+                <VolumetricGlassInfinity onHoverTech={setHoveredTech} theme={activeTheme} />
               </div>
             </div>
           </div>

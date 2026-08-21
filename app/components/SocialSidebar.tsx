@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Github, Twitter, Linkedin, Instagram, Mail, FileText } from "lucide-react";
+import { Github, Linkedin, Instagram, Mail, FileText , X } from "lucide-react";
 import SocialFlipButton from "@/app/components/ui/social-flip-button";
 import { cn } from "@/lib/utils";
+import { SIDEBAR_CONTACT_ITEMS } from "@/lib/data/social";
 
 function WhatsappIcon() {
   return (
@@ -26,65 +27,66 @@ function WhatsappIcon() {
 
 export default function SocialSidebar() {
   const [direction, setDirection] = useState<"horizontal" | "vertical">("vertical");
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const media = window.matchMedia("(max-width: 768px)");
+    const mediaDirection = window.matchMedia("(max-width: 768px)");
+    const mediaVisible = window.matchMedia("(max-width: 425px)");
+
     const updateDirection = (matches: boolean) => {
       setDirection(matches ? "horizontal" : "vertical");
     };
-    updateDirection(media.matches);
-    const listener = (e: MediaQueryListEvent) => updateDirection(e.matches);
-    media.addEventListener("change", listener);
-    return () => media.removeEventListener("change", listener);
+    const updateVisibility = (matches: boolean) => {
+      setIsVisible(!matches);
+    };
+
+    updateDirection(mediaDirection.matches);
+    updateVisibility(mediaVisible.matches);
+
+    const dirListener = (e: MediaQueryListEvent) => updateDirection(e.matches);
+    const visListener = (e: MediaQueryListEvent) => updateVisibility(e.matches);
+
+    mediaDirection.addEventListener("change", dirListener);
+    mediaVisible.addEventListener("change", visListener);
+
+    return () => {
+      mediaDirection.removeEventListener("change", dirListener);
+      mediaVisible.removeEventListener("change", visListener);
+    };
   }, []);
+
+  if (!isVisible) return null;
 
   const isVertical = direction === "vertical";
 
-  const contactItems = [
-    {
-      letter: "C",
-      label: "Code",
-      href: "https://github.com/WaqarHassan20",
-      icon: <Github size={17} strokeWidth={1.6} />,
-    },
-    {
-      letter: "O",
-      label: "Email",
-      href: "mailto:waqarkhalid2024@gmail.com",
-      icon: <Mail size={17} strokeWidth={1.6} />,
-    },
-    {
-      letter: "N",
-      label: "Resume",
-      href: "/resume.pdf",
-      download: "Waqar_Hassan_Resume.pdf",
-      icon: <FileText size={17} strokeWidth={1.6} />,
-    },
-    {
-      letter: "T",
-      label: "X",
-      href: "https://x.com/WaqarKhalid2024",
-      icon: <Twitter size={17} strokeWidth={1.6} />,
-    },
-    {
-      letter: "A",
-      label: "Instagram",
-      href: "https://www.instagram.com/i_waqar__ul__hassan",
-      icon: <Instagram size={17} strokeWidth={1.6} />,
-    },
-    {
-      letter: "C",
-      label: "Chat",
-      href: "https://wa.me/923049171818?text=Hello%20Waqar%2C%20I%20want%20to%20connect",
-      icon: <WhatsappIcon />,
-    },
-    {
-      letter: "T",
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/waqar-ul-hassan-9a1342338/",
-      icon: <Linkedin size={17} strokeWidth={1.6} />,
-    },
-  ];
+  const getIcon = (name: string) => {
+    switch (name) {
+      case "github":
+        return <Github size={17} strokeWidth={1.6} />;
+      case "email":
+        return <Mail size={17} strokeWidth={1.6} />;
+      case "resume":
+        return <FileText size={17} strokeWidth={1.6} />;
+      case "twitter":
+        return <X size={17} strokeWidth={1.6} />;
+      case "instagram":
+        return <Instagram size={17} strokeWidth={1.6} />;
+      case "whatsapp":
+        return <WhatsappIcon />;
+      case "linkedin":
+        return <Linkedin size={17} strokeWidth={1.6} />;
+      default:
+        return null;
+    }
+  };
+
+  const contactItems = SIDEBAR_CONTACT_ITEMS.map((item) => ({
+    letter: item.letter,
+    label: item.label,
+    href: item.href,
+    download: item.download,
+    icon: getIcon(item.iconName),
+  }));
 
   return (
     <motion.div
@@ -95,7 +97,7 @@ export default function SocialSidebar() {
       className={cn(
         "fixed z-40 flex items-center transition-all duration-300",
         isVertical
-          ? "right-10 top-[53%] bottom-0 flex-col gap-4"
+          ? "right-10 top-[15%] bottom-0 flex-col gap-4"
           : "bottom-12 right-10 flex-row gap-2.5"
       )}
     >

@@ -44,3 +44,57 @@ export const SIDEBAR_SOCIALS: SidebarSocial[] = [
     icon: "whatsapp",
   },
 ];
+
+export type SidebarContactItemData = {
+  letter: string;
+  label: string;
+  href: string;
+  download?: string;
+  iconName: "github" | "email" | "resume" | "twitter" | "instagram" | "whatsapp" | "linkedin";
+};
+
+export const SIDEBAR_CONTACT_ITEMS: SidebarContactItemData[] = [
+  {
+    letter: "C",
+    label: "Code",
+    href: "https://github.com/WaqarHassan20",
+    iconName: "github",
+  },
+  {
+    letter: "O",
+    label: "Email",
+    href: "mailto:waqarkhalid2024@gmail.com",
+    iconName: "email",
+  },
+  {
+    letter: "N",
+    label: "Resume",
+    href: "/resume.pdf",
+    download: "Waqar_Hassan_Resume.pdf",
+    iconName: "resume",
+  },
+  {
+    letter: "T",
+    label: "X",
+    href: "https://x.com/WaqarKhalid2024",
+    iconName: "twitter",
+  },
+  {
+    letter: "A",
+    label: "Instagram",
+    href: "https://www.instagram.com/i_waqar__ul__hassan",
+    iconName: "instagram",
+  },
+  {
+    letter: "C",
+    label: "Chat",
+    href: "https://wa.me/923049171818?text=Hello%20Waqar%2C%20I%20want%20to%20connect",
+    iconName: "whatsapp",
+  },
+  {
+    letter: "T",
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/waqar-ul-hassan-9a1342338/",
+    iconName: "linkedin",
+  },
+];

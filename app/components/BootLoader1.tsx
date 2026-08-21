@@ -97,6 +97,11 @@ function Boot3DInfinityCanvas() {
       const h = container.clientHeight;
       renderer.setSize(w, h);
       camera.aspect = w / h;
+
+      // Adjust camera distance dynamically to prevent clipping on narrow aspect ratios
+      const distFactor = Math.max(1, 2.2 / camera.aspect);
+      camera.position.z = 7.8 * distFactor;
+
       camera.updateProjectionMatrix();
     };
 
@@ -136,7 +141,7 @@ function Boot3DInfinityCanvas() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-3xl aspect-[2.4/1] h-[320px] sm:h-[420px] flex items-center justify-center pointer-events-none select-none"
+      className="relative w-full max-w-4xl aspect-[2.4/1] h-[160px] sm:h-[240px] md:h-[300px] lg:h-[460px] xl:h-[540px] flex items-center justify-center pointer-events-none select-none"
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
     </div>
@@ -200,7 +205,7 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
         }}
       />
 
-      <div className="relative z-10 flex flex-col items-center text-center select-none w-full px-6 max-w-md">
+      <div className="relative z-10 flex flex-col items-center text-center select-none w-full px-6 max-w-md lg:max-w-3xl xl:max-w-4xl">
         {/* 3D DevOps Infinity Canvas (Bigger Size, Loop Movement, Zero Icons) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -216,7 +221,7 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-jetbrains text-lg sm:text-xl font-bold tracking-[0.25em] text-white uppercase mb-1.5"
+          className="font-jetbrains text-lg sm:text-xl font-bold tracking-[0.25em] text-white uppercase mb-1.5 max-w-md mx-auto"
         >
           Waqar UL Hassan
         </motion.h2>
@@ -226,7 +231,7 @@ export default function BootLoader1({ onDone }: { onDone: () => void }) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="font-mono text-xs tracking-[0.35em] text-blue-400 font-semibold uppercase mb-8"
+          className="font-mono text-xs tracking-[0.35em] text-blue-400 font-semibold uppercase mb-8 max-w-md mx-auto"
         >
           Software Engineer
         </motion.p>

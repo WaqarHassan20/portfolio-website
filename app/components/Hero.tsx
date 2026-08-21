@@ -44,7 +44,7 @@ export default function Hero() {
     <>
       <section
         id="home"
-        className="relative min-h-screen pt-2 pb-12 sm:pt-4 sm:pb-16 pl-8 pr-4 sm:pl-10 sm:pr-6 md:pl-12 md:pr-8 lg:px-8 flex items-center justify-center overflow-hidden"
+        className="relative min-h-screen pt-20 sm:pt-24 md:pt-28 lg:pt-16 pb-12 sm:pb-16 pl-8 pr-4 sm:pl-10 sm:pr-6 md:pl-12 md:pr-8 lg:px-8 flex items-center justify-center overflow-hidden"
       >
         {/* Ambient background glow drifts */}
         <div className="absolute inset-0 pointer-events-none">
@@ -99,7 +99,7 @@ export default function Hero() {
           </div>
 
           {/* ── MAIN CONTENT GRID ── */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 sm:gap-16 items-start">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_1.8fr] xl:grid-cols-[2fr_3fr] gap-8 lg:gap-12 xl:gap-16 items-start">
 
             {/* LEFT COLUMN: Profile Card only */}
             <motion.div
@@ -216,21 +216,21 @@ export default function Hero() {
               className="flex flex-col justify-center gap-6 text-left"
             >
               {/* Technical Bullet Points with Lucide Icons (3 Keypoints - Enlarged Size) */}
-              <ul className="flex flex-col gap-6 font-mono text-base sm:text-lg leading-relaxed text-white/70">
+              <ul className="flex flex-col gap-5 xl:gap-6 font-mono text-sm md:text-base xl:text-lg leading-relaxed text-white/70">
                 <li className="flex items-start gap-3.5">
-                  <Zap size={20} className="text-blue-400 shrink-0 mt-1" />
+                  <Zap size={18} className="text-blue-400 shrink-0 mt-1 xl:w-5 xl:h-5" />
                   <div>
                     <strong className="text-white font-semibold">Core DevOps:</strong> DevOps orchestration, CI/CD automated deployments, and cloud platform engineering.
                   </div>
                 </li>
                 <li className="flex items-start gap-3.5">
-                  <Globe size={20} className="text-blue-400 shrink-0 mt-1" />
+                  <Globe size={18} className="text-blue-400 shrink-0 mt-1 xl:w-5 xl:h-5" />
                   <div>
                     <strong className="text-white font-semibold">Full-Stack Dev:</strong> Crafting production-grade React interfaces &amp; robust Node.js APIs (MERN stack).
                   </div>
                 </li>
                 <li className="flex items-start gap-3.5">
-                  <Cpu size={20} className="text-blue-400 shrink-0 mt-1" />
+                  <Cpu size={18} className="text-blue-400 shrink-0 mt-1 xl:w-5 xl:h-5" />
                   <div>
                     <strong className="text-white font-semibold">AI Integrations:</strong> Building LLM-powered services, agentic workflows, and microservice architectures.
                   </div>

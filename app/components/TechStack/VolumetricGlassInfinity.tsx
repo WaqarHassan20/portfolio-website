@@ -2,34 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { TECHS } from "@/lib/data/techstack";
 import type { TechEntry } from "@/types/techstack";
-
-// 12 core tools representing a mix of MERN/Full-Stack and DevOps
-const DEVOPS_CYCLE_LABELS = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "Express",
-  "PostgreSQL",
-  "Docker",
-  "Kubernetes",
-  "AWS",
-  "Terraform",
-  "GH Actions",
-  "Prometheus",
-];
-
-// Staggered offsets so opposing icons never pass through the 2D center simultaneously
-const ICON_OFFSETS = [
-  0.000, 0.083, 0.166, 0.250, 0.333, 0.416,
-  0.550, 0.633, 0.716, 0.800, 0.883, 0.966
-];
-
-const SHOWCASE_SKILLS = DEVOPS_CYCLE_LABELS.map(
-  (lbl) => TECHS.find((t) => t.label === lbl)!
-).filter(Boolean);
+import type { DevOpsTheme } from "@/types/techstack";
+import {
+  SHOWCASE_SKILLS,
+  ICON_OFFSETS,
+  THEME_COLORS,
+} from "@/lib/data/devops-theme";
 
 // 3D Parametric Lemniscate / Lissajous curve for the infinity loop
 class InfinityCurve extends THREE.Curve<THREE.Vector3> {
@@ -59,18 +38,23 @@ class InfinityCurve extends THREE.Curve<THREE.Vector3> {
 
 export default function VolumetricGlassInfinity({
   onHoverTech,
+  theme = "galaxy",
 }: {
   onHoverTech?: (tech: TechEntry | null) => void;
+  theme?: DevOpsTheme;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
 
+  const colors = THEME_COLORS[theme];
+
   // Refs for animation loop variables to avoid closures and unnecessary re-renders
   const hoveredSkillRef = useRef<string | null>(null);
   const baseOffset = useRef<number>(0);
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
+  const distFactorRef = useRef<number>(1);
 
   // Sync hoveredSkill to ref
   useEffect(() => {
@@ -104,18 +88,18 @@ export default function VolumetricGlassInfinity({
     camera.position.set(0, 0, 9.6); // Camera Z at 9.6 to keep logo boundary-safe
 
     // 2. Setup Studio Lighting for Glass Refraction
-    const ambientLight = new THREE.AmbientLight(0x0a192f, 1.5);
+    const ambientLight = new THREE.AmbientLight(colors.ambientLight, 1.5);
     scene.add(ambientLight);
 
     const dirLightTopRight = new THREE.DirectionalLight(0xffffff, 4.8);
     dirLightTopRight.position.set(6, 6, 4);
     scene.add(dirLightTopRight);
 
-    const dirLightTopLeft = new THREE.DirectionalLight(0x00f0ff, 5.2);
+    const dirLightTopLeft = new THREE.DirectionalLight(colors.lightLeft, 5.2);
     dirLightTopLeft.position.set(-6, 6, 2);
     scene.add(dirLightTopLeft);
 
-    const dirLightBottomLeft = new THREE.DirectionalLight(0x3b82f6, 4.2);
+    const dirLightBottomLeft = new THREE.DirectionalLight(colors.lightRight, 4.2);
     dirLightBottomLeft.position.set(-3, -5, -1);
     scene.add(dirLightBottomLeft);
 
@@ -130,8 +114,8 @@ export default function VolumetricGlassInfinity({
     // A. Glowing Inner Neon Core (Radius 0.18)
     const innerGeo = new THREE.TubeGeometry(curve, 220, 0.18, 12, true);
     const innerMat = new THREE.MeshStandardMaterial({
-      color: 0x00d2ff,
-      emissive: 0x38bdf8,
+      color: colors.coreColor,
+      emissive: colors.coreEmissive,
       emissiveIntensity: 4.8,
       roughness: 0.1,
     });
@@ -141,7 +125,7 @@ export default function VolumetricGlassInfinity({
     // B. Volumetric Glass Casing (Radius 0.65)
     const outerGeo = new THREE.TubeGeometry(curve, 220, 0.65, 36, true);
     const outerMat = new THREE.MeshPhysicalMaterial({
-      color: 0x0c4a6e, // Deep sky-900 tint for glass refraction
+      color: colors.glassColor, // Deep sky-900 tint for glass refraction
       roughness: 0.02,
       metalness: 0.05,
       clearcoat: 1.0,
@@ -166,6 +150,7 @@ export default function VolumetricGlassInfinity({
 
       // Adjust camera distance dynamically for smaller or portrait viewports
       const distFactor = Math.max(1, 2.1 / camera.aspect);
+      distFactorRef.current = distFactor;
       camera.position.z = 9.6 * distFactor; // Dynamic camera scaling
 
       camera.updateProjectionMatrix();
@@ -228,8 +213,11 @@ export default function VolumetricGlassInfinity({
         const depthFactor = Math.max(0, Math.min(1, (maxDist - dist) / range));
 
         const isHovered = hoveredSkillRef.current === tech.label;
-        // Hover scale increased to 1.95 on hover as requested
-        const scale = isHovered ? 1.95 : 0.68 + depthFactor * 0.45;
+        // Hover scale increased to 1.55 on mobile, 1.95 on desktop. Base scale scales down with distFactor
+        const baseScale = (0.68 + depthFactor * 0.45) / distFactorRef.current;
+        const scale = isHovered
+          ? Math.max(1.5, 1.95 / Math.sqrt(distFactorRef.current))
+          : baseScale;
         const opacity = isHovered ? 1.0 : 0.22 + depthFactor * 0.78;
         const zIndex = isHovered ? 100 : Math.round(10 + depthFactor * 80);
 
@@ -259,7 +247,7 @@ export default function VolumetricGlassInfinity({
       scene.clear();
       renderer.dispose();
     };
-  }, []);
+  }, [theme]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -285,8 +273,7 @@ export default function VolumetricGlassInfinity({
       <div
         className="absolute inset-x-12 inset-y-4 rounded-full pointer-events-none opacity-75"
         style={{
-          background:
-            "radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.16) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 75%)",
+          background: `radial-gradient(ellipse at 50% 50%, ${colors.glowStart} 0%, ${colors.glowEnd} 50%, transparent 75%)`,
           filter: "blur(50px)",
         }}
       />

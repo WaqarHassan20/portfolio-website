@@ -6,3 +6,5 @@ export type TechEntry = {
   desc: string;
   use: string;
 };
+
+export type DevOpsTheme = "galaxy" | "nebula" | "solar" | "aurora" | "orchid" | "frost";

@@ -80,7 +80,7 @@ export default function RevolvingDevOpsInfinity({
   }, [hoveredSkill]);
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto aspect-[2/1] min-h-[320px] sm:min-h-[380px] md:min-h-[440px] flex items-center justify-center select-none overflow-visible py-4">
+    <div className="relative w-full max-w-4xl mx-auto aspect-[2/1] min-h-[220px] sm:min-h-[320px] md:min-h-[400px] lg:min-h-[440px] flex items-center justify-center select-none overflow-visible py-4">
       {/* Background ambient radial glow */}
       <div
         className="absolute inset-x-8 inset-y-4 rounded-full pointer-events-none"
@@ -193,7 +193,7 @@ export default function RevolvingDevOpsInfinity({
               }}
             >
               <div
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full border backdrop-blur-xl transition-all duration-300"
+                className="flex items-center gap-1.5 max-[480px]:gap-1 px-2.5 max-[480px]:px-1.5 py-1 max-[480px]:py-0.5 rounded-full border backdrop-blur-xl transition-all duration-300"
                 style={{
                   background: isHovered
                     ? `linear-gradient(135deg, ${tech.color}30 0%, rgba(10,10,10,0.95) 100%)`
@@ -209,7 +209,7 @@ export default function RevolvingDevOpsInfinity({
                 <img
                   src={tech.img}
                   alt={tech.label}
-                  className="w-5 h-5 object-contain shrink-0"
+                  className="w-3.5 h-3.5 max-[480px]:w-3 max-[480px]:h-3 sm:w-5 sm:h-5 object-contain shrink-0"
                   style={{
                     filter: tech.invert
                       ? `invert(1) brightness(1.2) drop-shadow(0 0 6px ${tech.color}aa)`
@@ -218,7 +218,7 @@ export default function RevolvingDevOpsInfinity({
                 />
                 {/* Skill Label */}
                 <span
-                  className="font-mono text-[11px] font-bold tracking-wider whitespace-nowrap"
+                  className="font-mono text-[9px] max-[480px]:text-[8px] sm:text-[11px] font-bold tracking-wider whitespace-nowrap"
                   style={{
                     color: isHovered ? tech.color : "#ffffff",
                     textShadow: isHovered ? `0 0 8px ${tech.color}` : "0 1px 2px rgba(0,0,0,0.8)",
