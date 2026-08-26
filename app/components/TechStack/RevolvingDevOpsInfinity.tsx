@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { TECHS } from "@/lib/data/techstack";
 import type { TechEntry } from "@/types/techstack";
+import TechVectorIcon from "./TechVectorIcon";
 
 // Key DevOps lifecycle skills to revolve in the loop
 const DEVOPS_CYCLE_LABELS = [
@@ -204,19 +205,9 @@ export default function RevolvingDevOpsInfinity({
                     : `0 4px 14px rgba(0,0,0,0.60), 0 0 10px ${tech.color}25`,
                 }}
               >
-                {/* Skill Icon */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={tech.img}
-                  alt={tech.label}
-                  className="w-3.5 h-3.5 max-[480px]:w-3 max-[480px]:h-3 sm:w-5 sm:h-5 object-contain shrink-0"
-                  style={{
-                    filter: tech.invert
-                      ? `invert(1) brightness(1.2) drop-shadow(0 0 6px ${tech.color}aa)`
-                      : `drop-shadow(0 0 6px ${tech.color}aa)`,
-                  }}
-                />
-                {/* Skill Label */}
+                {/* Solid Colorful Skill Icon */}
+                <TechVectorIcon tech={tech} className="w-3.5 h-3.5 max-[480px]:w-3 max-[480px]:h-3 sm:w-4 sm:h-4" />
+
                 <span
                   className="font-mono text-[9px] max-[480px]:text-[8px] sm:text-[11px] font-bold tracking-wider whitespace-nowrap"
                   style={{
@@ -234,3 +225,5 @@ export default function RevolvingDevOpsInfinity({
     </div>
   );
 }
+
+

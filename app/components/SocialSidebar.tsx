@@ -97,7 +97,7 @@ export default function SocialSidebar() {
       className={cn(
         "fixed z-40 flex items-center transition-all duration-300",
         isVertical
-          ? "right-10 top-[15%] bottom-0 flex-col gap-4"
+          ? "right-10 top-[45%] bottom-0 flex-col gap-4"
           : "bottom-12 right-10 flex-row gap-2.5"
       )}
     >
