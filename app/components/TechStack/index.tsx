@@ -4,85 +4,54 @@ import { useState } from "react";
 import type { TechEntry } from "@/types/techstack";
 import { TECHS } from "@/lib/data/techstack";
 import VolumetricGlassInfinity from "./VolumetricGlassInfinity";
+import TechVectorIcon from "./TechVectorIcon";
 import type { DevOpsTheme } from "@/types/techstack";
 import { THEME_COLORS } from "@/lib/data/devops-theme";
 
-// ── Section-Bounded Floating Top Tech Marquee ──
-function TopTechMarquee() {
-  const [hovered, setHovered] = useState(false);
-  const row = TECHS.slice(0, Math.ceil(TECHS.length / 2));
+function MarqueeItem({ tech }: { tech: TechEntry }) {
+  const [isItemHovered, setIsItemHovered] = useState(false);
 
   return (
     <div
-      className="max-w-[88%] md:max-w-[80%] lg:max-w-4xl xl:max-w-5xl mx-auto w-full overflow-hidden py-3 bg-transparent select-none"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setIsItemHovered(true)}
+      onMouseLeave={() => setIsItemHovered(false)}
+      className="group flex items-center gap-2.5 transition-all duration-300 cursor-pointer shrink-0"
     >
       <div
-        className="flex w-max items-center gap-12 sm:gap-16 px-4 animate-marquee-left"
+        className="transition-all duration-300 opacity-60 group-hover:opacity-100 group-hover:scale-125"
         style={{
-          animationPlayState: hovered ? "paused" : "running",
+          filter: isItemHovered
+            ? `drop-shadow(0 0 10px ${tech.color}dd)`
+            : "none",
         }}
       >
-        {[...row, ...row].map((tech, idx) => (
-          <div
-            key={`top-marq-${tech.label}-${idx}`}
-            className="group flex items-center gap-3 transition-all duration-300 cursor-pointer shrink-0"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={tech.img}
-              alt={tech.label}
-              className="h-7 w-7 object-contain shrink-0 transition-all duration-300 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-125"
-              style={{
-                filter: tech.invert ? "invert(1) opacity(0.4)" : undefined,
-              }}
-            />
-            <span className="font-mono text-[12px] font-medium text-white/40 group-hover:text-white group-hover:font-bold transition-all duration-300">
-              {tech.label}
-            </span>
-          </div>
-        ))}
+        <TechVectorIcon tech={tech} className="h-6 w-6 sm:h-7 sm:w-7" />
       </div>
+      <span className="font-mono text-[11px] sm:text-[12px] font-medium text-white/50 group-hover:text-white group-hover:font-bold transition-all duration-300">
+        {tech.label}
+      </span>
     </div>
   );
 }
 
-// ── Section-Bounded Floating Bottom Tech Marquee ──
-function BottomTechMarquee() {
+// ── Single Unified Downward Tech Marquee ──
+function UnifiedBottomTechMarquee() {
   const [hovered, setHovered] = useState(false);
-  const row = TECHS.slice(Math.ceil(TECHS.length / 2));
 
   return (
     <div
-      className="max-w-[88%] md:max-w-[80%] lg:max-w-4xl xl:max-w-5xl mx-auto w-full overflow-hidden py-3 bg-transparent select-none"
+      className="max-w-[94%] md:max-w-[85%] lg:max-w-5xl xl:max-w-6xl mx-auto w-full overflow-hidden py-4 bg-transparent select-none"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <div
-        className="flex w-max items-center gap-12 sm:gap-16 px-4 animate-marquee-right"
+        className="flex w-max items-center gap-10 sm:gap-14 px-4 animate-marquee-left"
         style={{
           animationPlayState: hovered ? "paused" : "running",
         }}
       >
-        {[...row, ...row].map((tech, idx) => (
-          <div
-            key={`bot-marq-${tech.label}-${idx}`}
-            className="group flex items-center gap-3 transition-all duration-300 cursor-pointer shrink-0"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={tech.img}
-              alt={tech.label}
-              className="h-7 w-7 object-contain shrink-0 transition-all duration-300 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-125"
-              style={{
-                filter: tech.invert ? "invert(1) opacity(0.4)" : undefined,
-              }}
-            />
-            <span className="font-mono text-[12px] font-medium text-white/40 group-hover:text-white group-hover:font-bold transition-all duration-300">
-              {tech.label}
-            </span>
-          </div>
+        {[...TECHS, ...TECHS].map((tech, idx) => (
+          <MarqueeItem key={`unified-marq-${tech.label}-${idx}`} tech={tech} />
         ))}
       </div>
     </div>
@@ -102,21 +71,14 @@ export default function TechStack() {
           0% { transform: translateX(0%); }
           100% { transform: translateX(-50%); }
         }
-        @keyframes marqueeRight {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0%); }
-        }
         .animate-marquee-left {
-          animation: marqueeLeft 38s linear infinite;
-        }
-        .animate-marquee-right {
-          animation: marqueeRight 42s linear infinite;
+          animation: marqueeLeft 50s linear infinite;
         }
       `}</style>
 
       <section
         id="skills"
-        className="relative min-h-screen flex flex-col justify-center py-12 md:py-16 overflow-hidden"
+        className="relative min-h-screen flex flex-col justify-center py-16 md:py-24 overflow-hidden"
       >
         {/* Ambient background glow */}
         <div
@@ -132,7 +94,7 @@ export default function TechStack() {
 
         <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
           {/* Centered Header */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-12 sm:mb-16 md:mb-20">
             <p className="text-[12px] font-mono tracking-[0.3em] uppercase text-white/30 mb-2">
               Skills I work with
             </p>
@@ -140,11 +102,6 @@ export default function TechStack() {
               <span className="text-white font-bold about-heading-size">Tech</span>
               <span className="text-white/65 font-normal ml-4 about-heading-size">Stack</span>
             </h2>
-          </div>
-
-          {/* Top Marquee Stream */}
-          <div className="mt-8 sm:mt-10 md:mt-12 mb-4 sm:mb-6">
-            <TopTechMarquee />
           </div>
 
           {/* 3D Volumetric Glass Infinity Loop */}
@@ -185,9 +142,9 @@ export default function TechStack() {
             </div>
           </div>
 
-          {/* Bottom Marquee Stream */}
-          <div className="mt-8 sm:mt-10 mb-4 sm:mb-6">
-            <BottomTechMarquee />
+          {/* Reduced Gap Before Downward Marquee Stream */}
+          <div className="mt-8 sm:mt-10 md:mt-12 mb-6 sm:mb-8">
+            <UnifiedBottomTechMarquee />
           </div>
         </div>
       </section>

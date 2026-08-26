@@ -9,6 +9,7 @@ import {
   ICON_OFFSETS,
   THEME_COLORS,
 } from "@/lib/data/devops-theme";
+import TechVectorIcon from "./TechVectorIcon";
 
 // 3D Parametric Lemniscate / Lissajous curve for the infinity loop
 class InfinityCurve extends THREE.Curve<THREE.Vector3> {
@@ -247,7 +248,7 @@ export default function VolumetricGlassInfinity({
       scene.clear();
       renderer.dispose();
     };
-  }, [theme]);
+  }, [colors.ambientLight, colors.coreColor, colors.coreEmissive, colors.glassColor, colors.lightLeft, colors.lightRight]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -311,21 +312,17 @@ export default function VolumetricGlassInfinity({
               }}
             >
               <div className="w-full h-full flex items-center justify-center relative">
-                {/* Brand Logo - Enlarged to 26px size to fit inside the 3D glass tube nicely, with neon brand glow */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={tech.img}
-                  alt={tech.label}
+                {/* Brand Vector Icon with neon brand glow */}
+                <div
                   style={{
-                    width: "38px",
-                    height: "38px",
-                    objectFit: "contain",
-                    filter: tech.invert
-                      ? `invert(1) brightness(1.25) drop-shadow(0 0 7px ${tech.color})`
-                      : `drop-shadow(0 0 7px ${tech.color})`,
+                    filter: isHovered
+                      ? `drop-shadow(0 0 12px ${tech.color}ee)`
+                      : "none",
                   }}
-                  className="shrink-0 z-10 transition-all duration-300"
-                />
+                  className="shrink-0 z-10 transition-all duration-300 flex items-center justify-center"
+                >
+                  <TechVectorIcon tech={tech} className="w-[38px] h-[38px]" />
+                </div>
 
                 {/* Hover Tooltip */}
                 {isHovered && (

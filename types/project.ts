@@ -6,7 +6,9 @@ export type ProjectShowcaseItem = {
   tools: string;
   accent: string;
   image: string;
-  live: string;
+  images?: string[];
+  live?: string;
+  githubUrl?: string;
 };
 
 export type ProjectCard = {
@@ -20,13 +22,10 @@ export type ProjectCard = {
   techStack?: string[];
   live?: string;
   liveUrl?: string;
+  githubUrl?: string;
   image?: string;
+  images?: string[];
   thumbnailUrl?: string;
-  caseStudy?: {
-    overview: string;
-    practice: string;
-    skills: string[];
-  };
 };
 
 export type ProjectCardView = {
@@ -37,10 +36,7 @@ export type ProjectCardView = {
   description: string;
   tools: string;
   href: string;
+  githubUrl?: string;
   thumbnail: string;
-  caseStudy?: {
-    overview: string;
-    practice: string;
-    skills: string[];
-  };
+  images?: string[];
 };

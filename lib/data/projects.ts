@@ -3,6 +3,28 @@ import type { ProjectShowcaseItem } from "@/types/project";
 export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
   {
     number: '01',
+    name: 'Cerebellum AI',
+    category: 'Web, AI-Powered',
+    description:
+      'An intelligent, AI powered Brain that stores your links of all kind of social media and bookmarks etc. When you want to query, search or just ask you AI assitant to fetch the related links you have stored.',
+    tools: 'Next.js 15, TypeScript, Tailwind CSS, Digital Ocean API, PostgreSQL DB, Clerk-Auth',
+    accent: '#6366f1',
+    image: '/projects/CaseStudy/01-CerebellumAI/02_CerebellumAI.png',
+    images: [
+      '/projects/CaseStudy/01-CerebellumAI/02_CerebellumAI.png',
+      '/projects/CaseStudy/01-CerebellumAI/03_CerebellumAI.png',
+      '/projects/CaseStudy/01-CerebellumAI/04_CerebellumAI.png',
+      '/projects/CaseStudy/01-CerebellumAI/05_CerebellumAI.png',
+      '/projects/CaseStudy/01-CerebellumAI/06_CerebellumAI.png',
+      '/projects/CaseStudy/01-CerebellumAI/07_CerebellumAI.png',
+      '/projects/CaseStudy/01-CerebellumAI/08_CerebellumAI.png',
+      '/projects/CaseStudy/01-CerebellumAI/09_CerebellumAI.png',
+    ],
+    live: 'will be soon',
+    githubUrl: 'https://github.com/WaqarHassan20',
+  },
+  {
+    number: '02',
     name: 'Ecommerce Microservices',
     category: 'Backend / DevOps',
     description:
@@ -10,10 +32,16 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'Node.js, Express, Docker, Kubernetes, RabbitMQ, PostgreSQL',
     accent: '#f59e0b',
     image: '/projects/landingpages/OpenTelemetery.png',
-    live: 'https://github.com/WaqarHassan20/opentelemetry-Ecom-devops-project',
+    images: [
+      '/projects/CaseStudy/02-OpenTelemetry/OpenTelemetery.png',
+      '/projects/CaseStudy/02-OpenTelemetry/01_UI-Hosted.png',
+      '/projects/CaseStudy/02-OpenTelemetry/02_CI-actions.png',
+      '/projects/CaseStudy/02-OpenTelemetry/03_10hrsError.png',
+    ],
+    githubUrl: 'https://github.com/WaqarHassan20/opentelemetry-Ecom-devops-project',
   },
   {
-    number: '02',
+    number: '03',
     name: 'Kubernetes Observability',
     category: 'Cloud / Infrastructure',
     description:
@@ -21,10 +49,13 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'Kubernetes, Prometheus, Grafana, Helm, Consul',
     accent: '#4f46e5',
     image: '/projects/landingpages/monitoring.png',
-    live: '',
+    images: [
+      '/projects/landingpages/monitoring.png',
+    ],
+    githubUrl: 'https://github.com/WaqarHassan20',
   },
   {
-    number: '03',
+    number: '04',
     name: 'Copilot Superpowers',
     category: 'Developer Tools',
     description:
@@ -32,10 +63,13 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'VS Code Extension API, TypeScript, Node.js',
     accent: '#e11d48',
     image: '/projects/landingpages/VSCodeExtension.png',
-    live: 'https://github.com/WaqarHassan20/copilot-superpowers',
+    images: [
+      '/projects/landingpages/VSCodeExtension.png',
+    ],
+    githubUrl: 'https://github.com/WaqarHassan20/copilot-superpowers',
   },
   {
-    number: '04',
+    number: '05',
     name: 'College Management Portal',
     category: 'Full-Stack Web / ERP',
     description:
@@ -43,10 +77,19 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'Next.js, Clerk, Prisma, PostgreSQL, Tailwind CSS',
     accent: '#a855f7',
     image: '/projects/landingpages/CollegePortal.png',
+    images: [
+      '/projects/CaseStudy/05-CollegePortal/01_CMP.png',
+      '/projects/CaseStudy/05-CollegePortal/02_CMP.png',
+      '/projects/CaseStudy/05-CollegePortal/03_CMP.png',
+      '/projects/CaseStudy/05-CollegePortal/04_CMP.png',
+      '/projects/CaseStudy/05-CollegePortal/05_CMP.png',
+      '/projects/CaseStudy/05-CollegePortal/06_CMP.png',
+    ],
     live: 'https://college-management-portal-fyp.vercel.app/',
+    githubUrl: 'https://github.com/WaqarHassan20',
   },
   {
-    number: '05',
+    number: '06',
     name: '12th Study Abroad Think Tank',
     category: 'Education / Web',
     description:
@@ -54,10 +97,21 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'Next.js, React, Tailwind CSS, Node.js',
     accent: '#10b981',
     image: '/projects/landingpages/12thStudyAbroad.png',
+    images: [
+      '/projects/CaseStudy/06-12thStudyAbroad/screenshot-2026-08-26_14-55-45.png',
+      '/projects/CaseStudy/06-12thStudyAbroad/screenshot-2026-08-26_14-55-51.png',
+      '/projects/CaseStudy/06-12thStudyAbroad/screenshot-2026-08-26_14-56-02.png',
+      '/projects/CaseStudy/06-12thStudyAbroad/screenshot-2026-08-26_14-56-28.png',
+      '/projects/CaseStudy/06-12thStudyAbroad/screenshot-2026-08-26_14-56-39.png',
+      '/projects/CaseStudy/06-12thStudyAbroad/screenshot-2026-08-26_14-56-46.png',
+      '/projects/CaseStudy/06-12thStudyAbroad/screenshot-2026-08-26_14-57-09.png',
+      '/projects/CaseStudy/06-12thStudyAbroad/screenshot-2026-08-26_14-57-20.png',
+    ],
     live: 'https://www.12thstudyabroadthinktank.com/',
+    githubUrl: 'https://github.com/WaqarHassan20',
   },
   {
-    number: '06',
+    number: '07',
     name: 'The Riser Consultancy',
     category: 'Education / Web',
     description:
@@ -65,10 +119,20 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'Next.js, React, TypeScript, Tailwind CSS',
     accent: '#3b82f6',
     image: '/projects/landingpages/riser.png',
+    images: [
+      '/projects/CaseStudy/07-RiserConsultancy/screenshot-2026-08-26_14-51-04.png',
+      '/projects/CaseStudy/07-RiserConsultancy/screenshot-2026-08-26_14-51-15.png',
+      '/projects/CaseStudy/07-RiserConsultancy/screenshot-2026-08-26_14-51-32.png',
+      '/projects/CaseStudy/07-RiserConsultancy/screenshot-2026-08-26_14-51-46.png',
+      '/projects/CaseStudy/07-RiserConsultancy/screenshot-2026-08-26_14-51-52.png',
+      '/projects/CaseStudy/07-RiserConsultancy/screenshot-2026-08-26_14-52-02.png',
+      '/projects/CaseStudy/07-RiserConsultancy/screenshot-2026-08-26_14-52-16.png',
+    ],
     live: 'https://www.theriserconsultancy.com/',
+    githubUrl: 'https://github.com/WaqarHassan20',
   },
   {
-    number: '07',
+    number: '08',
     name: 'Ochi',
     category: 'UI / Frontend',
     description:
@@ -76,10 +140,21 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'Next.js, React, Framer Motion, Tailwind CSS',
     accent: '#8be9fd',
     image: '/projects/landingpages/OchiDesigns.png',
+    images: [
+      '/projects/CaseStudy/08-OchiDesign/screenshot-2026-08-26_14-52-41.png',
+      '/projects/CaseStudy/08-OchiDesign/screenshot-2026-08-26_14-52-47.png',
+      '/projects/CaseStudy/08-OchiDesign/screenshot-2026-08-26_14-53-01.png',
+      '/projects/CaseStudy/08-OchiDesign/screenshot-2026-08-26_14-53-09.png',
+      '/projects/CaseStudy/08-OchiDesign/screenshot-2026-08-26_14-53-15.png',
+      '/projects/CaseStudy/08-OchiDesign/screenshot-2026-08-26_14-53-25.png',
+      '/projects/CaseStudy/08-OchiDesign/screenshot-2026-08-26_14-53-55.png',
+      '/projects/CaseStudy/08-OchiDesign/screenshot-2026-08-26_14-54-07.png',
+    ],
     live: 'https://1-ochi-design-website.vercel.app/',
+    githubUrl: 'https://github.com/WaqarHassan20',
   },
   {
-    number: '08',
+    number: '09',
     name: 'Duo Studio',
     category: 'Creative Web',
     description:
@@ -87,10 +162,20 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'Next.js, TypeScript, Framer Motion, Tailwind CSS',
     accent: '#c9d6df',
     image: '/projects/landingpages/DuoStudio.png',
+    images: [
+      '/projects/CaseStudy/09-DuoStudio/screenshot-2026-08-26_14-54-19.png',
+      '/projects/CaseStudy/09-DuoStudio/screenshot-2026-08-26_14-54-39.png',
+      '/projects/CaseStudy/09-DuoStudio/screenshot-2026-08-26_14-54-54.png',
+      '/projects/CaseStudy/09-DuoStudio/screenshot-2026-08-26_14-55-06.png',
+      '/projects/CaseStudy/09-DuoStudio/screenshot-2026-08-26_14-55-20.png',
+      '/projects/CaseStudy/09-DuoStudio/screenshot-2026-08-26_14-55-29.png',
+      '/projects/CaseStudy/09-DuoStudio/screenshot-2026-08-26_14-55-39.png',
+    ],
     live: 'https://2-duo-studio-website.vercel.app/',
+    githubUrl: 'https://github.com/WaqarHassan20',
   },
   {
-    number: '09',
+    number: '10',
     name: 'Two Good',
     category: 'Product Landing',
     description:
@@ -98,6 +183,13 @@ export const PROJECT_SHOWCASE: ProjectShowcaseItem[] = [
     tools: 'Next.js, React, GSAP, CSS Animations',
     accent: '#f59e0b',
     image: '/projects/landingpages/twogood.png',
+    images: [
+      '/projects/CaseStudy/10-TwoGood/screenshot-2026-08-26_14-49-21.png',
+      '/projects/CaseStudy/10-TwoGood/screenshot-2026-08-26_14-49-41.png',
+      '/projects/CaseStudy/10-TwoGood/screenshot-2026-08-26_14-50-08.png',
+      '/projects/CaseStudy/10-TwoGood/screenshot-2026-08-26_14-50-20.png',
+    ],
     live: 'https://3-two-good-website.vercel.app/',
+    githubUrl: 'https://github.com/WaqarHassan20',
   },
 ];

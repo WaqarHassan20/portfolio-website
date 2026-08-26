@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import type { TechEntry } from "@/types/techstack";
+import TechVectorIcon from "./TechVectorIcon";
 
 type TechCardProps = {
   tech: TechEntry;
@@ -49,29 +50,23 @@ export function TechCard({ tech, index, onHover, colorized }: TechCardProps) {
         style={{ background: `radial-gradient(circle at center, ${tech.color}18, transparent 70%)` }}
       />
 
-      {/* Icon */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={tech.img}
-        alt={tech.label}
-        onError={(e) => { (e.currentTarget as HTMLImageElement).classList.add("opacity-0"); }}
-        className="w-4 h-4 object-contain shrink-0 relative z-10"
+      {/* Solid Vector Icon */}
+      <div
+        className="relative z-10 shrink-0"
         style={{
           filter: showColor
-            ? tech.invert
-              ? `invert(1) brightness(1.3) drop-shadow(0 0 5px ${tech.color}cc)`
-              : `grayscale(0%) brightness(1.2) drop-shadow(0 0 5px ${tech.color}cc)`
-            : tech.invert
-              ? "invert(1) grayscale(100%) brightness(0.55)"
-              : "grayscale(100%) brightness(0.6) saturate(0)",
+            ? `drop-shadow(0 0 6px ${tech.color}aa)`
+            : "grayscale(100%) brightness(0.7)",
           transition: `filter 0.35s ease ${staggerDelay}`,
         }}
-      />
+      >
+        <TechVectorIcon tech={tech} className="w-4 h-4" />
+      </div>
 
       {/* Label */}
       <span
         className={`text-[11px] font-mono relative z-10 whitespace-nowrap tracking-wide transition-colors duration-300 ${
-          showColor ? "text-white/85" : "text-white/40"
+          showColor ? "text-white/90" : "text-white/50"
         }`}
       >
         {tech.label}
