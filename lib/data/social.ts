@@ -69,8 +69,8 @@ export const SIDEBAR_CONTACT_ITEMS: SidebarContactItemData[] = [
   {
     letter: "N",
     label: "Resume",
-    href: "/resume.pdf",
-    download: "Waqar_Hassan_Resume.pdf",
+    href: "/WaqarULHassan.pdf",
+    download: "WaqarULHassan_Resume.pdf",
     iconName: "resume",
   },
   {

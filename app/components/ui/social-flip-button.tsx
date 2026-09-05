@@ -9,6 +9,7 @@ export interface SocialItem {
   icon: React.ReactNode;
   label: string;
   href?: string;
+  download?: string | boolean;
   onClick?: () => void;
 }
 
@@ -43,7 +44,14 @@ const SocialFlipNode = ({
   direction: "horizontal" | "vertical";
 }) => {
   const Wrapper = item.href ? "a" : "div";
-  const wrapperProps = item.href ? { href: item.href, target: "_blank", rel: "noopener noreferrer" } : { onClick: item.onClick };
+  const wrapperProps = item.href
+    ? {
+        href: item.href,
+        target: item.download ? undefined : "_blank",
+        rel: "noopener noreferrer",
+        download: item.download,
+      }
+    : { onClick: item.onClick };
 
   return (
     <Wrapper

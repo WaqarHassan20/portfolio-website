@@ -254,8 +254,8 @@ export default function Hero() {
 
                 {/* Secondary Button: Resume */}
                 <a
-                  href="/resume.pdf"
-                  download
+                  href="/WaqarULHassan.pdf"
+                  download="WaqarULHassan_Resume.pdf"
                   className="px-5 py-2.5 rounded-xl bg-[#0c0c0e]/90 text-zinc-300 border border-zinc-800/90 font-sans text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 hover:bg-zinc-800/60 hover:text-white hover:border-zinc-700 transition-all duration-200 cursor-pointer"
                 >
                   <span>Resume</span>
